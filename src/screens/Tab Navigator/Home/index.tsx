@@ -3,19 +3,20 @@ import { useFetch } from '../../../services/useFetch';
 import { Container, Title } from './styles';
 
 export function Home({ navigation }: any) {
-    const cep = useFetch('/53370300/json/').data;
+
+    const { data, loading, error } = useFetch('/53370300/json/')
 
     useEffect(() => {
-        console.log(cep.logradouro);
-        console.log(cep.bairro);
-        console.log(cep.localidade);
-        console.log(cep.uf);
-    }, [cep]);
+        console.log(data.logradouro);
+        console.log(data.bairro);
+        console.log(data.localidade);
+        console.log(data.uf);
+    }, [data]);
 
     return (
         <Container>
             <Title>Início</Title>
-            <Title>{cep.logradouro} {"\n"} {"\n"} {cep.bairro} {"\n"} {"\n"} { cep.localidade }</Title>
+            <Title>{data.logradouro} {"\n"} {"\n"} {data.bairro} {"\n"} {"\n"} { data.localidade }</Title>
         </Container>
     );
 }
