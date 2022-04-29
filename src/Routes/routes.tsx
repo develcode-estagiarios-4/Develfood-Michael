@@ -6,6 +6,8 @@ import { History } from '../screens/Tab Navigator/History';
 import { Settings } from '../screens/Tab Navigator/Settings';
 import RNBootSplash from 'react-native-bootsplash';
 import { Image } from 'react-native';
+import { Icon } from '../components/TabBarIcons/styles';
+import { TabBarIcon } from '../components/TabBarIcons';
 
 export function AppRoutes() {
     const Tab = createBottomTabNavigator();
@@ -21,11 +23,13 @@ export function AppRoutes() {
             screenOptions={{
                 tabBarStyle: {
                     position: 'absolute',
-                    bottom: 25,
+                    bottom: 20,
                     left: 20,
                     right: 20,
                     height: 60,
                     borderRadius: 15,
+                    paddingBottom: 10,
+                    padding: 10
                 },
                 headerShown: false,
             }}
@@ -38,12 +42,12 @@ export function AppRoutes() {
                         return focused ? (
                             <Image
                                 source={require('../assets/icons/home.png')}
-                                style={{ width: 20, height: 20, tintColor: "red" }}
+                                style={{ width: 20, height: 20, tintColor: "red", resizeMode: 'contain' }}
                             />
                         ) : (
                             <Image
                                 source={require('../assets/icons/home.png')}
-                                style={{ width: 20, height: 20 }}
+                                style={{ width: 20, height: 20, resizeMode: 'contain' }}
                             />
                         );
                     },
@@ -61,12 +65,12 @@ export function AppRoutes() {
                             <Image
                                 source={require('../assets/icons/heart.png')}
             
-                                style={{ width: 20, height: 20, tintColor: "red" }}
+                                style={{ width: 20, height: 20, tintColor: "red", resizeMode: 'contain' }}
                             />
                         ) : (
                             <Image
                                 source={require('../assets/icons/heart.png')}
-                                style={{ width: 20, height: 20 }}
+                                style={{ width: 20, height: 20, resizeMode: 'contain' }}
                             />
                         );
                     },
@@ -80,18 +84,7 @@ export function AppRoutes() {
                 component={History}
                 options={{
                     tabBarIcon: ({ focused }) => {
-                        return focused ? (
-                            <Image
-                                source={require('../assets/icons/options.png')}
-                                
-                                style={{ width: 20, height: 20, tintColor: "red" }}
-                            />
-                        ) : (
-                            <Image
-                                source={require('../assets/icons/options.png')}
-                                style={{ width: 20, height: 20 }}
-                            />
-                        );
+                        return <TabBarIcon focused={focused} name={'history'}/>
                     },
                     tabBarActiveTintColor: 'red',
                     tabBarLabel: 'Histórico',
