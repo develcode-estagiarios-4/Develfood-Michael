@@ -5,35 +5,122 @@ import { Favorites } from '../screens/Tab Navigator/Favorites';
 import { History } from '../screens/Tab Navigator/History';
 import { Settings } from '../screens/Tab Navigator/Settings';
 import RNBootSplash from 'react-native-bootsplash';
+import { Image } from 'react-native';
 
 export function AppRoutes() {
     const Tab = createBottomTabNavigator();
-    
+
     useEffect(() => {
-        RNBootSplash.hide({ fade: true });
+        setTimeout(() => {
+            RNBootSplash.hide({ fade: true });
+        }, 3000);
     }, []);
 
     return (
-        <Tab.Navigator>
+        <Tab.Navigator
+            screenOptions={{
+                tabBarStyle: {
+                    position: 'absolute',
+                    bottom: 25,
+                    left: 20,
+                    right: 20,
+                    height: 60,
+                    borderRadius: 15,
+                },
+                headerShown: false,
+            }}
+        >
             <Tab.Screen
-                options={{ headerShown: false }}
                 name="Home"
                 component={Home}
+                options={{
+                    tabBarIcon: ({ focused }) => {
+                        return focused ? (
+                            <Image
+                                source={require('../assets/icons/home.png')}
+                                style={{ width: 20, height: 20, tintColor: "red" }}
+                            />
+                        ) : (
+                            <Image
+                                source={require('../assets/icons/home.png')}
+                                style={{ width: 20, height: 20 }}
+                            />
+                        );
+                    },
+                    tabBarActiveTintColor: 'red',
+                    tabBarLabel: 'Início',
+                    tabBarLabelStyle: { fontSize: 12 },
+                }}
             />
             <Tab.Screen
-                options={{ headerShown: false }}
                 name="Favorites"
                 component={Favorites}
+                options={{
+                    tabBarIcon: ({ focused }) => {
+                        return focused ? (
+                            <Image
+                                source={require('../assets/icons/heart.png')}
+            
+                                style={{ width: 20, height: 20, tintColor: "red" }}
+                            />
+                        ) : (
+                            <Image
+                                source={require('../assets/icons/heart.png')}
+                                style={{ width: 20, height: 20 }}
+                            />
+                        );
+                    },
+                    tabBarActiveTintColor: 'red',
+                    tabBarLabel: 'Favoritos',
+                    tabBarLabelStyle: { fontSize: 12 },
+                }}
             />
             <Tab.Screen
-                options={{ headerShown: false }}
                 name="History"
                 component={History}
+                options={{
+                    tabBarIcon: ({ focused }) => {
+                        return focused ? (
+                            <Image
+                                source={require('../assets/icons/options.png')}
+                                
+                                style={{ width: 20, height: 20, tintColor: "red" }}
+                            />
+                        ) : (
+                            <Image
+                                source={require('../assets/icons/options.png')}
+                                style={{ width: 20, height: 20 }}
+                            />
+                        );
+                    },
+                    tabBarActiveTintColor: 'red',
+                    tabBarLabel: 'Histórico',
+                    tabBarLabelStyle: { fontSize: 12 },
+                }}
             />
             <Tab.Screen
-                options={{ headerShown: false }}
                 name="Settings"
                 component={Settings}
+                options={{
+                    tabBarIcon: ({ focused }) => {
+                        return focused ? (
+                            <Image
+                                source={require('../assets/icons/profile.png')}
+                                
+                                style={{ width: 20, height: 20, tintColor: "red", resizeMode: 'contain' }}
+                            />
+                        ) : (
+                            <Image
+                                source={require('../assets/icons/profile.png')}
+                                style={{ width: 20, height: 20, resizeMode: 'contain' }}
+                            />
+                        );
+                    },
+                    tabBarActiveTintColor: 'red',
+                    tabBarBadge: 2,
+                    tabBarLabel: 'Perfil',
+                    tabBarLabelStyle: { fontSize: 12 },
+                }}
             />
         </Tab.Navigator>
     );
