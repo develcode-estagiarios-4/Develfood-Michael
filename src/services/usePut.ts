@@ -4,9 +4,13 @@ const api = axios.create({
     baseURL: 'https://gorest.co.in',
 });
 
-export const useDelete = async (url: string, options: AxiosRequestConfig) => {
+export const usePut = async (
+    url: string,
+    data?: AxiosRequestConfig,
+    options?: AxiosRequestConfig
+) => {
     try {
-        const response = await api.delete(url, options);
+        const response = await api.put(url, data, options);
         console.log(response.data);
         return { response };
     } catch (error) {

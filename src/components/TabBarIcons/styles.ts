@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 export const Icon = styled.Image`
-    width: 20;
-    height: 20;
+    width: 30;
+    height: 30;
 `;
