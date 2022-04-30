@@ -7,7 +7,7 @@ import { useDelete } from '../../../services/useDelete';
 import { usePut } from '../../../services/usePut';
 
 export function Home({ navigation }: any) {
-    const { data, loading, error } = useFetch('/95032050/json/');
+    const { data, loading, error } = useFetch('/95040500/json/');
 
     useEffect(() => {
         console.log(data.logradouro);
