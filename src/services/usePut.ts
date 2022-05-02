@@ -4,16 +4,16 @@ const api = axios.create({
     baseURL: 'https://gorest.co.in',
 });
 
-export const usePost = async <T = unknown>(
+export const usePut = async (
     url: string,
-    body: T,
-    options: AxiosRequestConfig
+    data?: AxiosRequestConfig,
+    options?: AxiosRequestConfig
 ) => {
     try {
-        const response = await api.post(url, body, options);
+        const response = await api.put(url, data, options);
         console.log(response.data);
         return { response };
     } catch (error) {
-        console.log(error);
+        console.log(Error, error);
     }
 };

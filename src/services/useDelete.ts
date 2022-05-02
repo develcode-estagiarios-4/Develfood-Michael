@@ -4,16 +4,12 @@ const api = axios.create({
     baseURL: 'https://gorest.co.in',
 });
 
-export const usePost = async <T = unknown>(
-    url: string,
-    body: T,
-    options: AxiosRequestConfig
-) => {
+export const useDelete = async (url: string, options: AxiosRequestConfig) => {
     try {
-        const response = await api.post(url, body, options);
+        const response = await api.delete(url, options);
         console.log(response.data);
         return { response };
     } catch (error) {
-        console.log(error);
+        console.log(Error, error);
     }
 };
