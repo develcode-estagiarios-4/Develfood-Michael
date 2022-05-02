@@ -9,7 +9,7 @@ interface Data {
     localidade: string;
     logradouro: string;
     bairro: string;
-    uf: string; 
+    uf: string;
 }
 
 export function useFetch(url: string, options?: AxiosRequestConfig) {
