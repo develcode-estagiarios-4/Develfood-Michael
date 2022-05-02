@@ -24,8 +24,8 @@ export function TabBarIcon({ focused, name }: Props) {
                 tintColor: focused
                     ? theme.colors.background_red
                     : theme.colors.icon_gray,
-                height: focused ? 30 : 25,
-                width: focused ? 30 : 25,
+                height: focused ? 38 : 35,
+                width: focused ? 38 : 35,
                 resizeMode: 'contain'
             }}
         />
