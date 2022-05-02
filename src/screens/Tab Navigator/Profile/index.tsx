@@ -1,10 +1,11 @@
 import React from 'react'
 import { Button, Text, View } from 'react-native'
+import { Container } from './styles'
 
 export function Profile({ navigation }: any) {
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'cyan' }}>
+        <Container>
             <Text style={{ fontSize: 36 }}>Configurações</Text>
-        </View>
+        </Container>
     )
 }

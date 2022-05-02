@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { RectButton } from 'react-native-gesture-handler';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home } from '../screens/Tab Navigator/Home';
@@ -7,8 +7,8 @@ import { History } from '../screens/Tab Navigator/History';
 import { Profile } from '../screens/Tab Navigator/Profile';
 import RNBootSplash from 'react-native-bootsplash';
 import { TabBarIcon } from '../components/TabBarIcons';
-import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
-import { useNavigation } from '@react-navigation/native';
+import { RFValue } from 'react-native-responsive-fontsize';
+import theme from '../styles/theme';
 
 export function AppRoutes() {
     const Tab = createBottomTabNavigator();
@@ -27,14 +27,14 @@ export function AppRoutes() {
                     right: 15,
                     height: RFValue(55),
                     borderRadius: 20,
-                    padding: 5,
+                    padding: 6,
                 },
                 headerShown: false,
-                tabBarActiveTintColor: 'red',
+                
                 //tabBarShowLabel: false,
                 tabBarLabelStyle: {
                     fontSize: RFValue(12),
-                    fontFamily: 'Inter-Regular',
+                    fontFamily: theme.fonts.secondaryMed,                  
                 },
                 tabBarButton: (props) => (
                     <RectButton
@@ -44,6 +44,7 @@ export function AppRoutes() {
                         style={{ flex: 1, height: 50 }}
                     />
                 ),
+                tabBarActiveTintColor: 'red',
             }}
         >
             <Tab.Screen
