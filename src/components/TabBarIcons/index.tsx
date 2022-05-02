@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon } from './styles';
 import theme from '../../styles/theme';
+import { ImageProps } from 'react-native';
 
 interface Props {
     focused: boolean;
@@ -13,16 +14,18 @@ export function TabBarIcon({ focused, name }: Props) {
             source={
                 name === 'home'
                     ? require('../../assets/icons/home.png')
-                    : name === 'favorites'
+                    : name === 'heart'
                     ? require('../../assets/icons/heart.png')
-                    : name === 'history'
-                    ? require('../../assets/icons/options.png')
+                    : name === 'historic'
+                    ? require('../../assets/icons/historic.png')
                     : require('../../assets/icons/profile.png')
             }
             style={{
                 tintColor: focused
                     ? theme.colors.background_red
                     : theme.colors.icon_gray,
+                height: focused ? 30 : 25,
+                width: focused ? 30 : 25,
                 resizeMode: 'contain'
             }}
         />
