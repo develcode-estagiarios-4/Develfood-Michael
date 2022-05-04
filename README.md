@@ -1,5 +1,5 @@
 <div align="center">
- <img src="https://github.com/develcode-estagiarios-4/Develfood-Michael/blob/main/src/assets/icons/logo.png" alt="Develfood-Michael" width="200" height="200">
+ <img src="https://github.com/develcode-estagiarios-4/Develfood-Michael/blob/main/src/assets/icons/logo.png?raw=true" alt="Develfood-Michael">
 
 <strong align="center">Aplicativo mobile de delivery de comida do Projeto Simulação Develcode</strong>
 
