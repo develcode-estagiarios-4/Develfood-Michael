@@ -1,14 +1,13 @@
-<div align="center">
+### <div align="center">
  <img src="https://github.com/develcode-estagiarios-4/Develfood-Michael/blob/main/src/assets/icons/logo.png?raw=true" alt="Develfood-Michael">
 
-<strong align="center">Aplicativo mobile de delivery de comida do Projeto Simulação Develcode</strong>
+ <strong align="center">Aplicativo mobile de delivery de comida do Projeto Simulação Develcode</strong>
 
-<a href=""><img src="https://img.shields.io/github/license/develcode-estagiarios-4/Develfood-Michael" /></a>
-<a href=""><img src="https://img.shields.io/github/issues/develcode-estagiarios-4/Develfood-Michael" /></a>
-<a href=""><img src="https://img.shields.io/github/stars/develcode-estagiarios-4/Develfood-Michael" /></a>
-<a href=""><img src="https://img.shields.io/github/forks/develcode-estagiarios-4/Develfood-Michael" /></a>
-</div>
----
+ <a href=""><img src="https://img.shields.io/github/license/develcode-estagiarios-4/Develfood-Michael" /></a>
+ <a href=""><img src="https://img.shields.io/github/issues/develcode-estagiarios-4/Develfood-Michael" /></a>
+ <a href=""><img src="https://img.shields.io/github/stars/develcode-estagiarios-4/Develfood-Michael" /></a>
+ <a href=""><img src="https://img.shields.io/github/forks/develcode-estagiarios-4/Develfood-Michael" /></a>
+ </div>
 
 Tabela de conteúdos
 =================
@@ -27,6 +26,7 @@ Tabela de conteúdos
 <!--te-->
 ---
 
+# Status do preojeto
 <h4 align="center"> 
 	🚧  Develfood 🚀 Em construção...  🚧
 </h4>
@@ -37,6 +37,17 @@ Tabela de conteúdos
 - [x] Splashscreen
 - [x] API rest
 - [] Mais em breve...
+
+### Demonstração do projeto
+
+
+
+### 🛠 Tecnologias
+
+As seguintes ferramentas foram usadas na construção do projeto:
+
+- [React Native](https://reactnative.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
 
 
 
