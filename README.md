@@ -9,7 +9,7 @@
  <a href=""><img src="https://img.shields.io/github/forks/develcode-estagiarios-4/Develfood-Michael" /></a>
 </div>
 
-    <br >
+---
 
 Tabela de conteúdos
 =================
