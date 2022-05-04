@@ -1,5 +1,5 @@
 <div align="center">
-![alt text](https://github.com/develcode-estagiarios-4/Develfood-Michael/blob/main/src/assets/icons/logo.png) 
+ <img src="https://github.com/develcode-estagiarios-4/Develfood-Michael/blob/main/src/assets/icons/logo.png" alt="Develfood-Michael" width="200" height="200">
 
 <strong align="center">Aplicativo mobile de delivery de comida do Projeto Simulação Develcode</strong>
 
