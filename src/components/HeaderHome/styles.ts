@@ -17,6 +17,7 @@ export const ButtonContainer = styled.View`
     align-items: center;
     width: 100%;
     margin-top: ${RFValue(5)};
+    
 `;
 
 export const MapContainer = styled.View`

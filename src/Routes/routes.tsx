@@ -34,15 +34,14 @@ export function AppRoutes() {
                 //tabBarShowLabel: false,
                 tabBarLabelStyle: {
                     fontSize: RFValue(12),
-                    fontFamily: theme.fonts.secondaryMed,                  
+                    fontFamily: theme.fonts.secondaryMed,
                 },
-                tabBarButton: (props) => (
+                tabBarButton: (props): JSX.Element => (
                     <RectButton
                         {...props}
                         rippleRadius={50}
                         borderless
-                        style={{ flex: 1, height: 50 }}
-                    />
+                        style={{ flex: 1, height: 50 }} />
                 ),
                 tabBarActiveTintColor: 'red',
             }}
