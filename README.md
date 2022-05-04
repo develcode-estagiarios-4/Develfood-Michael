@@ -42,7 +42,7 @@ Tabela de conteúdos
 
 ### Demonstração do projeto
 
-
+![](https://github.com/develcode-estagiarios-4/Develfood-Michael/blob/dev/src/assets/gif/navegacaoTab.gif)
 
 ### 🛠 Tecnologias
 
