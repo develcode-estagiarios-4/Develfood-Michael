@@ -24,9 +24,33 @@ Tabela de conteúdos
    * [Sobre](#Sobre)
    * [Tabela de Conteudo](#tabela-de-conteudo)
    * [Instalação](#instalacao)
+   * [Status do Projeto](#status)
+   * [Features](#features)
+   * [Demonstração do Projeto](#demonstracao)
    * [Tecnologias](###Tecnologias)
 <!--te-->
 
+# Instalação
+
+Para usar a demonstração do projeto, você deverá instalar [React Native CLI](https://reactnative.dev/docs/environment-setup) em seu computador seguindo todos os passos da documentação. 
+
+Após o ambiente de desenvolvimento estar configurado, você poderá iniciar um novo repositório git local em sua máquina com o seguinte comando:
+
+> git init
+
+Em seguida clone o projeto: 
+
+> git clone https://github.com/develcode-estagiarios-4/Develfood-Michael.git
+
+Agora você deverá instalar as biblotecas do projeto: yarn install
+
+Tudo pronto, agora você consegue rodar o app no seu dispositivo ou emulador. Para abrir o app no emulador digite o seguinte comando no terminal da raiz do projeto:
+
+> yarn android
+
+E, em seguida:
+
+> yarn start
 
 # Status do projeto
 <h4 align="center"> 
