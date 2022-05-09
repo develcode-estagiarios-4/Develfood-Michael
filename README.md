@@ -11,17 +11,18 @@
 
 ---
 
+<a name="sobre">
 # Sobre
 
 <div align="center">
 Develfood é um aplicativo de delivery de comida escrito majoritariamente em TypesCript, aproveitando-se do framework React Native. O app foi desenvolvido em colaboração com a Develcode no programa de estágio da mesma. A aplicação possui todas as funcionalidades de um delivery real: Cadastro de usuário, autenticação, restaurantes com pratos, favoritos, histórico de compras, cadastro de informações de pagamento, etc...
 Principal contribuidor do projeto: Michael Junges.
 </div>
-
+</a>
 Tabela de conteúdos
 =================
 <!--ts-->
-   * [Sobre](#Sobre)
+   * [Sobre](#sobre)
    * [Tabela de Conteudo](#tabela-de-conteudo)
    * [Instalação](#instalacao)
    * [Status do Projeto](#status)

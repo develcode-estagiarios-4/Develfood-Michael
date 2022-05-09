@@ -21,13 +21,13 @@ export function AppRoutes() {
         <Tab.Navigator
             screenOptions={{
                 tabBarStyle: {
-                    position: 'absolute',
-                    bottom: 20,
-                    left: 15,
-                    right: 15,
-                    height: RFValue(55),
-                    borderRadius: 20,
-                    padding: 6,
+                    //position: 'absolute',
+                    //bottom: 20,
+                    //left: 15,
+                    //right: 15,
+                    height: RFValue(58),
+                    //borderRadius: 20,
+                    paddingTop: 5
                 },
                 headerShown: false,
                 
