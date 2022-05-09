@@ -20,6 +20,8 @@ Principal contribuidor do projeto: Michael Junges.
 </div>
 </a>
 
+<a name="tabela-de-conteudo">
+
 Tabela de conteúdos
 =================
 <!--ts-->
@@ -29,8 +31,12 @@ Tabela de conteúdos
    * [Status do Projeto](#status)
    * [Features](#features)
    * [Demonstração do Projeto](#demonstracao)
-   * [Tecnologias](###Tecnologias)
+   * [Tecnologias](#tecnologias)
 <!--te-->
+
+</a>
+
+<a name="instalacao">
 
 # Instalação
 
@@ -56,10 +62,19 @@ E, em seguida:
 
  `yarn start`
 
+</a>
+ 
+<a name="status">
+
 # Status do projeto
 <h4 align="center"> 
 	🚧  Develfood 🚀 Em construção...  🚧
 </h4>
+
+</a>
+
+
+<a name="features">
 
 # Features
 
@@ -68,9 +83,19 @@ E, em seguida:
 - [x] API restful
 - Mais em breve...
 
+</a>
+
+
+<a name="demonstracao">
+
 # Demonstração do projeto
 
 ![](https://github.com/develcode-estagiarios-4/Develfood-Michael/blob/dev/src/assets/gif/navegacaoTab.gif)
+
+</a>
+
+
+<a name="tecnologias">
 
 # 🛠 Tecnologias
 
@@ -79,6 +104,6 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [React Native](https://reactnative.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 
-
+</a>
 
 
