@@ -19,6 +19,7 @@ Develfood é um aplicativo de delivery de comida escrito majoritariamente em Typ
 Principal contribuidor do projeto: Michael Junges.
 </div>
 </a>
+
 Tabela de conteúdos
 =================
 <!--ts-->
