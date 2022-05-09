@@ -28,23 +28,23 @@ Tabela de conteúdos
 <!--te-->
 
 
-### Status do projeto
+# Status do projeto
 <h4 align="center"> 
 	🚧  Develfood 🚀 Em construção...  🚧
 </h4>
 
-### Features
+# Features
 
 - [x] Tab bar customizada
 - [x] Splashscreen
 - [x] API restful
 - Mais em breve...
 
-### Demonstração do projeto
+# Demonstração do projeto
 
 ![](https://github.com/develcode-estagiarios-4/Develfood-Michael/blob/dev/src/assets/gif/navegacaoTab.gif)
 
-### 🛠 Tecnologias
+# 🛠 Tecnologias
 
 As seguintes ferramentas foram usadas na construção do projeto:
 
