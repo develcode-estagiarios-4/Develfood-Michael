@@ -42,7 +42,9 @@ Em seguida clone o projeto:
 
 > git clone https://github.com/develcode-estagiarios-4/Develfood-Michael.git
 
-Agora você deverá instalar as biblotecas do projeto: yarn install
+Agora você deverá instalar as biblotecas do projeto: 
+
+> yarn install
 
 Tudo pronto, agora você consegue rodar o app no seu dispositivo ou emulador. Para abrir o app no emulador digite o seguinte comando no terminal da raiz do projeto:
 
