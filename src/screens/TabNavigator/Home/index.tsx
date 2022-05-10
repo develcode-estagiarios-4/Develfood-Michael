@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useFetch } from '../../../services/useFetch';
+import { useFetch } from '@services/useFetch';
 import { Container, HeaderView, ScrollView, Title } from './styles';
 import { ActivityIndicator, Button } from 'react-native';
-import { usePost } from '../../../services/usePost';
-import { useDelete } from '../../../services/useDelete';
-import { usePut } from '../../../services/usePut';
-import { HeaderHome } from '../../../components/HeaderHome';
+import { usePost } from '@services/usePost';
+import { useDelete } from '@services/useDelete';
+import { usePut } from '@services/usePut';
+import { HeaderHome } from '@components/HeaderHome';
 
 export function Home({ navigation }: any) {
     const { data, loading, error } = useFetch('/95040500/json/');

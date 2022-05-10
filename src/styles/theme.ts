@@ -1,6 +1,6 @@
 export default {
     colors: {
-        background: '##FFFFFF',
+        background: '#FFFFFF',
         background_red: '#C20C18',
 
         header: '#C20C18',
@@ -28,9 +28,9 @@ export default {
     },
 
     icons: {
-        home: require('../../assets/icons/home.png'),
-        favorites: require('../../assets/icons/favorites.png'),
-        historic: require('../../assets/icons/historic.png'),
-        profile: require('../../assets/icons/profile.png'),
+        home: require('@assets/icons/home.png'),
+        favorites: require('@assets/icons/heart.png'),
+        historic: require('@assets/icons/historic.png'),
+        profile: require('@assets/icons/profile.png'),
     }
 }

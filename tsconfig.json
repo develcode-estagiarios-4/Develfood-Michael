@@ -43,7 +43,8 @@
             "@screens/*": ["./src/screens/*"],
             "@components/*": ["./src/components/*"],
             "@services/*": ["./src/services/*"],
-            "@routes/*": ["./src/Routes/*"]
+            "@routes/*": ["./src/Routes/*"],
+            "@assets/*": ["./src/assets/*"],
         },
         // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
         // "typeRoots": [],                       /* List of folders to include type definitions from. */
