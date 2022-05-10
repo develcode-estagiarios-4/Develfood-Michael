@@ -31,7 +31,6 @@ export function AppRoutes() {
                 },
                 headerShown: false,
                 
-                //tabBarShowLabel: false,
                 tabBarLabelStyle: {
                     fontSize: RFValue(12),
                     fontFamily: theme.fonts.secondaryReg,

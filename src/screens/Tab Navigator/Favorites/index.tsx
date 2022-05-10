@@ -6,6 +6,7 @@ export function Favorites({ navigation }: any) {
     return (
         <Container>
             <Text style={{ fontSize: 36 }}>Favoritos</Text>
+            
         </Container>
     )
 }

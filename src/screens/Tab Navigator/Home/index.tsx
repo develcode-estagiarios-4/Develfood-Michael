@@ -84,20 +84,6 @@ export function Home({ navigation }: any) {
                             );
                         }}
                     />
-                    <Title>put</Title>
-                    <Title>put</Title>
-                    <Title>put</Title>
-                    <Title>put</Title>
-                    <Title>put</Title>
-                    <Title>put</Title>
-                    <Title>put</Title>
-                    <Title>put</Title>
-                    <Title>put</Title>
-                    <Title>put</Title>
-                    <Title>put</Title>
-                    <Title>put</Title>
-                    <Title>put</Title>
-                    <Title>put</Title>
                 </ScrollView>
             )}
         </Container>

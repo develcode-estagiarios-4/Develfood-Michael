@@ -26,4 +26,11 @@ export default {
         secondaryMed: 'Archivo-Medium',
         secondaryBold: 'Archivo-Bold',
     },
+
+    icons: {
+        home: require('../../assets/icons/home.png'),
+        favorites: require('../../assets/icons/favorites.png'),
+        historic: require('../../assets/icons/historic.png'),
+        profile: require('../../assets/icons/profile.png'),
+    }
 }
