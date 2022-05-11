@@ -8,7 +8,7 @@ import { Profile } from '@screens/TabNavigator/Profile';
 import { Historic } from '@screens/TabNavigator/Historic';
 
 export function AppRoutes() {
-    const { Navigator, Screen} = createBottomTabNavigator();
+    const { Navigator, Screen } = createBottomTabNavigator();
 
     useEffect(() => {
         RNBootSplash.hide({ fade: true });
