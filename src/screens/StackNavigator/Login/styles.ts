@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled.View`
     flex: 1;
@@ -19,8 +20,9 @@ export const Hamburguer = styled.Image`
 `;
 
 export const Wrapper = styled.View`
-    width: 100%;
+    height: ${RFPercentage(50)};
     padding: 40px;
+    z-index: 1;
 `;
 
 export const LogoWrapper = styled.View`
@@ -32,21 +34,9 @@ export const Logo = styled.Image`
     margin-bottom: 15px;
 `;
 
-export const Form = styled.View`
-    
-`;
-
-export const Input = styled.View`
-    borderWidth: 1;
-    borderColor: #E5E5E5;
-    borderRadius: 10;
-    margin-bottom: 12px;
-                    
-`;
+export const Form = styled.View``;
 
 export const Particles = styled.Image`
     position: absolute;
     bottom: 0;
 `;
-
-

@@ -1,7 +1,14 @@
+import { Button } from '@components/Button';
 import { Input } from '@components/Input';
-import React from 'react';
-import { StatusBar, Text, View } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import React, { useState } from 'react';
+import {
+    StatusBar,
+    Text,
+    TouchableHighlight,
+    TouchableOpacity,
+    View,
+} from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
 import {
     Container,
     Hamburguer,
@@ -14,6 +21,15 @@ import {
 } from './styles';
 
 export const Login = () => {
+    const [isClicked, setIsClicked] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('senha');
+
+    function handleChangeShowPasswordButton() {
+        setIsClicked(!isClicked);
+        console.log(isClicked);
+    }
+
     return (
         <Container>
             <StatusBar
@@ -27,8 +43,36 @@ export const Login = () => {
                     <Logo source={require('@assets/icons/logoLogin.png')} />
                 </LogoWrapper>
                 <Form>
-                    <Input source={require('@assets/icons/lock.png')} placeholder={'*********'} onChangeText={() => {}}/>
+                    <Input
+                        value={email}
+                        source={require('@assets/icons/mail.png')}
+                        placeholder={'exemplo@email.com'}
+                        onChangeText={() => {
+                            setEmail;
+                            console.log(email);
+                        }}
+                    />
+                    <Input
+                        value={password}
+                        secureTextEntry={!isClicked}
+                        source={require('@assets/icons/lock.png')}
+                        placeholder={'*********'}
+                        onChangeText={(text) => {
+                            setPassword(text);
+                            console.log(typeof password);
+                            console.log(password);
+                        }}
+                        source2={
+                            isClicked
+                                ? require('@assets/icons/eye.png')
+                                : require('@assets/icons/eyeCrossed.png')
+                        }
+                        onPress={() => {
+                            handleChangeShowPasswordButton();
+                        }}
+                    />
                 </Form>
+                <Button title='Alo' onPress={() => { }} />
             </Wrapper>
             <Particles source={require('@assets/icons/pozinho.png')} />
         </Container>

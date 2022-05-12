@@ -6,6 +6,7 @@ export default {
         header: '#C20C18',
         button: '#C20C18',
         card: '#F0F0F5',
+        input: '#BFBABA',
 
         text_white: '#FFFFFF',
         text_gray: '#BFBABA',
