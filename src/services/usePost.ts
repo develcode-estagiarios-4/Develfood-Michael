@@ -1,19 +1,31 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import { useState } from 'react';
 
 const api = axios.create({
-    baseURL: 'https://gorest.co.in',
+    baseURL: 'https://develfood-3.herokuapp.com',
 });
 
-export const usePost = async <T = unknown>(
+export function usePost<T = unknown>(
     url: string,
     body: T,
-    options: AxiosRequestConfig
-) => {
-    try {
-        const response = await api.post(url, body, options);
-        console.log(response.data);
-        return { response };
-    } catch (error) {
-        console.log(error);
+    options?: AxiosRequestConfig
+) {
+    const [data, setData] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<Error | null | unknown>(null);
+
+    async function handlePost() {
+        try {
+            setLoading(true);
+            const response = await api.post(url, body, options);
+            setData(response.data);
+        } catch (error) {
+            setError(error);
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
     }
-};
+
+    return { data, loading, error, handlePost };
+}

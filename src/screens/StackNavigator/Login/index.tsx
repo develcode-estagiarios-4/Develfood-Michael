@@ -1,7 +1,8 @@
 import { Button } from '@components/Button';
 import { Input } from '@components/Input';
+import { usePost } from '@services/usePost';
 import React, { useState } from 'react';
-import { Alert, StatusBar } from 'react-native';
+import { ActivityIndicator, Alert, StatusBar } from 'react-native';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import {
     Container,
@@ -24,12 +25,17 @@ export const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('senha');
 
+    const { data, loading, error, handlePost } = usePost('/auth', {
+        email: 'exemplo@email.com',
+        password: '123456',
+    });
+
     function handleChangeShowPasswordButton() {
         setIsClicked(!isClicked);
     }
 
     function handleLogin() {
-        Alert.alert('Clicou no botão', `email: ${email} e senha: ${password}`);
+        handlePost();
     }
 
     return (
@@ -75,10 +81,17 @@ export const Login = () => {
                         <TitleButton>Esqueci minha senha</TitleButton>
                     </EsqueceuSenha>
                 </ForgotPassword>
-                <Button
-                    title="Entrar"
-                    onPress={handleLogin}
-                />
+                {loading ? (
+                    <Button
+                        title={ <ActivityIndicator />}
+                        onPress={handleLogin}
+                    />
+                ) : (
+                    <Button
+                        title="Entrar"
+                        onPress={handleLogin}
+                    />
+                )}
                 <CadastreSe>
                     <Text>Não possui cadastro? </Text>
                     <EsqueceuSenha>
