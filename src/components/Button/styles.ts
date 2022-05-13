@@ -8,9 +8,8 @@ export const Container = styled.View`
 
 export const Title = styled.Text`
     font-family: ${({ theme }) => theme.fonts.primaryMed};
-    font-size: ${RFValue(15)};
+    font-size: ${({ theme }) => theme.sizes.medium};
     color: ${({ theme }) => theme.colors.text_white};
-    
 `;
 
 export const Rect = styled(RectButton)`

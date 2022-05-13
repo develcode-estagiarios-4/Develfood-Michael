@@ -1,6 +1,7 @@
 import React from 'react';
 import { ImageSourcePropType, TextInputProps } from 'react-native';
 import { BorderlessButton, TextInput } from 'react-native-gesture-handler';
+import theme from '../../styles/theme';
 import { Icon, InputWrapper, LeftIcon, RightIcon } from './styles';
 
 interface Props extends TextInputProps {
@@ -20,6 +21,8 @@ export function Input({ source, source2, onPress, ...rest }: Props) {
                         style={{
                             marginHorizontal: 10,
                             flex: 1,
+                            fontFamily: theme.fonts.primaryReg,
+                            fontSize: theme.sizes.intermediate
                         }}
                     />
                 </RightIcon>

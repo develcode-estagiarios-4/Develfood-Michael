@@ -1,14 +1,8 @@
 import { Button } from '@components/Button';
 import { Input } from '@components/Input';
 import React, { useState } from 'react';
-import {
-    StatusBar,
-    Text,
-    TouchableHighlight,
-    TouchableOpacity,
-    View,
-} from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
+import { Alert, StatusBar } from 'react-native';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import {
     Container,
     Hamburguer,
@@ -18,6 +12,11 @@ import {
     Pizza,
     Form,
     LogoWrapper,
+    EsqueceuSenha,
+    TitleButton,
+    Text,
+    ForgotPassword,
+    CadastreSe,
 } from './styles';
 
 export const Login = () => {
@@ -27,7 +26,10 @@ export const Login = () => {
 
     function handleChangeShowPasswordButton() {
         setIsClicked(!isClicked);
-        console.log(isClicked);
+    }
+
+    function handleLogin() {
+        Alert.alert('Clicou no botão', `email: ${email} e senha: ${password}`);
     }
 
     return (
@@ -36,45 +38,58 @@ export const Login = () => {
                 barStyle="dark-content"
                 backgroundColor={'white'}
             />
-            <Pizza source={require('@assets/icons/pizza.png')} />
-            <Hamburguer source={require('@assets/icons/hamburguer.png')} />
+            <Pizza
+                style={{ height: RFValue(280), width: RFValue(130) }}
+                source={require('@assets/icons/pizza.png')}
+            />
+            <Hamburguer
+                style={{ height: RFValue(210), width: RFValue(75) }}
+                source={require('@assets/icons/hamburguer.png')}
+            />
             <Wrapper>
-                <LogoWrapper>
-                    <Logo source={require('@assets/icons/logoLogin.png')} />
-                </LogoWrapper>
                 <Form>
+                    <Logo source={require('@assets/icons/logoLogin.png')} />
                     <Input
+                        keyboardType="email-address"
                         value={email}
                         source={require('@assets/icons/mail.png')}
                         placeholder={'exemplo@email.com'}
-                        onChangeText={() => {
-                            setEmail;
-                            console.log(email);
-                        }}
+                        onChangeText={setEmail}
                     />
                     <Input
                         value={password}
                         secureTextEntry={!isClicked}
                         source={require('@assets/icons/lock.png')}
                         placeholder={'*********'}
-                        onChangeText={(text) => {
-                            setPassword(text);
-                            console.log(typeof password);
-                            console.log(password);
-                        }}
+                        onChangeText={setPassword}
                         source2={
                             isClicked
                                 ? require('@assets/icons/eye.png')
                                 : require('@assets/icons/eyeCrossed.png')
                         }
-                        onPress={() => {
-                            handleChangeShowPasswordButton();
-                        }}
+                        onPress={handleChangeShowPasswordButton}
                     />
                 </Form>
-                <Button title='Alo' onPress={() => { }} />
+                <ForgotPassword>
+                    <EsqueceuSenha>
+                        <TitleButton>Esqueci minha senha</TitleButton>
+                    </EsqueceuSenha>
+                </ForgotPassword>
+                <Button
+                    title="Entrar"
+                    onPress={handleLogin}
+                />
+                <CadastreSe>
+                    <Text>Não possui cadastro? </Text>
+                    <EsqueceuSenha>
+                        <TitleButton>Cadastre-se aqui!</TitleButton>
+                    </EsqueceuSenha>
+                </CadastreSe>
             </Wrapper>
-            <Particles source={require('@assets/icons/pozinho.png')} />
+            <Particles
+                style={{ height: RFValue(210), width: RFPercentage(45) }}
+                source={require('@assets/icons/pozinho.png')}
+            />
         </Container>
     );
 };

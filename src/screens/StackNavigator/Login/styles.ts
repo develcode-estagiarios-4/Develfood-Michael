@@ -5,6 +5,7 @@ export const Container = styled.View`
     flex: 1;
     background-color: ${({ theme }) => theme.colors.background};
     justify-content: center;
+    align-items: center;
 `;
 
 export const Pizza = styled.Image`
@@ -20,21 +21,48 @@ export const Hamburguer = styled.Image`
 `;
 
 export const Wrapper = styled.View`
-    height: ${RFPercentage(50)};
     padding: 40px;
     z-index: 1;
+    margin-top: 20px;
 `;
 
 export const LogoWrapper = styled.View`
     width: 100%;
-    align-items: center;
+    background-color: blue;
 `;
 
 export const Logo = styled.Image`
-    margin-bottom: 15px;
+    margin-bottom: ${RFValue(10)}px;
 `;
 
-export const Form = styled.View``;
+export const Form = styled.View`
+    align-items: center;
+`;
+
+export const ForgotPassword = styled.View`
+    align-items: flex-end;
+    margin-bottom: ${RFValue(18)};
+`;
+
+export const EsqueceuSenha = styled.TouchableOpacity.attrs({
+    activeOpacity: 1
+})``;
+
+export const TitleButton = styled.Text`
+    color: ${({ theme }) => theme.colors.text_red};
+    font-size: ${({ theme }) => theme.sizes.small};
+`;
+
+export const Text = styled.Text`
+    color: ${({ theme }) => theme.colors.text_purple};
+    font-size: ${({ theme }) => theme.sizes.small};
+`;
+
+export const CadastreSe = styled.View`
+    justify-content: center;
+    flex-direction: row;
+    margin-top: ${RFValue(14)};
+`;
 
 export const Particles = styled.Image`
     position: absolute;
