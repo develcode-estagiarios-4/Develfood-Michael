@@ -32,3 +32,10 @@ export const RightIcon = styled.View`
     flex-direction: row;
     align-items: center;
 `;
+
+export const Error = styled.Text`
+    color: ${({ theme }) => theme.colors.text_red};
+    font-family: ${({ theme }) => theme.fonts.secondaryMed};
+    font-size: ${({ theme }) => theme.sizes.small};
+    margin: 0 0 8px 8px;
+`;

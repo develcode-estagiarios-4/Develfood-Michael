@@ -15,7 +15,7 @@ interface Data {
 export function useFetch(url: string, options?: AxiosRequestConfig) {
     const [data, setData] = useState<Data>({} as Data);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<Error | null>(null);
+    const [error, setError] = useState<Error | null | unknown>(null);
 
     useEffect(() => {
         async function fetchData() {
@@ -23,8 +23,8 @@ export function useFetch(url: string, options?: AxiosRequestConfig) {
                 setLoading(true);
                 const { data } = await api.get(url, options);
                 setData(data);
-            } catch (erro) {
-                setError(error);
+            } catch (e) {
+                setError(e);
             } finally {
                 setLoading(false);
             }

@@ -1,8 +1,11 @@
 import { Button } from '@components/Button';
 import { Input } from '@components/Input';
 import { usePost } from '@services/usePost';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
 import { ActivityIndicator, Alert, StatusBar } from 'react-native';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import {
     Container,
@@ -22,20 +25,43 @@ import {
 
 export const Login = () => {
     const [isClicked, setIsClicked] = useState(false);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('senha');
+    const [email, setEmail] = useState('exemplo@email.com');
+    const [password, setPassword] = useState('123456');
+
+    const schema = yup.object().shape({
+        email: yup
+            .string()
+            .email('Por favor, insira um email válido')
+            .required('O email é obrigatório'),
+        password: yup
+            .string()
+            .required('A senha é obrigatória'),     
+    });
+
+     const {
+         control,
+         handleSubmit,
+         reset,
+         formState: { errors }
+     } = useForm({
+         resolver: yupResolver(schema),
+     });
 
     const { data, loading, error, handlePost } = usePost('/auth', {
-        email: 'exemplo@email.com',
-        password: '123456',
+        email: email, // exemplo@email.com
+        password: password, // 123456
     });
 
     function handleChangeShowPasswordButton() {
         setIsClicked(!isClicked);
     }
 
-    function handleLogin() {
-        handlePost();
+    async function handleLogin() {
+        setEmail;
+        setPassword;
+        handleSubmit;
+        handlePost(error);
+        console.log(data);
     }
 
     return (
@@ -56,6 +82,9 @@ export const Login = () => {
                 <Form>
                     <Logo source={require('@assets/icons/logoLogin.png')} />
                     <Input
+                        name={'email'}
+                        control={control}
+                        error={errors.email && errors.email.message}
                         keyboardType="email-address"
                         value={email}
                         source={require('@assets/icons/mail.png')}
@@ -63,6 +92,9 @@ export const Login = () => {
                         onChangeText={setEmail}
                     />
                     <Input
+                        name={'password'}
+                        control={control}
+                        error={errors.password && errors.password.message}
                         value={password}
                         secureTextEntry={!isClicked}
                         source={require('@assets/icons/lock.png')}
@@ -81,17 +113,14 @@ export const Login = () => {
                         <TitleButton>Esqueci minha senha</TitleButton>
                     </EsqueceuSenha>
                 </ForgotPassword>
-                {loading ? (
-                    <Button
-                        title={ <ActivityIndicator />}
-                        onPress={handleLogin}
-                    />
-                ) : (
-                    <Button
-                        title="Entrar"
-                        onPress={handleLogin}
-                    />
-                )}
+
+                <Button
+                    title="Entrar"
+                    onPress={handleLogin}
+                    isLoading={loading}
+                    enabled={!loading}
+                />
+
                 <CadastreSe>
                     <Text>Não possui cadastro? </Text>
                     <EsqueceuSenha>
