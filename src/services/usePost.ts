@@ -1,24 +1,7 @@
-import axios, { AxiosError, AxiosRequestConfig } from 'axios';
-import { useEffect, useState } from 'react';
-import { Alert } from 'react-native';
-import { MessageType, showMessage } from 'react-native-flash-message';
-
-const api = axios.create({
-    baseURL: 'https://develfood-3.herokuapp.com',
-});
-
-interface FlashMessageProps {
-    onSuccess: {
-        message: string;
-        type: string;
-        description?: string;
-    };
-    onError: {
-        message: string;
-        type: string;
-        description?: string;
-    };
-}
+import { AxiosError, AxiosRequestConfig } from 'axios';
+import { useState } from 'react';
+import { MessageOptions, showMessage } from 'react-native-flash-message';
+import { api } from './api';
 
 export function usePost<T = unknown>(
     url: string,
@@ -29,26 +12,31 @@ export function usePost<T = unknown>(
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<unknown | any>(null);
 
-    async function handlePost(error: AxiosError) {
+    async function handlePost(
+        message: MessageOptions['message'],
+        type: MessageOptions['type'],
+        description?: MessageOptions['description']
+    ) {
         try {
             setLoading(true);
-            setError(error);
+            setError(null);
+            console.log(body)
             const response = await api.post(url, body, options);
             setData(response.data);
-            
-        } catch (e) {
-            
+            response?.data?.token && showMessage({
+                message: 'Successfully posted',
+                type: 'success',
+            });
+        } catch (e: any) {
             setError(e);
             console.log(e);
-            
+            showMessage({
+                message,
+                description,
+                type,
+            });
         } finally {
             setLoading(false);
-             error
-                 ? showMessage({ message: error.message, type: 'danger' })
-                 : showMessage({
-                       message: 'Login realizado com sucesso!',
-                       type: 'success',
-                   });
         }
     }
 

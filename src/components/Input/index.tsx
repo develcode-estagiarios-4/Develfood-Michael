@@ -1,9 +1,16 @@
 import React from 'react';
 import { Control, Controller, useForm } from 'react-hook-form';
-import { ImageSourcePropType, TextInputProps } from 'react-native';
+import { ImageSourcePropType, TextInputProps, View } from 'react-native';
 import { BorderlessButton, TextInput } from 'react-native-gesture-handler';
 import theme from '../../styles/theme';
-import { Error, Icon, InputWrapper, LeftIcon, RightIcon } from './styles';
+import {
+    Error,
+    ErrorWrapper,
+    Icon,
+    InputWrapper,
+    LeftIcon,
+    RightIcon,
+} from './styles';
 
 interface Props extends TextInputProps {
     source: ImageSourcePropType;
@@ -14,12 +21,15 @@ interface Props extends TextInputProps {
     error: string;
 }
 
-
-
-export function Input({ source, source2, onPress, control, name, error, ...rest }: Props) {
-
-    error ? console.log(error) : null;
-    
+export function Input({
+    source,
+    source2,
+    onPress,
+    control,
+    name,
+    error,
+    ...rest
+}: Props) {
     return (
         <>
             <InputWrapper>
@@ -36,7 +46,7 @@ export function Input({ source, source2, onPress, control, name, error, ...rest 
                                     fontFamily: theme.fonts.primaryReg,
                                     fontSize: theme.sizes.intermediate,
                                 }}
-                                onChange={onChange}
+                                onChangeText={onChange}
                                 value={value}
                                 {...rest}
                             />
@@ -52,7 +62,11 @@ export function Input({ source, source2, onPress, control, name, error, ...rest 
                     )}
                 </LeftIcon>
             </InputWrapper>
-            {error && <Error>{ error }</Error>}
+            {error && (
+                <ErrorWrapper>
+                    <Error>{error}</Error>
+                </ErrorWrapper>
+            )}
         </>
     );
 }

@@ -2,9 +2,8 @@ import styled from 'styled-components/native';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled.View`
-    flex: 1;
+    flex:1;
     background-color: ${({ theme }) => theme.colors.background};
-    justify-content: center;
     align-items: center;
 `;
 
@@ -23,7 +22,7 @@ export const Hamburguer = styled.Image`
 export const Wrapper = styled.View`
     padding: 40px;
     z-index: 1;
-    margin-top: 20px;
+    margin-top: ${RFValue(170)}px;
 `;
 
 export const LogoWrapper = styled.View`
@@ -41,7 +40,7 @@ export const Form = styled.View`
 
 export const ForgotPassword = styled.View`
     align-items: flex-end;
-    margin-bottom: ${RFValue(18)};
+    margin-bottom: ${RFValue(18)}px;
 `;
 
 export const EsqueceuSenha = styled.TouchableOpacity.attrs({
@@ -61,7 +60,7 @@ export const Text = styled.Text`
 export const CadastreSe = styled.View`
     justify-content: center;
     flex-direction: row;
-    margin-top: ${RFValue(14)};
+    margin-top: ${RFValue(14)}px;
 `;
 
 export const Particles = styled.Image`

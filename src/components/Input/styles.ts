@@ -2,10 +2,11 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const InputWrapper = styled.View`
+    background-color: ${({ theme }) => theme.colors.background};
     height: ${RFValue(50)}px;
-    border-width: 1;
+    border-width: 1px;
     border-color: ${({ theme }) => theme.colors.input};
-    border-radius: 10;
+    border-radius: 10px;
     margin-bottom: 12px;
     flex-direction: row;
     align-items: center;
@@ -33,9 +34,14 @@ export const RightIcon = styled.View`
     align-items: center;
 `;
 
+export const ErrorWrapper = styled.View`
+    width: 100%;
+    justify-content: flex-start;
+    margin: -5px 0 10px 20px;
+`;
+
 export const Error = styled.Text`
     color: ${({ theme }) => theme.colors.text_red};
     font-family: ${({ theme }) => theme.fonts.secondaryMed};
     font-size: ${({ theme }) => theme.sizes.small};
-    margin: 0 0 8px 8px;
 `;
