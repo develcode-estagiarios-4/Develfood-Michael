@@ -14,17 +14,16 @@ interface Data {
 
 export function useFetch(url: string, options?: AxiosRequestConfig) {
     const [data, setData] = useState<Data>({} as Data);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<Error | null | unknown>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
         async function fetchData() {
             try {
-                setLoading(true);
                 const { data } = await api.get(url, options);
                 setData(data);
-            } catch (e) {
-                setError(e);
+            } catch (erro) {
+                setError(error);
             } finally {
                 setLoading(false);
             }
