@@ -44,7 +44,7 @@ export const Login = () => {
     const {
         control,
         handleSubmit,
-        getValues, // pega os valores do formulário
+        getValues, // pega os valores do input
         formState: { errors },
         reset,
     } = useForm({
