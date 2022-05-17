@@ -8,5 +8,6 @@ module.exports = {
 
     },
 
-    assets: ['./src/assets/fonts/', './src/assets/icons/']
+    assets:['./src/assets/fonts/'],
+
 }
