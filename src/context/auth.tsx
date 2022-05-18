@@ -1,35 +1,63 @@
 import { usePost } from '@services/usePost';
-import React, { createContext, ReactChild, ReactNode, useState } from 'react';
+import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import { MessageType } from 'react-native-flash-message';
+
+interface AuthContextData {
+    logIn(email: string, password: string): void;
+    token: string;
+    loading: boolean;
+}
 
 interface AuthProviderProps {
     children: ReactNode;
 }
 
-export const AuthContext = createContext({});
+interface RequestProps {
+    endpoint: string;
+    body: { email: string; password: string };
+    error: { message: string;
+        type: MessageType;
+        description: string};
+}
+
+export const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
+    const [user, setUser] = useState({});
+    //const [loading, setLoading] = useState(false)
+    const [request, setRequest] = useState({} as RequestProps);
 
-    const [user, setUser] = useState({})
-
-    const { data, loading, error, handlePost } = usePost('/auth', {
-        email: 'exemplo@email.com', // exemplo@email.com
-        password: '123456', // 123456
-    });
+    const { data, loading, error, handlePost } = usePost(
+        request.endpoint,
+        request.body
+    );
+    
+    useEffect(() => {
+        !!request.body && handlePost(request?.error.message, request?.error.type, request?.error.description);
+    }, [request])
 
     function logIn(email: string, password: string) {
-        setUser({
-            email: email,
-            password: password
-        })
+        setRequest({
+            endpoint: '/auth',
+            body: {
+                email,
+                password,
+            },
+            error: {
+                message: 'Erro de autenticação',
+                type: 'danger',
+                description: 'Ops... Há algo de errado com seu email e/ou senha. Tente novamente.'
+            },
+        });
     }
 
     return (
         <AuthContext.Provider
             value={{
-                user: {name: 'Michael', email: 'michael.rar@outlook.com'},
                 //loading,
                 logIn,
-                //token
+                token: data.token,
+                loading
             }}
         >
             {children}

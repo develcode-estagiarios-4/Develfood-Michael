@@ -12,6 +12,7 @@ import { Login } from '@screens/StackNavigator/Login';
 import RNBootSplash from 'react-native-bootsplash';
 import FlashMessage from 'react-native-flash-message';
 import { AuthProvider } from './src/context/auth';
+import { AuthRoutes } from '@routes/authRoutes';
 
 LogBox.ignoreLogs(["exported from 'deprecated-react-native-prop-types'."]);
 
@@ -23,7 +24,7 @@ export default function App() {
             <ThemeProvider theme={theme}>
                 <NavigationContainer>
                     <AuthProvider>
-                        <Login />
+                        <AuthRoutes />
                         <FlashMessage position="top" />
                     </AuthProvider>
                 </NavigationContainer>
