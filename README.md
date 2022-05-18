@@ -11,46 +11,99 @@
 
 ---
 
+<a name="sobre">
+
+# Sobre
+<div align="center">
+Develfood é um aplicativo de delivery de comida escrito majoritariamente em TypesCript, aproveitando-se do framework React Native. O app foi desenvolvido em colaboração com a Develcode no programa de estágio da mesma. A aplicação possui todas as funcionalidades de um delivery real: Cadastro de usuário, autenticação, restaurantes com pratos, favoritos, histórico de compras, cadastro de informações de pagamento, etc...
+Principal contribuidor do projeto: Michael Junges.
+</div>
+</a>
+
+<a name="tabela-de-conteudo">
+
 Tabela de conteúdos
 =================
 <!--ts-->
-   * [Sobre](#Sobre)
+   * [Sobre](#sobre)
    * [Tabela de Conteudo](#tabela-de-conteudo)
    * [Instalação](#instalacao)
-   * [Como usar](#como-usar)
-      * [Pre Requisitos](#pre-requisitos)
-      * [Local files](#local-files)
-      * [Remote files](#remote-files)
-      * [Multiple files](#multiple-files)
-      * [Combo](#combo)
-   * [Tests](#testes)
+   * [Status do Projeto](#status)
+   * [Features](#features)
+   * [Demonstração do Projeto](#demonstracao)
    * [Tecnologias](#tecnologias)
 <!--te-->
 
+</a>
 
-### Status do projeto
+<a name="instalacao">
+
+# Instalação
+
+Para usar a demonstração do projeto, você deverá instalar [React Native CLI](https://reactnative.dev/docs/environment-setup) em seu computador seguindo todos os passos da documentação. 
+
+Após o ambiente de desenvolvimento estar configurado, você poderá iniciar um novo repositório git local em sua máquina com o seguinte comando:
+
+ `git init`
+
+Em seguida clone o projeto: 
+
+ `git clone https://github.com/develcode-estagiarios-4/Develfood-Michael.git`
+
+Agora você deverá instalar as biblotecas do projeto: 
+
+ `yarn install`
+
+Tudo pronto, agora você consegue rodar o app no seu dispositivo ou emulador. Para abrir o app no emulador digite o seguinte comando no terminal da raiz do projeto:
+
+ `yarn android`
+
+E, em seguida:
+
+ `yarn start`
+
+</a>
+ 
+<a name="status">
+
+# Status do projeto
 <h4 align="center"> 
 	🚧  Develfood 🚀 Em construção...  🚧
 </h4>
 
-### Features
+</a>
 
-- [x] Navegação entre páginas
+
+<a name="features">
+
+# Features
+
+- [x] Tab bar customizada
 - [x] Splashscreen
-- [x] API rest
-- [] Mais em breve...
+- [x] API restful
+- Mais em breve...
 
-### Demonstração do projeto
+</a>
+
+
+<a name="demonstracao">
+
+# Demonstração do projeto
 
 ![](https://github.com/develcode-estagiarios-4/Develfood-Michael/blob/dev/src/assets/gif/navegacaoTab.gif)
 
-### 🛠 Tecnologias
+</a>
+
+
+<a name="tecnologias">
+
+# 🛠 Tecnologias
 
 As seguintes ferramentas foram usadas na construção do projeto:
 
 - [React Native](https://reactnative.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 
-
+</a>
 
 

@@ -1,28 +1,49 @@
+import { RFValue } from "react-native-responsive-fontsize";
+
 export default {
     colors: {
-        background: '##FFFFFF',
+        background: '#FFFFFF',
         background_red: '#C20C18',
+
         header: '#C20C18',
         button: '#C20C18',
+        card: '#F0F0F5',
+        input: '#BFBABA',
 
         text_white: '#FFFFFF',
         text_gray: '#BFBABA',
         text_dark: '#2B2B2E',
-
-        card: '#F0F0F5',
+        text_purple: '#68484A',
+        text_red: '#C20C18',
 
         icon_gray: '#BFBABA',
         icon_white: '#FFFFFF',
-        tab_icon: '#DEDCDC'
-        
+        icon_red: '#C20C18',
+        icon_dark: '#2B2B2E',
     },
 
     fonts: {
-        primary_400: 'Inter_400Regular',
-        primary_500: 'Inter_500Medium',
+        primaryReg: 'Inter-Regular',
+        primaryMed: 'Inter-Medium',
 
-        secondary_400: 'Archivo_400Regular',
-        secondary_500: 'Archivo_500Medium',
-        secondary_600: 'Archivo_700Bold',
+        secondaryReg: 'Archivo-Regular',
+        secondaryMed: 'Archivo-Medium',
+        secondaryBold: 'Archivo-Bold',
     },
-}
+
+    sizes: {
+        small: RFValue(12),
+        intermediate: RFValue(13),
+        medium: RFValue(14),
+        large: RFValue(16),
+        extraLarge: RFValue(20),
+        hiperMegaExtraLarge: RFValue(24)
+    },
+
+    icons: {
+        home: require('@assets/icons/home.png'),
+        favorites: require('@assets/icons/heart.png'),
+        historic: require('@assets/icons/historic.png'),
+        profile: require('@assets/icons/profile.png'),
+    },
+};

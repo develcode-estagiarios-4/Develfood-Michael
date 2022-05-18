@@ -1,33 +1,28 @@
 import React from 'react';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    useColorScheme,
-    View,
-} from 'react-native';
+    GestureHandlerRootView,
+    TouchableWithoutFeedback,
+} from 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { AppRoutes } from './src/Routes/routes';
-import { LogBox } from 'react-native';
-
+import { Keyboard, LogBox } from 'react-native';
 import { ThemeProvider } from 'styled-components';
 import theme from './src/styles/theme';
+import { Login } from '@screens/StackNavigator/Login';
+import RNBootSplash from 'react-native-bootsplash';
+import FlashMessage from 'react-native-flash-message';
 
 LogBox.ignoreLogs(["exported from 'deprecated-react-native-prop-types'."]);
 
 export default function App() {
+    RNBootSplash.hide({ fade: true });
+
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <ThemeProvider theme={theme}>
                 <NavigationContainer>
-                    <StatusBar
-                        translucent
-                        backgroundColor="transparent"
-                    />
-                    <AppRoutes />
+                    <Login />
+                    <FlashMessage position="top" />
                 </NavigationContainer>
             </ThemeProvider>
         </GestureHandlerRootView>
