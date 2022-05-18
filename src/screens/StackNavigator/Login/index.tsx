@@ -1,7 +1,7 @@
 import { Button } from '@components/Button';
 import { Input } from '@components/Input';
 import { usePost } from '@services/usePost';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import {
@@ -29,6 +29,7 @@ import {
     CadastreSe,
 } from './styles';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { AuthContext } from '../../../context/auth';
 
 export const Login = () => {
     const [isClicked, setIsClicked] = useState(false);
@@ -40,6 +41,8 @@ export const Login = () => {
             .required('O email é obrigatório'),
         password: yup.string().required('A senha é obrigatória'),
     });
+
+    const { logIn } = useContext(AuthContext)
 
     const {
         control,
@@ -61,12 +64,14 @@ export const Login = () => {
     }
 
     function handleLogin() {
+       
         const errorMessage =
             error?.response?.status === 409
                 ? 'Usuário ou senha inválidos'
                 : error?.message;
+        logIn();
         handlePost('Erro', 'danger', errorMessage);
-        reset({['email']: '', ['password']: ''});
+        //reset({['email']: '', ['password']: ''});
     }
 
     return (

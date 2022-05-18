@@ -11,6 +11,7 @@ import theme from './src/styles/theme';
 import { Login } from '@screens/StackNavigator/Login';
 import RNBootSplash from 'react-native-bootsplash';
 import FlashMessage from 'react-native-flash-message';
+import { AuthProvider } from './src/context/auth';
 
 LogBox.ignoreLogs(["exported from 'deprecated-react-native-prop-types'."]);
 
@@ -21,8 +22,10 @@ export default function App() {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <ThemeProvider theme={theme}>
                 <NavigationContainer>
-                    <Login />
-                    <FlashMessage position="top" />
+                    <AuthProvider>
+                        <Login />
+                        <FlashMessage position="top" />
+                    </AuthProvider>
                 </NavigationContainer>
             </ThemeProvider>
         </GestureHandlerRootView>
