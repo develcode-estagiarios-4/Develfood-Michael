@@ -12,7 +12,7 @@ export function Button({ title, isLoading, ...rest }: Props) {
     return (
         <Container>
             <Rect {...rest}>
-                {isLoading ? <ActivityIndicator /> : <Title>{title}</Title>}
+                {isLoading ? <ActivityIndicator color={'white'} size={'large'} /> : <Title>{title}</Title>}
             </Rect>
         </Container>
     );

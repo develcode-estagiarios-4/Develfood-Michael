@@ -20,3 +20,4 @@ export const Rect = styled(RectButton)`
     align-items: center;
     justify-content: center;
 `;
+
