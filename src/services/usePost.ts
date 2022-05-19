@@ -1,14 +1,14 @@
-import { AxiosError, AxiosRequestConfig } from 'axios';
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useState } from 'react';
 import { MessageOptions, showMessage } from 'react-native-flash-message';
 import { api } from './api';
 
-export function usePost<T = unknown>(
+export function usePost<T = unknown, TResponse = unknown>(
     endpoint: string,
     body: T,
     options?: AxiosRequestConfig
 ) {
-    const [data, setData] = useState({} as T);
+    const [data, setData] = useState({});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<unknown | Error>(null);
 

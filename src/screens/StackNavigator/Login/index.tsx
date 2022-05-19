@@ -39,7 +39,7 @@ export const Login = () => {
         password: yup.string().required('A senha é obrigatória'),
     });
 
-    const { logIn, loading } = useContext(AuthContext);
+    const { logIn, loading, token } = useContext(AuthContext);
 
     const {
         control,
@@ -59,8 +59,7 @@ export const Login = () => {
         let email = getValues('email');
         let password = getValues('password');
         logIn(email, password);
-
-        //reset({['email']: '', ['password']: ''});
+        //reset({['email']: '', ['password']: ''}); 
     }
 
     return (

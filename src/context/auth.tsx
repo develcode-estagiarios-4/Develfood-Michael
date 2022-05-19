@@ -12,18 +12,20 @@ interface AuthProviderProps {
     children: ReactNode;
 }
 
+interface TokenProps {
+    token: string;
+}
+
 interface RequestProps {
     endpoint: string;
     body: { email: string; password: string };
-    error: { message: string;
-        type: MessageType;
-        description: string};
+    error: { message: string; type: MessageType; description: string };
 }
 
 export const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
-    const [user, setUser] = useState({});
+    const [token, setToken] = useState('');
     //const [loading, setLoading] = useState(false)
     const [request, setRequest] = useState({} as RequestProps);
 
@@ -31,10 +33,19 @@ function AuthProvider({ children }: AuthProviderProps) {
         request.endpoint,
         request.body
     );
-    
+
     useEffect(() => {
-        !!request.body && handlePost(request?.error.message, request?.error.type, request?.error.description);
-    }, [request])
+        !!request.body &&
+            handlePost(
+                request?.error.message,
+                request?.error.type,
+                request?.error.description
+            );
+    }, [request]);
+
+    useEffect(() => {
+        !!data && setToken(data.token); 
+    }, [data]);
 
     function logIn(email: string, password: string) {
         setRequest({
@@ -46,18 +57,19 @@ function AuthProvider({ children }: AuthProviderProps) {
             error: {
                 message: 'Erro de autenticação',
                 type: 'danger',
-                description: 'Ops... Há algo de errado com seu email e/ou senha. Tente novamente.'
+                description:
+                    'Ops... Há algo de errado com seu email e/ou senha. Tente novamente.',
             },
         });
+        
     }
 
     return (
         <AuthContext.Provider
             value={{
-                //loading,
                 logIn,
-                token: data.token,
-                loading
+                token,
+                loading,
             }}
         >
             {children}
