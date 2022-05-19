@@ -1,10 +1,36 @@
 import React from 'react';
-import { Container } from './styles';
+import { ImageProps, ImageSourcePropType } from 'react-native';
+import {
+    BorderlessButton,
+    BorderlessButtonProps,
+} from 'react-native-gesture-handler';
+import {
+    ButtonContainer,
+    Container,
+    Icon,
+    MapContainer,
+    Title,
+} from './styles';
 
-export function Header() {
+interface Props extends BorderlessButtonProps {
+    source: ImageSourcePropType;
+    source2?: ImageSourcePropType;
+}
+
+export function Header({ source, source2, ...rest }: Props) {
     return (
         <Container>
-            
+            <BorderlessButton {...rest}>
+                <Icon source={source} />
+            </BorderlessButton>
+
+            <Title>Cadastro</Title>
+
+            {!!source2 && (
+                <BorderlessButton>
+                    <Icon source={source2} />
+                </BorderlessButton>
+            )}
         </Container>
     );
 }

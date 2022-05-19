@@ -5,7 +5,7 @@ import { ActivityIndicator, Button } from 'react-native';
 import { usePost } from '@services/usePost';
 import { useDelete } from '@services/useDelete';
 import { usePut } from '@services/usePut';
-import { HeaderHome } from '@components/HeaderHome';
+import { HeaderHome } from '@components/Header';
 import { AuthContext } from '../../../context/auth';
 
 export function Home({ navigation }: any) {

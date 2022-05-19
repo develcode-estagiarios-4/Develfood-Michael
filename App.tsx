@@ -4,7 +4,6 @@ import {
     TouchableWithoutFeedback,
 } from 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import { AppRoutes } from './src/Routes/routes';
 import { Keyboard, LogBox } from 'react-native';
 import { ThemeProvider } from 'styled-components';
 import theme from './src/styles/theme';

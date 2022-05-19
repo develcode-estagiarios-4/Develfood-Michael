@@ -28,7 +28,7 @@ import {
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { AuthContext } from '../../../context/auth';
 
-export const Login = () => {
+export function Login({ navigation }: any) {
     const [isClicked, setIsClicked] = useState(false);
 
     const schema = yup.object().shape({
@@ -124,7 +124,7 @@ export const Login = () => {
 
                     <CadastreSe>
                         <Text>Não possui cadastro? </Text>
-                        <EsqueceuSenha>
+                        <EsqueceuSenha onPress={() => { navigation.push('Cadastro'); console.log('Clicaste') }}>
                             <TitleButton>Cadastre-se aqui!</TitleButton>
                         </EsqueceuSenha>
                     </CadastreSe>
