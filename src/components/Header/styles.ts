@@ -1,10 +1,12 @@
-import styled from "styled-components/native";
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import styled from 'styled-components/native';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+import theme from '../../styles/theme';
 
 export const Container = styled.View`
-    background-color: ${props => props.theme.colors.background_red};
+    background-color: ${(props) => props.theme.colors.background};
     flex-direction: row;
-    height: ${RFValue(78)}px;
+    justify-content: space-between;
+    height: ${RFValue(55)}px;
     align-items: center;
     padding: 10px;
 `;
@@ -16,7 +18,11 @@ export const ButtonContainer = styled.View`
     align-items: center;
     width: 100%;
     margin-top: ${RFValue(5)}px;
-    
+`;
+
+export const UselessView = styled.View`
+    width: 50;
+    height: 50;
 `;
 
 export const MapContainer = styled.View`
@@ -25,8 +31,8 @@ export const MapContainer = styled.View`
 `;
 
 export const Icon = styled.Image.attrs({
-    resizeMode: "contain",
-    tintColor: "#fff"
+    resizeMode: 'contain',
+    tintColor: theme.colors.icon_dark,
 })`
     width: ${RFValue(35)}px;
     height: ${RFValue(35)}px;
@@ -34,5 +40,6 @@ export const Icon = styled.Image.attrs({
 
 export const Title = styled.Text`
     font-size: ${RFValue(14)}px;
-    color: ${props => props.theme.colors.text_white};
+    color: ${(props) => props.theme.colors.text_dark};
+    font-family: ${({ theme }) => theme.fonts.secondaryMed}
 `;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageProps, ImageSourcePropType } from 'react-native';
+import { ImageProps, ImageSourcePropType, View } from 'react-native';
 import {
     BorderlessButton,
     BorderlessButtonProps,
@@ -10,6 +10,7 @@ import {
     Icon,
     MapContainer,
     Title,
+    UselessView,
 } from './styles';
 
 interface Props extends BorderlessButtonProps {
@@ -20,11 +21,17 @@ interface Props extends BorderlessButtonProps {
 export function Header({ source, source2, ...rest }: Props) {
     return (
         <Container>
-            <BorderlessButton {...rest}>
-                <Icon source={source} />
-            </BorderlessButton>
+            {!source2 && (
+                <>
+                    <BorderlessButton {...rest}>
+                        <Icon source={source} />
+                    </BorderlessButton>
 
-            <Title>Cadastro</Title>
+                    <Title>Cadastro</Title>
+
+                    <UselessView />
+                </>
+            )}
 
             {!!source2 && (
                 <BorderlessButton>
