@@ -1,32 +1,28 @@
-import { AxiosError, AxiosRequestConfig } from 'axios';
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useState } from 'react';
 import { MessageOptions, showMessage } from 'react-native-flash-message';
 import { api } from './api';
 
-export function usePost<T = unknown>(
-    url: string,
+export function usePost<T = unknown, TResponse = unknown>(
+    endpoint: string,
     body: T,
     options?: AxiosRequestConfig
 ) {
-    const [data, setData] = useState({});
+    const [data, setData] = useState({} as TResponse);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<unknown | any>(null);
+    const [error, setError] = useState<unknown | Error>(null);
 
     async function handlePost(
         message: MessageOptions['message'],
         type: MessageOptions['type'],
-        description?: MessageOptions['description']
+        description: MessageOptions['description']
     ) {
         try {
             setLoading(true);
             setError(null);
             console.log(body)
-            const response = await api.post(url, body, options);
+            const response = await api.post(endpoint, body, options);
             setData(response.data);
-            response?.data?.token && showMessage({
-                message: 'Successfully posted',
-                type: 'success',
-            });
         } catch (e: any) {
             setError(e);
             console.log(e);

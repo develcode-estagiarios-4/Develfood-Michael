@@ -1,12 +1,10 @@
 import { Button } from '@components/Button';
 import { Input } from '@components/Input';
 import { usePost } from '@services/usePost';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import {
-    ActivityIndicator,
-    Alert,
     Keyboard,
     KeyboardAvoidingView,
     StatusBar,
@@ -21,7 +19,6 @@ import {
     Particles,
     Pizza,
     Form,
-    LogoWrapper,
     EsqueceuSenha,
     TitleButton,
     Text,
@@ -29,6 +26,7 @@ import {
     CadastreSe,
 } from './styles';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { AuthContext } from '../../../context/auth';
 
 export const Login = () => {
     const [isClicked, setIsClicked] = useState(false);
@@ -41,6 +39,8 @@ export const Login = () => {
         password: yup.string().required('A senha é obrigatória'),
     });
 
+    const { logIn, loading, token } = useContext(AuthContext);
+
     const {
         control,
         handleSubmit,
@@ -51,22 +51,15 @@ export const Login = () => {
         resolver: yupResolver(schema),
     });
 
-    const { data, loading, error, handlePost } = usePost('/auth', {
-        email: getValues('email'), // exemplo@email.com
-        password: getValues('password'), // 123456
-    });
-
     function handleChangeShowPasswordButton() {
         setIsClicked(!isClicked);
     }
 
     function handleLogin() {
-        const errorMessage =
-            error?.response?.status === 409
-                ? 'Usuário ou senha inválidos'
-                : error?.message;
-        handlePost('Erro', 'danger', errorMessage);
-        reset({['email']: '', ['password']: ''});
+        let email = getValues('email');
+        let password = getValues('password');
+        logIn(email, password);
+        //reset({['email']: '', ['password']: ''}); 
     }
 
     return (
@@ -98,7 +91,7 @@ export const Login = () => {
                             keyboardType="email-address"
                             source={require('@assets/icons/mail.png')}
                             placeholder={'exemplo@email.com'}
-                            editable={!loading}
+                            editable={!loading} // !loading
                         />
                         <Input
                             name={'password'}
@@ -113,7 +106,7 @@ export const Login = () => {
                                     : require('@assets/icons/eyeCrossed.png')
                             }
                             onPress={handleChangeShowPasswordButton}
-                            editable={!loading}
+                            editable={!loading} // !loading
                         />
                     </Form>
                     <ForgotPassword>
@@ -125,8 +118,8 @@ export const Login = () => {
                     <Button
                         title="Entrar"
                         onPress={handleSubmit(handleLogin)}
-                        isLoading={loading}
-                        enabled={!loading}
+                        isLoading={loading} // loading
+                        enabled={!loading} // !loading
                     />
 
                     <CadastreSe>

@@ -20,6 +20,8 @@ export default {
         icon_white: '#FFFFFF',
         icon_red: '#C20C18',
         icon_dark: '#2B2B2E',
+
+        divider: '#DDDDDD'
     },
 
     fonts: {

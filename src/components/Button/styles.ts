@@ -16,7 +16,8 @@ export const Rect = styled(RectButton)`
     background-color: ${({ theme }) => theme.colors.button};
     width: 100%;
     height: ${RFValue(50)}px;
-    border-radius: 10;
+    border-radius: 10px;
     align-items: center;
     justify-content: center;
 `;
+
