@@ -8,7 +8,7 @@ export function usePost<T = unknown, TResponse = unknown>(
     body: T,
     options?: AxiosRequestConfig
 ) {
-    const [data, setData] = useState({});
+    const [data, setData] = useState({} as TResponse);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<unknown | Error>(null);
 

@@ -12,7 +12,12 @@ interface AuthProviderProps {
     children: ReactNode;
 }
 
-interface TokenProps {
+interface LoginRequest { 
+    email: string;
+    password: string;
+}
+
+interface ResponseData {
     token: string;
 }
 
@@ -29,7 +34,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     //const [loading, setLoading] = useState(false)
     const [request, setRequest] = useState({} as RequestProps);
 
-    const { data, loading, error, handlePost } = usePost(
+    const { data, loading, error, handlePost } = usePost<LoginRequest, ResponseData>(
         request.endpoint,
         request.body
     );
