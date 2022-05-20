@@ -11,6 +11,7 @@ import {
     LeftIcon,
     RightIcon,
 } from './styles';
+import { cpf } from 'cpf-cnpj-validator';
 
 interface Props extends TextInputProps {
     source: ImageSourcePropType;
@@ -19,6 +20,8 @@ interface Props extends TextInputProps {
     control: Control;
     name: string;
     error: string;
+    editable?: boolean;
+    //onEndEditing?: TextInputProps['onEndEditing'];
 }
 
 export function Input({
@@ -28,6 +31,8 @@ export function Input({
     control,
     name,
     error,
+    editable,
+    //onEndEditing,
     ...rest
 }: Props) {
     return (
@@ -35,22 +40,16 @@ export function Input({
             <InputWrapper>
                 <RightIcon>
                     <Icon source={source} />
-                    <Controller
-                        control={control}
-                        name={name}
-                        render={({ field: { onChange, value } }) => (
-                            <TextInput
-                                style={{
-                                    marginHorizontal: 10,
-                                    flex: 1,
-                                    fontFamily: theme.fonts.primaryReg,
-                                    fontSize: theme.sizes.intermediate,
-                                }}
-                                onChangeText={onChange}
-                                value={value}
-                                {...rest}
-                            />
-                        )}
+                    <TextInput
+                        style={{
+                            marginHorizontal: 10,
+                            flex: 1,
+                            fontFamily: theme.fonts.primaryReg,
+                            fontSize: theme.sizes.intermediate,
+                        }}
+                        editable={editable}
+                   // onEndEditing={onEndEditing}
+                        {...rest}
                     />
                 </RightIcon>
 

@@ -12,8 +12,8 @@ export const ImageWrapper = styled.View`
 `;
 
 export const StepsDoneImage = styled.Image`
-    width: ${RFValue(230)}px;
-    height: ${RFValue(221)}px;
+    width: ${RFValue(232)}px;
+    height: ${RFValue(220)}px;
     position: absolute;
     align-self: center;
     top: ${RFValue(70)}px;

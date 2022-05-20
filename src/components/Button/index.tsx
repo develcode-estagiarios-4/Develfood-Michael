@@ -5,13 +5,14 @@ import { Container, Rect, Title } from './styles';
 
 interface Props extends RectButtonProps {
     title: string;
-    isLoading: boolean;
+    isLoading?: boolean;
+    onPress?: () => void; 
 }
 
-export function Button({ title, isLoading, ...rest }: Props) {
+export function Button({ title, isLoading, onPress, ...rest }: Props) {
     return (
         <Container>
-            <Rect {...rest}>
+            <Rect onPress={onPress} {...rest}>
                 {isLoading ? <ActivityIndicator color={'white'} size={'large'} /> : <Title>{title}</Title>}
             </Rect>
         </Container>

@@ -34,8 +34,8 @@ export const Icon = styled.Image.attrs({
     resizeMode: 'contain',
     tintColor: theme.colors.icon_dark,
 })`
-    width: ${RFValue(35)}px;
-    height: ${RFValue(35)}px;
+    width: ${RFValue(30)}px;
+    height: ${RFValue(30)}px;
 `;
 
 export const Title = styled.Text`

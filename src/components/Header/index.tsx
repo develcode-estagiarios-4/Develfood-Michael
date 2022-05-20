@@ -34,9 +34,16 @@ export function Header({ source, source2, ...rest }: Props) {
             )}
 
             {!!source2 && (
-                <BorderlessButton>
-                    <Icon source={source2} />
-                </BorderlessButton>
+                <>
+                    <BorderlessButton {...rest}>
+                        <Icon source={source} />
+                    </BorderlessButton>
+
+                    <Title>Cadastro</Title>
+                    <BorderlessButton>
+                        <Icon source={source2} />
+                    </BorderlessButton>
+                </>
             )}
         </Container>
     );

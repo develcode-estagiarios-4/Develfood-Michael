@@ -37,7 +37,7 @@ export const RightIcon = styled.View`
 export const ErrorWrapper = styled.View`
     width: 100%;
     justify-content: flex-start;
-    margin: -5px 0 10px 20px;
+    margin: -7px 0 5px 12px;
 `;
 
 export const Error = styled.Text`
