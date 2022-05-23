@@ -21,7 +21,7 @@ export default {
         icon_red: '#C20C18',
         icon_dark: '#2B2B2E',
 
-        divider: '#DDDDDD'
+        divider: '#DDDDDD',
     },
 
     fonts: {
@@ -34,12 +34,14 @@ export default {
     },
 
     sizes: {
+        verySmall: RFValue(11),
         small: RFValue(12),
         intermediate: RFValue(13),
         medium: RFValue(14),
         large: RFValue(16),
         extraLarge: RFValue(20),
-        hiperMegaExtraLarge: RFValue(24)
+        hiperMegaExtraLarge: RFValue(24),
+        container: 30,
     },
 
     icons: {

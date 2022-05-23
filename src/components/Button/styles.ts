@@ -15,7 +15,7 @@ export const Title = styled.Text`
 export const Rect = styled(RectButton)`
     background-color: ${({ theme }) => theme.colors.button};
     width: 100%;
-    height: ${RFValue(50)}px;
+    height: ${RFValue(45)}px;
     border-radius: 10px;
     align-items: center;
     justify-content: center;

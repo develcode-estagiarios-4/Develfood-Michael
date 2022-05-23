@@ -2,7 +2,7 @@ import React from 'react';
 import { Control, Controller, useForm } from 'react-hook-form';
 import { ImageSourcePropType, TextInputProps, View } from 'react-native';
 import { BorderlessButton, TextInput } from 'react-native-gesture-handler';
-import { TextInputMask, TextInputMaskMethods, TextInputMaskTypeProp } from 'react-native-masked-text';
+import { TextInputMask, TextInputMaskMethods, TextInputMaskOptionProp, TextInputMaskTypeProp } from 'react-native-masked-text';
 import theme from '../../styles/theme';
 import {
     Error,
@@ -21,6 +21,7 @@ interface Props extends TextInputProps {
     name: string;
     error: string;
     type: TextInputMaskTypeProp;
+    options?: TextInputMaskOptionProp;
 }
 
 export function MaskedInput({
@@ -31,6 +32,7 @@ export function MaskedInput({
     name,
     error,
     type,
+    options,
     ...rest
 }: Props) {
     return (
@@ -50,13 +52,9 @@ export function MaskedInput({
                     /> */}
                     <TextInputMask
                         type={type}
-                        options={{
-                            maskType: 'BRL',
-                            withDDD: true,
-                            dddMask: '(99) ',
-                        }}
+                        options={options}
                         style={{
-                            marginHorizontal: 10,
+                            marginLeft: 5,
                             flex: 1,
                             fontFamily: theme.fonts.primaryReg,
                             fontSize: theme.sizes.intermediate,

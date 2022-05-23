@@ -22,7 +22,7 @@ export const Hamburguer = styled.Image`
 export const Wrapper = styled.View`
     padding: 40px;
     z-index: 1;
-    margin-top: ${RFValue(170)}px;
+    margin-top: ${RFValue(185)}px;
 `;
 
 export const LogoWrapper = styled.View`
@@ -47,14 +47,19 @@ export const EsqueceuSenha = styled.TouchableOpacity.attrs({
     activeOpacity: 1
 })``;
 
-export const TitleButton = styled.Text`
+export const ForgotPasswordText = styled.Text`
     color: ${({ theme }) => theme.colors.text_red};
-    font-size: ${({ theme }) => theme.sizes.small};
+    font-size: ${({ theme }) => theme.sizes.verySmall};
+`;
+
+export const SignUpHere = styled.Text`
+    color: ${({ theme }) => theme.colors.text_red};
+    font-size: ${({ theme }) => theme.sizes.verySmall};
 `;
 
 export const Text = styled.Text`
     color: ${({ theme }) => theme.colors.text_purple};
-    font-size: ${({ theme }) => theme.sizes.small};
+    font-size: ${({ theme }) => theme.sizes.verySmall};
 `;
 
 export const CadastreSe = styled.View`

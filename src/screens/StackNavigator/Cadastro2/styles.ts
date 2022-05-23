@@ -21,7 +21,7 @@ export const StepsDoneImage = styled.Image`
 `;
 
 export const Wrapper = styled.View`
-    padding: 40px;
+    padding: ${RFValue(30)}px;
     z-index: 1;
     margin-top: ${RFValue(230)}px;
 `;

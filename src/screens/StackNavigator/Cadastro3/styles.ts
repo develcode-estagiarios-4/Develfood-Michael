@@ -1,5 +1,7 @@
-import { RFValue } from 'react-native-responsive-fontsize';
+import { Input } from '@components/Input';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
 
 export const Container = styled.View`
     flex: 1;
@@ -20,7 +22,30 @@ export const StepsDoneImage = styled.Image`
 `;
 
 export const Wrapper = styled.View`
-    padding: 40px;
+    padding: ${RFValue(30)}px;
     z-index: 1;
     margin-top: ${RFValue(230)}px;
+`;
+
+export const RowView = styled.View`
+    flex-direction: row;
+`;
+
+export const NicknameWrapper = styled.View`
+    width: 56%;
+    margin-right: 4%;  
+`;
+
+export const CepWrapper = styled.View`
+    width: 40%;
+`;
+
+export const StateWrapper = styled.View`
+    width: 48%;
+    margin-right: 2%;
+`;
+
+export const NumberWrapper = styled.View`
+    width: 48%;
+    margin-left: 2%;
 `;

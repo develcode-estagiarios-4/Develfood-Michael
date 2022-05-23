@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import {
     Keyboard,
-    KeyboardAvoidingView,
     StatusBar,
 } from 'react-native';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -20,7 +19,8 @@ import {
     Pizza,
     Form,
     EsqueceuSenha,
-    TitleButton,
+    ForgotPasswordText,
+    SignUpHere,
     Text,
     ForgotPassword,
     CadastreSe,
@@ -111,7 +111,9 @@ export function Login({ navigation }: any) {
                     </Form>
                     <ForgotPassword>
                         <EsqueceuSenha>
-                            <TitleButton>Esqueci minha senha</TitleButton>
+                            <ForgotPasswordText>
+                                Esqueci minha senha
+                            </ForgotPasswordText>
                         </EsqueceuSenha>
                     </ForgotPassword>
 
@@ -124,8 +126,13 @@ export function Login({ navigation }: any) {
 
                     <CadastreSe>
                         <Text>Não possui cadastro? </Text>
-                        <EsqueceuSenha onPress={() => { navigation.push('Cadastro'); console.log('Clicaste') }}>
-                            <TitleButton>Cadastre-se aqui!</TitleButton>
+                        <EsqueceuSenha
+                            onPress={() => {
+                                navigation.push('Cadastro');
+                                console.log('Clicaste');
+                            }}
+                        >
+                            <SignUpHere>Cadastre-se aqui!</SignUpHere>
                         </EsqueceuSenha>
                     </CadastreSe>
                 </Wrapper>

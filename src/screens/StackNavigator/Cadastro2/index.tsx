@@ -137,6 +137,11 @@ export function Cadastro2({ navigation }: any) {
                             <MaskedInput
                                 name={'telefone'}
                                 type={'cel-phone'}
+                                options={{
+                                    maskType: 'BRL',
+                                    withDDD: true,
+                                    dddMask: '(99) ',
+                                }}
                                 control={control}
                                 error={
                                     errors.telefone && errors.telefone.message
@@ -145,7 +150,7 @@ export function Cadastro2({ navigation }: any) {
                                 placeholder={'Telefone'}
                                 keyboardType="numeric"
                                 value={value}
-                                onChangeText={onChange}                             
+                                onChangeText={onChange}
                             />
                         )}
                         name={'telefone'}

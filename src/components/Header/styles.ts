@@ -21,8 +21,8 @@ export const ButtonContainer = styled.View`
 `;
 
 export const UselessView = styled.View`
-    width: 50;
-    height: 50;
+    width: ${RFValue(30)}px;
+    height: ${RFValue(30)}px;
 `;
 
 export const MapContainer = styled.View`
