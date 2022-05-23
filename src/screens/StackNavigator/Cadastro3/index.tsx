@@ -17,7 +17,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from '@components/Button';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Keyboard, View } from 'react-native';
-import { cpf as cpfvalidator } from 'cpf-cnpj-validator';
 import { MaskedInput } from '@components/MaskedInput';
 import { useCep } from '@services/cepApi';
 
