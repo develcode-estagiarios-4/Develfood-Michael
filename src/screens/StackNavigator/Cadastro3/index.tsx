@@ -29,9 +29,7 @@ export function Cadastro3({ navigation }: any) {
             .string()
             .min(3, 'O mínimo de caracteres é 3')
             .required('Campo obrigatório'),
-        cep: yup
-            .string()
-            .required('Campo obrigatório'),
+        cep: yup.string().required('Campo obrigatório'),
         rua: yup.string().required('Campo obrigatório'),
         cidade: yup.string().required('Campo obrigatório'),
         bairro: yup.string().required('Campo obrigatório'),
@@ -53,9 +51,9 @@ export function Cadastro3({ navigation }: any) {
     const { data, handleCep } = useCep(`/${cep}/json/`);
 
     function handleContinue() {
-        //let cep = getValues('CEP');
+        let cep = getValues('CEP');
     }
-    
+
     console.log(data.localidade);
     return (
         <TouchableWithoutFeedback
@@ -137,6 +135,7 @@ export function Cadastro3({ navigation }: any) {
                                 placeholder={'Rua'}
                                 value={value}
                                 onChangeText={onChange}
+                                defaultValue={data?.logradouro}
                             />
                         )}
                         name={'Rua'}
@@ -169,6 +168,7 @@ export function Cadastro3({ navigation }: any) {
                                 placeholder={'Bairro'}
                                 value={value}
                                 onChangeText={onChange}
+                                defaultValue={data?.bairro}
                             />
                         )}
                         name={'Bairro'}
@@ -188,6 +188,7 @@ export function Cadastro3({ navigation }: any) {
                                         placeholder={'Estado'}
                                         value={value}
                                         onChangeText={onChange}
+                                        defaultValue={data?.uf}
                                     />
                                 )}
                                 name={'Estado'}
