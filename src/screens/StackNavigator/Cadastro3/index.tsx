@@ -1,6 +1,6 @@
+import React, { useRef, useState } from 'react';
 import { Header } from '@components/Header';
 import { Input } from '@components/Input';
-import React, { useEffect, useRef, useState } from 'react';
 import { Container, StepsDoneImage, Wrapper } from './styles';
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
@@ -11,16 +11,14 @@ import { Keyboard } from 'react-native';
 import { cpf as cpfvalidator } from 'cpf-cnpj-validator';
 import { MaskedInput } from '@components/MaskedInput';
 
-export function Cadastro2({ navigation }: any) {
-    const [hidePassword, setHidePassword] = useState(false);
-    const [cpfFormatted, setCpfFormatted] = useState('');
+export function Cadastro3({ navigation }: any) {
 
     const schema = yup.object().shape({
-        nome: yup
+        apelidoEndereco: yup
             .string()
             .min(3, 'O mínimo de caracteres é 3')
             .required('Campo obrigatório'),
-        sobrenome: yup
+        cep: yup
             .string()
             .min(3, 'O mínimo de caracteres é 3')
             .notOneOf(
@@ -28,38 +26,34 @@ export function Cadastro2({ navigation }: any) {
                 'Nome e sobrenome não podem ser iguais'
             )
             .required('Campo obrigatório'),
-        cpf: yup.string().test('is-cpf', 'Insira um CPF válido', (value: any) => cpfvalidator.isValid(value)),
+        cpf: yup
+            .string()
+            .test('is-cpf', 'aaaaaa', (value: any) =>
+                cpfvalidator.isValid(value)
+            ),
         telefone: yup.string().required('Campo obrigatório'),
     });
 
     const {
         control,
         handleSubmit,
-        getValues, 
-        setValue,
+        getValues,
         formState: { errors },
         reset,
-        clearErrors
+        clearErrors,
     } = useForm({
         resolver: yupResolver(schema),
     });
 
-    useEffect(() => {
-        setValue('nome', 'Michael', { shouldValidate: true }); // remover useEffect antes do pull request
-        setValue('sobrenome', 'Junges');
-        setValue('cpf', cpfvalidator.generate());
-        setValue('telefone', '549999999999');
-    }, []);
-
     function handleContinue() {
         let nome = getValues('nome');
         let sobrenome = getValues('sobrenome');
-        let cpf = getValues('cpf');
+        let cpf: string = getValues('cpf');
         let telefone = getValues('telefone');
+
         console.log(
             `nome: ${nome}, sobrenome: ${sobrenome}, cpf: ${cpf}, telefone: ${telefone}`
         );
-        navigation.push('Cadastro2');
     }
 
     return (
@@ -145,7 +139,7 @@ export function Cadastro2({ navigation }: any) {
                                 placeholder={'Telefone'}
                                 keyboardType="numeric"
                                 value={value}
-                                onChangeText={onChange}                             
+                                onChangeText={onChange}
                             />
                         )}
                         name={'telefone'}

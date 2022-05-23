@@ -3,7 +3,7 @@ import { Input } from '@components/Input';
 import React, { useEffect, useState } from 'react';
 import { Container, StepsDoneImage, Wrapper } from './styles';
 import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from '@components/Button';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
@@ -39,15 +39,15 @@ export function Cadastro1({ navigation }: any) {
     });
 
     useEffect(() => {
-        setValue('email', 'seunome@email.com', { shouldValidate: true });
+        setValue('email', 'seunome@email.com', { shouldValidate: true }); //RETIRAR ISSO AQUI ANTES DO PULL REQUEST
         setValue('password', '123456');
         setValue('confirmPassword', '123456');
     }, []);
 
     function handleContinue() {
-        // let email = getValues('email');
-        // let password = getValues('password');
-        // let confirmPassword = getValues('confirmPassword');
+        let email = getValues('email');
+        let password = getValues('password');
+        let confirmPassword = getValues('confirmPassword');
 
         navigation.push('Cadastro1');
     }
@@ -69,59 +69,85 @@ export function Cadastro1({ navigation }: any) {
                     source={require('@assets/icons/cadastroConcluido0.png')}
                 />
                 <Wrapper>
-                    <Input
+                    <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                            <Input
+                                name={'email'}
+                                control={control}
+                                error={errors.email && errors.email.message}
+                                keyboardType="email-address"
+                                source={require('@assets/icons/mail.png')}
+                                placeholder={'exemplo@email.com'}
+                                value={value}
+                                onChangeText={onChange}
+                                //editable={!loading}
+                            />
+                        )}
                         name={'email'}
-                        control={control}
-                        error={errors.email && errors.email.message}
-                        keyboardType="email-address"
-                        source={require('@assets/icons/mail.png')}
-                        placeholder={'exemplo@email.com'}
-                        defaultValue={'seunome@email.com'}
-                        //editable={!loading}
                     />
-                    <Input
+                    <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                            <Input
+                                name={'password'}
+                                control={control}
+                                onChangeText={onChange}
+                                value={value}
+                                error={
+                                    errors.password && errors.password.message
+                                }
+                                secureTextEntry={!hidePassword}
+                                source={require('@assets/icons/lock.png')}
+                                placeholder={'senha'}
+                                source2={
+                                    hidePassword
+                                        ? require('@assets/icons/eye.png')
+                                        : require('@assets/icons/eyeCrossed.png')
+                                }
+                                onEndEditing={(e) => {
+                                    !!e.nativeEvent.text
+                                        ? setEnableConfirmPassword(true)
+                                        : setEnableConfirmPassword(false);
+                                }}
+                                onPress={() => {
+                                    setHidePassword(!hidePassword);
+                                }}
+                                //editable={!loading}
+                            />
+                        )}
                         name={'password'}
-                        control={control}
-                        error={errors.password && errors.password.message}
-                        secureTextEntry={!hidePassword}
-                        source={require('@assets/icons/lock.png')}
-                        placeholder={'senha'}
-                        source2={
-                            hidePassword
-                                ? require('@assets/icons/eye.png')
-                                : require('@assets/icons/eyeCrossed.png')
-                        }
-                        onEndEditing={(e) => {
-                            !!e.nativeEvent.text
-                                ? setEnableConfirmPassword(true)
-                                : setEnableConfirmPassword(false);
-                        }}
-                        onPress={() => {
-                            setHidePassword(!hidePassword);
-                        }}
-                        defaultValue={'abc123'}
-                        //editable={!loading}
                     />
-                    <Input
-                        name={'confirmPassword'}
+
+                    <Controller
                         control={control}
-                        error={
-                            errors.confirmPassword &&
-                            errors.confirmPassword.message
-                        }
-                        secureTextEntry={!hideConfirmPassword}
-                        source={require('@assets/icons/lock.png')}
-                        placeholder={'confirmar senha'}
-                        source2={
-                            hideConfirmPassword
-                                ? require('@assets/icons/eye.png')
-                                : require('@assets/icons/eyeCrossed.png')
-                        }
-                        onPress={() => {
-                            setHideConfirmPassword(!hideConfirmPassword);
-                        }}
-                        editable={enableConfirmPassword}
-                        defaultValue={'abc123'}
+                        render={({ field: { onChange, value } }) => (
+                            <Input
+                                name={'confirmPassword'}
+                                control={control}
+                                value={value}
+                                onChangeText={onChange}
+                                error={
+                                    errors.confirmPassword &&
+                                    errors.confirmPassword.message
+                                }
+                                secureTextEntry={!hideConfirmPassword}
+                                source={require('@assets/icons/lock.png')}
+                                placeholder={'confirmar senha'}
+                                source2={
+                                    hideConfirmPassword
+                                        ? require('@assets/icons/eye.png')
+                                        : require('@assets/icons/eyeCrossed.png')
+                                }
+                                onPress={() => {
+                                    setHideConfirmPassword(
+                                        !hideConfirmPassword
+                                    );
+                                }}
+                                editable={enableConfirmPassword}
+                            />
+                        )}
+                        name={'confirmPassword'}
                     />
 
                     <Button
