@@ -65,7 +65,7 @@ export function Cadastro3({ navigation }: any) {
         let bairro = getValues('bairro');
         let estado = getValues('estado');
         let numero = getValues('numero');
-        //navigation.navigate('SignInSuccess');
+        navigation.navigate('SignInSuccess');
     }
 
     return (

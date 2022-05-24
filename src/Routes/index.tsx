@@ -32,10 +32,10 @@ export function StackScreenRoutes() {
                 name="Cadastro2"
                 component={Cadastro3}
             />
-            {/* <Screen
+            <Screen
                 name="SignInSuccess"
                 component={SignInSuccess}
-            /> */}
+            />
         </Navigator>
     );
 }
