@@ -6,7 +6,7 @@ export const Container = styled.View`
     background-color: ${(props) => props.theme.colors.background};
     flex-direction: row;
     justify-content: space-between;
-    height: ${RFValue(55)}px;
+    height: ${RFValue(50)}px;
     align-items: center;
     padding: 10px;
 `;

@@ -36,12 +36,13 @@ export default {
     sizes: {
         verySmall: RFValue(11),
         small: RFValue(12),
-        intermediate: RFValue(13),
+        less_than_medium: RFValue(13),
         medium: RFValue(14),
         large: RFValue(16),
         extraLarge: RFValue(20),
         hiperMegaExtraLarge: RFValue(24),
-        container: 30,
+        huge: RFValue(26),
+        massive: RFValue(28),
     },
 
     icons: {

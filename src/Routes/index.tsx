@@ -1,14 +1,14 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Cadastro1 } from '@screens/StackNavigator/Cadastro1';
 import { Cadastro2 } from '@screens/StackNavigator/Cadastro2';
 import { Cadastro3 } from '@screens/StackNavigator/Cadastro3';
 import { Login } from '@screens/StackNavigator/Login';
-import React from 'react'
+import { SignInSuccess } from '@screens/StackNavigator/SignInSuccess';
 
 export function StackScreenRoutes() {
-
     const { Navigator, Screen } = createNativeStackNavigator();
-    
+
     return (
         <Navigator
             initialRouteName="Login"
@@ -32,6 +32,10 @@ export function StackScreenRoutes() {
                 name="Cadastro2"
                 component={Cadastro3}
             />
+            {/* <Screen
+                name="SignInSuccess"
+                component={SignInSuccess}
+            /> */}
         </Navigator>
     );
 }

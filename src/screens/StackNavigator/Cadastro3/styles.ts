@@ -3,7 +3,7 @@ import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
     flex: 1;
     background-color: ${({ theme }) => theme.colors.background};
 `;
@@ -18,7 +18,7 @@ export const StepsDoneImage = styled.Image`
     height: ${RFValue(220)}px;
     position: absolute;
     align-self: center;
-    top: ${RFValue(70)}px;
+    top: ${RFValue(20)}px;
 `;
 
 export const Wrapper = styled.View`
@@ -32,12 +32,12 @@ export const RowView = styled.View`
 `;
 
 export const NicknameWrapper = styled.View`
-    width: 56%;
+    width: 54%;
     margin-right: 4%;  
 `;
 
 export const CepWrapper = styled.View`
-    width: 40%;
+    width: 42%;
 `;
 
 export const StateWrapper = styled.View`

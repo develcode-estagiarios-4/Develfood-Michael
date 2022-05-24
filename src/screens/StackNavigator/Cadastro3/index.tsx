@@ -18,17 +18,15 @@ import { Button } from '@components/Button';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Keyboard, View } from 'react-native';
 import { MaskedInput } from '@components/MaskedInput';
-import { useCep } from '@services/cepApi';
+import { useCep } from '@services/ViaCep/cepApi';
 
 export function Cadastro3({ navigation }: any) {
-    const [request, setRequest] = useState('');
     const [cep, setCep] = useState('');
+    
+    const { data, handleCep } = useCep(`/${cep}/json/`);
 
     const schema = yup.object().shape({
-        apelidoEndereco: yup
-            .string()
-            .min(3, 'O mínimo de caracteres é 3')
-            .required('Campo obrigatório'),
+        apelido: yup.string().required('Campo obrigatório'),
         cep: yup.string().required('Campo obrigatório'),
         rua: yup.string().required('Campo obrigatório'),
         cidade: yup.string().required('Campo obrigatório'),
@@ -42,32 +40,47 @@ export function Cadastro3({ navigation }: any) {
         handleSubmit,
         getValues,
         formState: { errors },
+        setValue,
         reset,
         clearErrors,
     } = useForm({
         resolver: yupResolver(schema),
     });
 
-    const { data, handleCep } = useCep(`/${cep}/json/`);
+    useEffect(() => {
+        setValue('rua', data.logradouro);
+        setValue('cidade', data.localidade);
+        setValue('bairro', data.bairro);
+        setValue('estado', data.uf);
+        setValue('cep', cep)
+        //console.log(data)
+    }, [setValue, data])
 
     function handleContinue() {
-        let cep = getValues('CEP');
+        console.log('clicou');
+        let apelido = getValues('apelido');
+        let cep = getValues('cep');
+        let rua = getValues('rua');
+        let cidade = getValues('cidade');
+        let bairro = getValues('bairro');
+        let estado = getValues('estado');
+        let numero = getValues('numero');
+        //navigation.navigate('SignInSuccess');
     }
 
-    console.log(data.localidade);
     return (
         <TouchableWithoutFeedback
             style={{ flex: 1 }}
             containerStyle={{ flex: 1 }}
             onPress={Keyboard.dismiss}
         >
+            <Header
+                source={require('@assets/icons/back-arrow.png')}
+                onPress={() => {
+                    navigation.pop();
+                }}
+            />
             <Container>
-                <Header
-                    source={require('@assets/icons/back-arrow.png')}
-                    onPress={() => {
-                        navigation.pop();
-                    }}
-                />
                 <StepsDoneImage
                     source={require('@assets/icons/CadastroConcluido2.png')}
                 />
@@ -78,18 +91,19 @@ export function Cadastro3({ navigation }: any) {
                                 control={control}
                                 render={({ field: { onChange, value } }) => (
                                     <Input
-                                        name={'Apelido do endereço'}
+                                        name={'apelido'}
                                         control={control}
                                         error={
-                                            errors.nome && errors.nome.message
+                                            errors.apelido &&
+                                            errors.apelido.message
                                         }
-                                        source={require('@assets/icons/pessoa.png')}
+                                        source={require('@assets/icons/localizacao.png')}
                                         placeholder={'Apelido do End.'}
                                         value={value}
                                         onChangeText={onChange}
                                     />
                                 )}
-                                name={'Apelido do endereço'}
+                                name={'apelido'}
                             />
                         </NicknameWrapper>
 
@@ -98,28 +112,23 @@ export function Cadastro3({ navigation }: any) {
                                 control={control}
                                 render={({ field: { onChange, value } }) => (
                                     <MaskedInput
-                                        name={'CEP'}
+                                        name={'cep'}
                                         type={'zip-code'}
                                         control={control}
-                                        error={
-                                            errors.sobrenome &&
-                                            errors.sobrenome.message
-                                        }
-                                        source={require('@assets/icons/pessoa.png')}
+                                        error={errors.cep && errors.cep.message}
+                                        source={require('@assets/icons/localizacao.png')}
                                         placeholder={'CEP'}
                                         value={value}
-                                        onChangeText={(value) => {
+                                        onChangeText={(text) => {
                                             onChange;
-                                            setCep(value);
-                                            console.log(value);
+                                            setCep(text);
                                         }}
                                         onEndEditing={() => {
                                             handleCep();
                                         }}
-                                        //onEndEditing={(text) => { setCep(text.nativeEvent.text);  console.log(text.nativeEvent.text); }}
                                     />
                                 )}
-                                name={'CEP'}
+                                name={'cep'}
                             />
                         </CepWrapper>
                     </RowView>
@@ -128,50 +137,50 @@ export function Cadastro3({ navigation }: any) {
                         control={control}
                         render={({ field: { onChange, value } }) => (
                             <Input
-                                name={'Rua'}
+                                name={'rua'}
                                 control={control}
-                                error={errors.nome && errors.nome.message}
-                                source={require('@assets/icons/pessoa.png')}
+                                error={errors.rua && errors.rua.message}
+                                source={require('@assets/icons/localizacao.png')}
                                 placeholder={'Rua'}
                                 value={value}
                                 onChangeText={onChange}
-                                defaultValue={data?.logradouro}
                             />
                         )}
-                        name={'Rua'}
+                        name={'rua'}
                     />
 
                     <Controller
                         control={control}
                         render={({ field: { onChange, value } }) => (
                             <Input
-                                name={'Cidade'}
+                                name={'cidade'}
                                 control={control}
-                                error={errors.nome && errors.nome.message}
-                                source={require('@assets/icons/pessoa.png')}
+                                error={errors.cidade && errors.cidade.message}
+                                source={require('@assets/icons/localizacao.png')}
                                 placeholder={'Cidade'}
                                 value={value}
-                                defaultValue={data?.localidade}
-                                onChangeText={onChange}
+                                onChangeText={(text) => {
+                                    console.log(text);
+                                    onChange;
+                                }}
                             />
                         )}
-                        name={'Cidade'}
+                        name={'cidade'}
                     />
                     <Controller
                         control={control}
                         render={({ field: { onChange, value } }) => (
                             <Input
-                                name={'Bairro'}
+                                name={'bairro'}
                                 control={control}
-                                error={errors.nome && errors.nome.message}
-                                source={require('@assets/icons/pessoa.png')}
+                                error={errors.bairro && errors.bairro.message}
+                                source={require('@assets/icons/localizacao.png')}
                                 placeholder={'Bairro'}
                                 value={value}
                                 onChangeText={onChange}
-                                defaultValue={data?.bairro}
                             />
                         )}
-                        name={'Bairro'}
+                        name={'bairro'}
                     />
                     <RowView>
                         <StateWrapper>
@@ -179,19 +188,19 @@ export function Cadastro3({ navigation }: any) {
                                 control={control}
                                 render={({ field: { onChange, value } }) => (
                                     <Input
-                                        name={'Estado'}
+                                        name={'estado'}
                                         control={control}
                                         error={
-                                            errors.nome && errors.nome.message
+                                            errors.estado &&
+                                            errors.estado.message
                                         }
-                                        source={require('@assets/icons/pessoa.png')}
+                                        source={require('@assets/icons/localizacao.png')}
                                         placeholder={'Estado'}
                                         value={value}
                                         onChangeText={onChange}
-                                        defaultValue={data?.uf}
                                     />
                                 )}
-                                name={'Estado'}
+                                name={'estado'}
                             />
                         </StateWrapper>
                         <NumberWrapper>
@@ -199,18 +208,19 @@ export function Cadastro3({ navigation }: any) {
                                 control={control}
                                 render={({ field: { onChange, value } }) => (
                                     <Input
-                                        name={'Número'}
+                                        name={'numero'}
                                         control={control}
                                         error={
-                                            errors.nome && errors.nome.message
+                                            errors.numero &&
+                                            errors.numero.message
                                         }
-                                        source={require('@assets/icons/pessoa.png')}
+                                        source={require('@assets/icons/localizacao.png')}
                                         placeholder={'Número'}
                                         value={value}
                                         onChangeText={onChange}
                                     />
                                 )}
-                                name={'Número'}
+                                name={'numero'}
                             />
                         </NumberWrapper>
                     </RowView>

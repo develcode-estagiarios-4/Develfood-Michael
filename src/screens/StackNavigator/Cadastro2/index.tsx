@@ -29,7 +29,7 @@ export function Cadastro2({ navigation }: any) {
             )
             .required('Campo obrigatório'),
         cpf: yup.string().test('is-cpf', 'Insira um CPF válido', (value: any) => cpfvalidator.isValid(value)),
-        telefone: yup.string().required('Campo obrigatório'),
+        telefone: yup.string().min(12, 'Insira um número válido').required('Campo obrigatório'),
     });
 
     const {
