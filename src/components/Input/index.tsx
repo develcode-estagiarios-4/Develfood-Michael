@@ -19,6 +19,7 @@ interface Props extends TextInputProps {
     control: Control;
     name: string;
     error: string;
+    editable?: boolean;
 }
 
 export function Input({
@@ -28,6 +29,7 @@ export function Input({
     control,
     name,
     error,
+    editable,
     ...rest
 }: Props) {
     return (
@@ -35,22 +37,15 @@ export function Input({
             <InputWrapper>
                 <RightIcon>
                     <Icon source={source} />
-                    <Controller
-                        control={control}
-                        name={name}
-                        render={({ field: { onChange, value } }) => (
-                            <TextInput
-                                style={{
-                                    marginHorizontal: 10,
-                                    flex: 1,
-                                    fontFamily: theme.fonts.primaryReg,
-                                    fontSize: theme.sizes.intermediate,
-                                }}
-                                onChangeText={onChange}
-                                value={value}
-                                {...rest}
-                            />
-                        )}
+                    <TextInput
+                        style={{
+                            marginLeft: 5,
+                            flex: 1,
+                            fontFamily: theme.fonts.primaryReg,
+                            fontSize: theme.sizes.small
+                        }}
+                        editable={editable}
+                        {...rest}
                     />
                 </RightIcon>
 

@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 
 export const InputWrapper = styled.View`
     background-color: ${({ theme }) => theme.colors.background};
-    height: ${RFValue(50)}px;
+    height: ${RFValue(45)}px;
     border-width: 1px;
     border-color: ${({ theme }) => theme.colors.input};
     border-radius: 10px;
@@ -11,7 +11,7 @@ export const InputWrapper = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 0 15px;
+    padding: 0 10px;
 `;
 
 export const Icon = styled.Image.attrs({
@@ -37,7 +37,7 @@ export const RightIcon = styled.View`
 export const ErrorWrapper = styled.View`
     width: 100%;
     justify-content: flex-start;
-    margin: -5px 0 10px 20px;
+    margin: -12px 0 3px 8px;
 `;
 
 export const Error = styled.Text`
