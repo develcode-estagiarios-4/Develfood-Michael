@@ -10,10 +10,15 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Keyboard } from 'react-native';
 import { cpf as cpfvalidator } from 'cpf-cnpj-validator';
 import { MaskedInput } from '@components/MaskedInput';
+import { useNavigation } from '@react-navigation/native';
 
-export function Cadastro2({ navigation }: any) {
+export function Cadastro2({ route }: any) {
     const [hidePassword, setHidePassword] = useState(false);
     const [cpfFormatted, setCpfFormatted] = useState('');
+
+    const navigation = useNavigation();
+
+    const { email, password } = route.params;
 
     const schema = yup.object().shape({
         nome: yup
@@ -28,18 +33,25 @@ export function Cadastro2({ navigation }: any) {
                 'Nome e sobrenome não podem ser iguais'
             )
             .required('Campo obrigatório'),
-        cpf: yup.string().test('is-cpf', 'Insira um CPF válido', (value: any) => cpfvalidator.isValid(value)),
-        telefone: yup.string().min(12, 'Insira um número válido').required('Campo obrigatório'),
+        cpf: yup
+            .string()
+            .test('is-cpf', 'Insira um CPF válido', (value: any) =>
+                cpfvalidator.isValid(value)
+            ),
+        telefone: yup
+            .string()
+            .min(12, 'Insira um número válido')
+            .required('Campo obrigatório'),
     });
 
     const {
         control,
         handleSubmit,
-        getValues, 
+        getValues,
         setValue,
         formState: { errors },
         reset,
-        clearErrors
+        clearErrors,
     } = useForm({
         resolver: yupResolver(schema),
     });
@@ -52,14 +64,19 @@ export function Cadastro2({ navigation }: any) {
     }, []);
 
     function handleContinue() {
-        let nome = getValues('nome');
-        let sobrenome = getValues('sobrenome');
-        let cpf = getValues('cpf');
-        let telefone = getValues('telefone');
-        console.log(
-            `nome: ${nome}, sobrenome: ${sobrenome}, cpf: ${cpf}, telefone: ${telefone}`
+        const values = getValues();
+
+        navigation.navigate(
+            'Cadastro2' as never,
+            {
+                email,
+                password,
+                firstName: values.nome,
+                lastName: values.sobrenome,
+                cpf: values.cpf,
+                phone: values.telefone
+            } as never
         );
-        navigation.push('Cadastro2');
     }
 
     return (
@@ -72,7 +89,7 @@ export function Cadastro2({ navigation }: any) {
                 <Header
                     source={require('@assets/icons/back-arrow.png')}
                     onPress={() => {
-                        navigation.pop();
+                        navigation.goBack();
                     }}
                 />
                 <StepsDoneImage

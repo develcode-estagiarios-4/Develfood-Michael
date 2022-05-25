@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Header } from '@components/Header';
 import { Input } from '@components/Input';
 import {
@@ -16,14 +16,19 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from '@components/Button';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { Keyboard, View } from 'react-native';
+import { Alert, Keyboard, View } from 'react-native';
 import { MaskedInput } from '@components/MaskedInput';
 import { useCep } from '@services/ViaCep/cepApi';
+import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from '@context/auth';
 
-export function Cadastro3({ navigation }: any) {
+export function Cadastro3({ route }: any) {
     const [cep, setCep] = useState('');
-    
     const { data, handleCep } = useCep(`/${cep}/json/`);
+    const navigation = useNavigation();
+    const { email, password, firstName, lastName, cpf, phone } = route.params;
+
+    const { signUp, erro, loading } = useContext(AuthContext)
 
     const schema = yup.object().shape({
         apelido: yup.string().required('Campo obrigatório'),
@@ -52,22 +57,38 @@ export function Cadastro3({ navigation }: any) {
         setValue('cidade', data.localidade);
         setValue('bairro', data.bairro);
         setValue('estado', data.uf);
-        setValue('cep', cep)
+        setValue('cep', cep);
         //console.log(data)
-    }, [setValue, data])
+    }, [setValue, data]);
 
     function handleContinue() {
-        console.log('clicou');
-        let apelido = getValues('apelido');
-        let cep = getValues('cep');
-        let rua = getValues('rua');
-        let cidade = getValues('cidade');
-        let bairro = getValues('bairro');
-        let estado = getValues('estado');
-        let numero = getValues('numero');
-        //navigation.navigate('SignInSuccess');
-    }
 
+        const values = getValues();
+
+        signUp(
+            {
+                email,
+                password,
+                firstName,
+                lastName,
+                cpf,
+                phone,
+                street: values.rua,
+                number: values.numero,
+                neighborhood: values.bairro,
+                city: values.cidade,
+                zipcode: values.cep,
+                state: values.estado,
+                nickname: values.apelido,
+            } as never
+        );
+        
+        if (erro === false) {
+            navigation.navigate('Login' as never);
+            Alert.alert('pao', 'com manteiga');
+        }
+    }
+    
     return (
         <TouchableWithoutFeedback
             style={{ flex: 1 }}
@@ -77,7 +98,7 @@ export function Cadastro3({ navigation }: any) {
             <Header
                 source={require('@assets/icons/back-arrow.png')}
                 onPress={() => {
-                    navigation.pop();
+                    navigation.goBack();
                 }}
             />
             <Container>

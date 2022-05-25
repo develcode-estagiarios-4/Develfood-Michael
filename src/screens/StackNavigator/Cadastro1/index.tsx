@@ -8,11 +8,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from '@components/Button';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Keyboard } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-export function Cadastro1({ navigation }: any) {
+export function Cadastro1({ route }: any) {
     const [hidePassword, setHidePassword] = useState(false);
     const [hideConfirmPassword, setHideConfirmPassword] = useState(false);
     const [enableConfirmPassword, setEnableConfirmPassword] = useState(false);
+
+    const navigation = useNavigation();
 
     const schema = yup.object().shape({
         email: yup
@@ -45,11 +48,15 @@ export function Cadastro1({ navigation }: any) {
     }, []);
 
     function handleContinue() {
-        let email = getValues('email');
-        let password = getValues('password');
-        let confirmPassword = getValues('confirmPassword');
+        const values = getValues();
 
-        navigation.push('Cadastro1');
+        navigation.navigate(
+            'Cadastro1' as never,
+            {
+                email: values.email,
+                password: values.password,
+            } as never
+        );
     }
 
     return (
@@ -62,7 +69,7 @@ export function Cadastro1({ navigation }: any) {
                 <Header
                     source={require('@assets/icons/back-arrow.png')}
                     onPress={() => {
-                        navigation.pop();
+                        navigation.goBack();
                     }}
                 />
                 <StepsDoneImage
