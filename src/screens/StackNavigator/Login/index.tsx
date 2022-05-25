@@ -2,7 +2,7 @@ import { Button } from '@components/Button';
 import { Input } from '@components/Input';
 import { usePost } from '@services/usePost';
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import {
     ActivityIndicator,
@@ -91,29 +91,49 @@ export const Login = () => {
                 <Wrapper>
                     <Form>
                         <Logo source={require('@assets/icons/logoLogin.png')} />
-                        <Input
+                        <Controller
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                                <Input
+                                    name={'email'}
+                                    control={control}
+                                    error={errors.email && errors.email.message}
+                                    keyboardType="email-address"
+                                    source={require('@assets/icons/mail.png')}
+                                    placeholder={'exemplo@email.com'}
+                                    editable={!loading}
+                                    onChangeText={onChange}
+                                    value={value}
+                                />
+                            )}
                             name={'email'}
-                            control={control}
-                            error={errors.email && errors.email.message}
-                            keyboardType="email-address"
-                            source={require('@assets/icons/mail.png')}
-                            placeholder={'exemplo@email.com'}
-                            editable={!loading}
                         />
-                        <Input
-                            name={'password'}
+
+                        <Controller
                             control={control}
-                            error={errors.password && errors.password.message}
-                            secureTextEntry={!isClicked}
-                            source={require('@assets/icons/lock.png')}
-                            placeholder={'*********'}
-                            source2={
-                                isClicked
-                                    ? require('@assets/icons/eye.png')
-                                    : require('@assets/icons/eyeCrossed.png')
-                            }
-                            onPress={handleChangeShowPasswordButton}
-                            editable={!loading}
+                            render={({ field: { onChange, value } }) => (
+                                <Input
+                                    name={'password'}
+                                    control={control}
+                                    error={
+                                        errors.password &&
+                                        errors.password.message
+                                    }
+                                    secureTextEntry={!isClicked}
+                                    source={require('@assets/icons/lock.png')}
+                                    placeholder={'*********'}
+                                    source2={
+                                        isClicked
+                                            ? require('@assets/icons/eye.png')
+                                            : require('@assets/icons/eyeCrossed.png')
+                                    }
+                                    onPress={handleChangeShowPasswordButton}
+                                    editable={!loading}
+                                    onChangeText={onChange}
+                                    value={value}
+                                />
+                            )}
+                            name={'password'}
                         />
                     </Form>
                     <ForgotPassword>
@@ -124,7 +144,7 @@ export const Login = () => {
 
                     <Button
                         title="Entrar"
-                        onPress={handleSubmit(handleLogin)}
+                        onPress={() => handleSubmit(handleLogin)}
                         isLoading={loading}
                         enabled={!loading}
                     />
