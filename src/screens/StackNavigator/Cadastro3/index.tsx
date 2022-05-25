@@ -28,7 +28,7 @@ export function Cadastro3({ route }: any) {
     const navigation = useNavigation();
     const { email, password, firstName, lastName, cpf, phone } = route.params;
 
-    const { signUp, erro, loading } = useContext(AuthContext)
+    const { signUp, error, loading } = useContext(AuthContext);
 
     const schema = yup.object().shape({
         apelido: yup.string().required('Campo obrigatório'),
@@ -62,33 +62,30 @@ export function Cadastro3({ route }: any) {
     }, [setValue, data]);
 
     function handleContinue() {
-
         const values = getValues();
 
-        signUp(
-            {
-                email,
-                password,
-                firstName,
-                lastName,
-                cpf,
-                phone,
-                street: values.rua,
-                number: values.numero,
-                neighborhood: values.bairro,
-                city: values.cidade,
-                zipcode: values.cep,
-                state: values.estado,
-                nickname: values.apelido,
-            } as never
-        );
+        signUp({
+            email,
+            password,
+            firstName,
+            lastName,
+            cpf,
+            phone,
+            street: values.rua,
+            number: values.numero,
+            neighborhood: values.bairro,
+            city: values.cidade,
+            zipcode: values.cep,
+            state: values.estado,
+            nickname: values.apelido,
+        } as never);
+
+        if (error === null) {
+            navigation.navigate('SignUpSuccess' as never);
+        };
         
-        if (erro === false) {
-            navigation.navigate('Login' as never);
-            Alert.alert('pao', 'com manteiga');
-        }
     }
-    
+
     return (
         <TouchableWithoutFeedback
             style={{ flex: 1 }}
@@ -249,6 +246,7 @@ export function Cadastro3({ route }: any) {
                     <Button
                         title="Continuar"
                         onPress={handleSubmit(handleContinue)}
+                        isLoading={loading}
                     />
                 </Wrapper>
             </Container>

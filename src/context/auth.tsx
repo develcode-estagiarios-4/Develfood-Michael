@@ -1,4 +1,5 @@
 import { usePost } from '@services/usePost';
+import { AxiosError } from 'axios';
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import { MessageType } from 'react-native-flash-message';
 
@@ -22,7 +23,7 @@ interface AuthContextData {
     }: SignUpProps): void;
     token: string;
     loading: boolean;
-    erro: boolean;
+    error: unknown | Error
 }
 
 interface AuthProviderProps {
@@ -65,7 +66,6 @@ export const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
     const [request, setRequest] = useState({} as RequestProps);
-    const [erro, setErro] = useState(false);
 
     const { data, loading, error, handlePost } = usePost<
         LoginRequest,
@@ -79,7 +79,6 @@ function AuthProvider({ children }: AuthProviderProps) {
                 request?.error.type,
                 request?.error.description
             );
-        !!error ? setErro(true) : setErro(false);
     }, [request]);
 
     function signUp({
@@ -160,7 +159,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 signUp,
                 token: data.token,
                 loading,
-                erro,
+                error
             }}
         >
             {children}

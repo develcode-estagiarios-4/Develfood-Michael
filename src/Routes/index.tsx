@@ -4,6 +4,7 @@ import { Cadastro1 } from '@screens/StackNavigator/Cadastro1';
 import { Cadastro2 } from '@screens/StackNavigator/Cadastro2';
 import { Cadastro3 } from '@screens/StackNavigator/Cadastro3';
 import { Login } from '@screens/StackNavigator/Login';
+import { SignUpSuccess } from '@screens/StackNavigator/SignUpSuccess';
 // import { SignInSuccess } from '@screens/StackNavigator/SignInSuccess';
 
 export function StackScreenRoutes() {
@@ -32,10 +33,10 @@ export function StackScreenRoutes() {
                 name="Cadastro2"
                 component={Cadastro3}
             />
-            {/* <Screen
-                name="SignInSuccess"
-                component={SignInSuccess}
-            /> */}
+            <Screen
+                name="SignUpSuccess"
+                component={SignUpSuccess}
+            />
         </Navigator>
     );
 }

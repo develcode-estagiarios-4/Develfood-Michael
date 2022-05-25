@@ -33,6 +33,7 @@ export function usePost<T = unknown, TResponse = unknown>(
             });
         } finally {
             setLoading(false);
+            setError(null)
         }
     }
 

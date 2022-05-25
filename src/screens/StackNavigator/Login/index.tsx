@@ -58,7 +58,6 @@ export function Login({ navigation }: any) {
         let email = getValues('email');
         let password = getValues('password');
         logIn(email, password);
-        //reset({['email']: '', ['password']: ''}); 
     }
 
     return (
