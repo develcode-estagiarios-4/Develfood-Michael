@@ -1,12 +1,10 @@
 import { Button } from '@components/Button';
 import { Input } from '@components/Input';
-import { usePost } from '@services/usePost';
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import {
     Keyboard,
-    KeyboardAvoidingView,
     StatusBar,
 } from 'react-native';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -20,7 +18,8 @@ import {
     Pizza,
     Form,
     EsqueceuSenha,
-    TitleButton,
+    ForgotPasswordText,
+    SignUpHere,
     Text,
     ForgotPassword,
     CadastreSe,
@@ -28,7 +27,7 @@ import {
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { AuthContext } from '../../../context/auth';
 
-export const Login = () => {
+export function Login({ navigation }: any) {
     const [isClicked, setIsClicked] = useState(false);
 
     const schema = yup.object().shape({
@@ -111,7 +110,9 @@ export const Login = () => {
                     </Form>
                     <ForgotPassword>
                         <EsqueceuSenha>
-                            <TitleButton>Esqueci minha senha</TitleButton>
+                            <ForgotPasswordText>
+                                Esqueci minha senha
+                            </ForgotPasswordText>
                         </EsqueceuSenha>
                     </ForgotPassword>
 
@@ -124,8 +125,13 @@ export const Login = () => {
 
                     <CadastreSe>
                         <Text>Não possui cadastro? </Text>
-                        <EsqueceuSenha>
-                            <TitleButton>Cadastre-se aqui!</TitleButton>
+                        <EsqueceuSenha
+                            onPress={() => {
+                                navigation.push('Cadastro');
+                                console.log('Clicaste');
+                            }}
+                        >
+                            <SignUpHere>Cadastre-se aqui!</SignUpHere>
                         </EsqueceuSenha>
                     </CadastreSe>
                 </Wrapper>

@@ -1,8 +1,9 @@
 import { Login } from '@screens/StackNavigator/Login'
 import React, { useContext, useEffect } from 'react'
 import { AuthContext } from '../context/auth'
-import { AppRoutes } from './routes'
+import { TabScreenRoutes } from './routes'
 import RNBootSplash from 'react-native-bootsplash';
+import { StackScreenRoutes } from '.';
 
 export function AuthRoutes() {
 
@@ -14,7 +15,7 @@ export function AuthRoutes() {
 
     return (
         <>
-            {token ? <AppRoutes /> : <Login />}   
+            {token ? <TabScreenRoutes /> : <StackScreenRoutes />}   
         </>
     )
 }

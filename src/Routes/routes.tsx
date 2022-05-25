@@ -6,7 +6,7 @@ import { TabBar } from '@components/TabBar';
 import { Profile } from '@screens/TabNavigator/Profile';
 import { Historic } from '@screens/TabNavigator/Historic';
 
-export function AppRoutes() {
+export function TabScreenRoutes() {
     const { Navigator, Screen } = createBottomTabNavigator();
 
     return (
