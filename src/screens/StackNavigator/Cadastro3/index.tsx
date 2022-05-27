@@ -28,7 +28,7 @@ export function Cadastro3({ route }: any) {
     const navigation = useNavigation();
     const { email, password, firstName, lastName, cpf, phone } = route.params;
 
-    const { signUp, error, loading } = useContext(AuthContext);
+    const { signUp, loading } = useContext(AuthContext);
 
     const schema = yup.object().shape({
         apelido: yup.string().required('Campo obrigatório'),
@@ -80,9 +80,7 @@ export function Cadastro3({ route }: any) {
             nickname: values.apelido,
         } as never);
 
-        if (error === null) {
-            navigation.navigate('SignUpSuccess' as never);
-        };
+        
         
     }
 

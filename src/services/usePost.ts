@@ -24,6 +24,7 @@ export function usePost<T = unknown, TResponse = unknown>(
             
             const response = await api.post(endpoint, body, options);
             setData(response.data);
+            console.log(response.data)
             response.data && onSuccess && onSuccess(response.data);
         } catch (error: AxiosError<any, any> | any) {
             error && onError(error)

@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { usePost } from '@services/usePost';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import { MessageType, showMessage } from 'react-native-flash-message';
 
@@ -24,7 +24,7 @@ interface AuthContextData {
     }: SignUpProps): void;
     token: string;
     loading: boolean;
-    error: unknown | Error
+    
 }
 
 interface AuthProviderProps {
@@ -76,14 +76,15 @@ function AuthProvider({ children }: AuthProviderProps) {
     const navigation = useNavigation();
     
     function createUserSuccess(data: any) {
-        data && navigation.navigate('RegisterSuccess' as never);
+        data.password && navigation.navigate('SignUpSuccess' as never);
+        console.log("chamou a tela de sucesso")
     }
 
     function showErrorMessage(error: AxiosError<any, any> | any) {
-        showMessage({
+        error && showMessage({
             message: error?.response?.data?.message,
             type: 'danger',
-            description: error.response.data.description,
+            description: error?.response?.data?.description,
         });
     }
 
@@ -176,7 +177,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 signUp,
                 token: data.token,
                 loading,
-                error
+                
             }}
         >
             {children}

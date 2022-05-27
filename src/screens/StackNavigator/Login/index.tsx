@@ -1,7 +1,7 @@
 import { Button } from '@components/Button';
 import { Input } from '@components/Input';
 import React, { useContext, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import {
     Keyboard,
@@ -54,10 +54,11 @@ export function Login({ navigation }: any) {
         setIsClicked(!isClicked);
     }
 
+    
+
     function handleLogin() {
-        let email = getValues('email');
-        let password = getValues('password');
-        logIn(email, password);
+       const values = getValues();
+       logIn(values.email, values.password);
     }
 
     return (
@@ -82,29 +83,49 @@ export function Login({ navigation }: any) {
                 <Wrapper>
                     <Form>
                         <Logo source={require('@assets/icons/logoLogin.png')} />
-                        <Input
+                        <Controller
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                                <Input
+                                    name={'email'}
+                                    control={control}
+                                    error={errors.email && errors.email.message}
+                                    keyboardType="email-address"
+                                    source={require('@assets/icons/mail.png')}
+                                    placeholder={'exemplo@email.com'}
+                                    editable={!loading} // !loading
+                                    onChangeText={onChange}
+                                    value={value}
+                                />
+                            )}
                             name={'email'}
-                            control={control}
-                            error={errors.email && errors.email.message}
-                            keyboardType="email-address"
-                            source={require('@assets/icons/mail.png')}
-                            placeholder={'exemplo@email.com'}
-                            editable={!loading} // !loading
                         />
-                        <Input
-                            name={'password'}
+
+                        <Controller
                             control={control}
-                            error={errors.password && errors.password.message}
-                            secureTextEntry={!isClicked}
-                            source={require('@assets/icons/lock.png')}
-                            placeholder={'*********'}
-                            source2={
-                                isClicked
-                                    ? require('@assets/icons/eye.png')
-                                    : require('@assets/icons/eyeCrossed.png')
-                            }
-                            onPress={handleChangeShowPasswordButton}
-                            editable={!loading} // !loading
+                            render={({ field: { onChange, value } }) => (
+                                <Input
+                                    name={'password'}
+                                    control={control}
+                                    error={
+                                        errors.password &&
+                                        errors.password.message
+                                    }
+                                    secureTextEntry={!isClicked}
+                                    source={require('@assets/icons/lock.png')}
+                                    placeholder={'*********'}
+                                    source2={
+                                        isClicked
+                                            ? require('@assets/icons/eye.png')
+                                            : require('@assets/icons/eyeCrossed.png')
+                                    }
+                                    onPress={handleChangeShowPasswordButton}
+                                    editable={!loading} // !loading
+                                    onChangeText={onChange}
+                                    value={value}
+                                />
+                            )}
+                            name={'password'}
                         />
                     </Form>
                     <ForgotPassword>
