@@ -1,7 +1,8 @@
+import { useNavigation } from '@react-navigation/native';
 import { usePost } from '@services/usePost';
 import { AxiosError } from 'axios';
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
-import { MessageType } from 'react-native-flash-message';
+import { MessageType, showMessage } from 'react-native-flash-message';
 
 interface AuthContextData {
     logIn(email: string, password: string): void;
@@ -67,17 +68,33 @@ export const AuthContext = createContext({} as AuthContextData);
 function AuthProvider({ children }: AuthProviderProps) {
     const [request, setRequest] = useState({} as RequestProps);
 
-    const { data, loading, error, handlePost } = usePost<
+    const { data, loading, handlePost } = usePost<
         LoginRequest,
         ResponseData
-    >(request.endpoint, request.body);
+        >(request.endpoint, request.body);
+    
+    const navigation = useNavigation();
+    
+    function createUserSuccess(data: any) {
+        data && navigation.navigate('RegisterSuccess' as never);
+    }
+
+    function showErrorMessage(error: AxiosError<any, any> | any) {
+        showMessage({
+            message: error?.response?.data?.message,
+            type: 'danger',
+            description: error.response.data.description,
+        });
+    }
 
     useEffect(() => {
         !!request.body &&
             handlePost(
                 request?.error.message,
                 request?.error.type,
-                request?.error.description
+                request?.error.description,
+                showErrorMessage,
+                createUserSuccess
             );
     }, [request]);
 
