@@ -80,22 +80,12 @@ function AuthProvider({ children }: AuthProviderProps) {
             console.log('chamou a tela de sucesso');
     }
 
-    function showErrorMessage(error: AxiosError<any, any> | any) {
-        error &&
-            showMessage({
-                message: error?.response?.data?.message,
-                type: 'danger',
-                description: error?.response?.data?.description,
-            });
-    }
-
     useEffect(() => {
         !!request.body &&
             handlePost(
                 request?.error.message,
                 request?.error.type,
                 request?.error.description,
-                showErrorMessage,
                 createUserSuccess
             );
     }, [request]);

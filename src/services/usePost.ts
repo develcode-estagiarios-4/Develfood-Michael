@@ -15,19 +15,16 @@ export function usePost<T = unknown, TResponse = unknown>(
         message: MessageOptions['message'],
         type: MessageOptions['type'],
         description: MessageOptions['description'],
-        onError: (error: AxiosError<any, any>) => void,
         onSuccess?: (response: TResponse) => void
         
     ) {
         try {
             setLoading(true);
-            
             const response = await api.post(endpoint, body, options);
             setData(response.data);
             console.log(response.data)
             response.data && onSuccess && onSuccess(response.data);
         } catch (error: AxiosError<any, any> | any) {
-            error && onError(error)
             console.log(error.response.data);
             showMessage({
                 message,

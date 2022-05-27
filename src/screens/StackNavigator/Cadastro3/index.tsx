@@ -21,26 +21,38 @@ import { MaskedInput } from '@components/MaskedInput';
 import { useCep } from '@services/ViaCep/cepApi';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '@context/auth';
-import { AxiosError } from 'axios';
+
+interface RequestProps {
+    endpoint: string;
+}
 
 export function Cadastro3({ route }: any) {
     const [cep, setCep] = useState('');
-    const { data, handleCep, error } = useCep(`/${cep}/json/`);
+    const [request, setRequest] = useState({} as RequestProps);
+    const [isError, setIsError] = useState(false);
+    const { data, handleCep } = useCep(request.endpoint);
     const navigation = useNavigation();
     const { email, password, firstName, lastName, cpf, phone } = route.params;
 
     const { signUp, loading } = useContext(AuthContext);
 
-    const cepError = error === null ? true : false;
+    function onSuccess(data: any) {
+        data.localidade
+            ? (setIsError(false), console.log('isError agora é false'))
+            : (setIsError(true), console.log('isError agora é true'));
+    }
 
     const schema = yup.object().shape({
         apelido: yup.string().required('Campo obrigatório'),
-        cep: yup.string().test('is-cep', 'CEP inválido', () => cepError),
+        cep: yup.string().min(9, 'Cep inválido').test('is-cep', 'CEP inválido', () => !isError),
         rua: yup.string().required('Campo obrigatório'),
         cidade: yup.string().required('Campo obrigatório'),
         bairro: yup.string().required('Campo obrigatório'),
         estado: yup.string().required('Campo obrigatório'),
-        numero: yup.number().required('Campo obrigatório').typeError('Insira um número'),
+        numero: yup
+            .number()
+            .required('Campo obrigatório')
+            .typeError('Insira um número'),
     });
 
     const {
@@ -54,6 +66,10 @@ export function Cadastro3({ route }: any) {
     } = useForm({
         resolver: yupResolver(schema),
     });
+
+    useEffect(() => {
+        !!request.endpoint && handleCep(onSuccess);
+    }, [request]);
 
     useEffect(() => {
         setValue('rua', data.logradouro);
@@ -82,9 +98,10 @@ export function Cadastro3({ route }: any) {
             state: values.estado,
             nickname: values.apelido,
         } as never);
+    }
 
-        
-        
+    function handleCepInput() {
+        setRequest({ endpoint: `/${cep}/json/` });
     }
 
     return (
@@ -143,7 +160,7 @@ export function Cadastro3({ route }: any) {
                                             setCep(text);
                                         }}
                                         onEndEditing={() => {
-                                            handleCep();
+                                            handleCepInput();
                                         }}
                                     />
                                 )}
