@@ -24,7 +24,6 @@ interface AuthContextData {
     }: SignUpProps): void;
     token: string;
     loading: boolean;
-    
 }
 
 interface AuthProviderProps {
@@ -68,24 +67,26 @@ export const AuthContext = createContext({} as AuthContextData);
 function AuthProvider({ children }: AuthProviderProps) {
     const [request, setRequest] = useState({} as RequestProps);
 
-    const { data, loading, handlePost } = usePost<
-        LoginRequest,
-        ResponseData
-        >(request.endpoint, request.body);
-    
+    const { data, loading, handlePost } = usePost<LoginRequest, ResponseData>(
+        request.endpoint,
+        request.body
+    );
+
     const navigation = useNavigation();
-    
+
     function createUserSuccess(data: any) {
-        data.password && navigation.navigate('SignUpSuccess' as never);
-        console.log("chamou a tela de sucesso")
+        data.password &&
+            navigation.navigate('SignUpSuccess' as never) &&
+            console.log('chamou a tela de sucesso');
     }
 
     function showErrorMessage(error: AxiosError<any, any> | any) {
-        error && showMessage({
-            message: error?.response?.data?.message,
-            type: 'danger',
-            description: error?.response?.data?.description,
-        });
+        error &&
+            showMessage({
+                message: error?.response?.data?.message,
+                type: 'danger',
+                description: error?.response?.data?.description,
+            });
     }
 
     useEffect(() => {
@@ -177,7 +178,6 @@ function AuthProvider({ children }: AuthProviderProps) {
                 signUp,
                 token: data.token,
                 loading,
-                
             }}
         >
             {children}
