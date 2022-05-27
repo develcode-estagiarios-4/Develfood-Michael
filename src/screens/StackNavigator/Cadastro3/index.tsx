@@ -21,23 +21,26 @@ import { MaskedInput } from '@components/MaskedInput';
 import { useCep } from '@services/ViaCep/cepApi';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '@context/auth';
+import { AxiosError } from 'axios';
 
 export function Cadastro3({ route }: any) {
     const [cep, setCep] = useState('');
-    const { data, handleCep } = useCep(`/${cep}/json/`);
+    const { data, handleCep, error } = useCep(`/${cep}/json/`);
     const navigation = useNavigation();
     const { email, password, firstName, lastName, cpf, phone } = route.params;
 
     const { signUp, loading } = useContext(AuthContext);
 
+    const cepError = error === null ? true : false;
+
     const schema = yup.object().shape({
         apelido: yup.string().required('Campo obrigatório'),
-        cep: yup.string().required('Campo obrigatório'),
+        cep: yup.string().test('is-cep', 'CEP inválido', () => cepError),
         rua: yup.string().required('Campo obrigatório'),
         cidade: yup.string().required('Campo obrigatório'),
         bairro: yup.string().required('Campo obrigatório'),
         estado: yup.string().required('Campo obrigatório'),
-        numero: yup.string().required('Campo obrigatório'),
+        numero: yup.number().required('Campo obrigatório').typeError('Insira um número'),
     });
 
     const {

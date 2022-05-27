@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { useEffect, useState } from 'react';
 
 const api = axios.create({
@@ -15,16 +15,18 @@ interface Data {
 export function useCep(url: string, options?: AxiosRequestConfig) {
     const [data, setData] = useState<Data>({} as Data);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<Error | null | unknown>(null);
+    const [error, setError] = useState<any>(null);
 
    
         async function handleCep() {
             try {
                 setLoading(true);
+                setError(null)
                 const response = await api.get(url, options);
                 setData(response.data);
-            } catch (e) {
+            } catch (e: AxiosError<any, any> | any) {
                 setError(e);
+                console.log(e?.response.data)
             } finally {
                 setLoading(false);
             }
