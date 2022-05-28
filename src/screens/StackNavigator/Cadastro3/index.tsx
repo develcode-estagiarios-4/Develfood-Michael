@@ -69,12 +69,15 @@ export function Cadastro3({ route }: any) {
 
     useEffect(() => {
         !!request.endpoint && handleCep(onSuccess);
+    }, [request]);
+
+    useEffect(() => {
          setValue('rua', data.logradouro);
          setValue('cidade', data.localidade);
          setValue('bairro', data.bairro);
          setValue('estado', data.uf);
          setValue('cep', cep);
-    }, [request, data]);
+     }, [data]);
 
     function handleContinue() {
         const values = getValues();

@@ -24,7 +24,6 @@ interface AuthContextData {
     }: SignUpProps): void;
     token: string;
     loading: boolean;
-    isError: boolean;
 }
 
 interface AuthProviderProps {
@@ -67,7 +66,7 @@ export const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
     const [request, setRequest] = useState({} as RequestProps);
-    const [isError, setIsError] = useState(false);
+    const [isData, setIsData] = useState(false);
 
     const navigation = useNavigation();
 
@@ -82,7 +81,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 request?.error.message,
                 request?.error.type,
                 request?.error.description,
-                (onError) => { onError && setIsError(true) },
+                (data) => { data && setIsData(true), console.log(data) },
             );
     }, [request]);
 
@@ -140,7 +139,7 @@ function AuthProvider({ children }: AuthProviderProps) {
             },
         });
 
-        !isError && navigation.navigate('SignUpSuccess' as never);
+        !isData && navigation.navigate('SignUpSuccess' as never);
     }
 
     function logIn(email: string, password: string) {
@@ -166,7 +165,6 @@ function AuthProvider({ children }: AuthProviderProps) {
                 signUp,
                 token: data.token,
                 loading,
-                isError,
             }}
         >
             {children}
