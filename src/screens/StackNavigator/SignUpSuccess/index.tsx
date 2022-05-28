@@ -11,23 +11,8 @@ import { Keyboard, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 export function SignUpSuccess() {
-    const [hidePassword, setHidePassword] = useState(false);
-    const [hideConfirmPassword, setHideConfirmPassword] = useState(false);
-    const [enableConfirmPassword, setEnableConfirmPassword] = useState(false);
 
     const navigation = useNavigation();
-
-    const schema = yup.object().shape({
-        email: yup
-            .string()
-            .email('Por favor, insira um email válido')
-            .required('O email é obrigatório'),
-        password: yup.string().required('A senha é obrigatória'),
-        confirmPassword: yup
-            .string()
-            .oneOf([yup.ref('password'), null], 'As senhas não coincidem')
-            .required('A senha é obrigatória'),
-    });
 
     function handleConclude() {
         navigation.navigate('Login' as never);

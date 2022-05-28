@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import { usePost } from '@services/usePost';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
-import { MessageType, showMessage } from 'react-native-flash-message';
+import { MessageType } from 'react-native-flash-message';
 
 interface AuthContextData {
     logIn(email: string, password: string): void;
@@ -24,6 +24,7 @@ interface AuthContextData {
     }: SignUpProps): void;
     token: string;
     loading: boolean;
+    isError: boolean;
 }
 
 interface AuthProviderProps {
@@ -66,19 +67,14 @@ export const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
     const [request, setRequest] = useState({} as RequestProps);
+    const [isError, setIsError] = useState(false);
+
+    const navigation = useNavigation();
 
     const { data, loading, handlePost } = usePost<LoginRequest, ResponseData>(
         request.endpoint,
         request.body
     );
-
-    const navigation = useNavigation();
-
-    function createUserSuccess(data: any) {
-        data.password &&
-            navigation.navigate('SignUpSuccess' as never) &&
-            console.log('chamou a tela de sucesso');
-    }
 
     useEffect(() => {
         !!request.body &&
@@ -86,7 +82,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 request?.error.message,
                 request?.error.type,
                 request?.error.description,
-                createUserSuccess
+                (onError) => { onError && setIsError(true) },
             );
     }, [request]);
 
@@ -143,6 +139,8 @@ function AuthProvider({ children }: AuthProviderProps) {
                     'Ops... Não foi possível concluir a sua solicitação. Tente novamente.',
             },
         });
+
+        !isError && navigation.navigate('SignUpSuccess' as never);
     }
 
     function logIn(email: string, password: string) {
@@ -168,6 +166,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 signUp,
                 token: data.token,
                 loading,
+                isError,
             }}
         >
             {children}

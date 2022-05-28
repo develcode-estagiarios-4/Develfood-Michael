@@ -69,16 +69,12 @@ export function Cadastro3({ route }: any) {
 
     useEffect(() => {
         !!request.endpoint && handleCep(onSuccess);
-    }, [request]);
-
-    useEffect(() => {
-        setValue('rua', data.logradouro);
-        setValue('cidade', data.localidade);
-        setValue('bairro', data.bairro);
-        setValue('estado', data.uf);
-        setValue('cep', cep);
-        //console.log(data)
-    }, [setValue, data]);
+         setValue('rua', data.logradouro);
+         setValue('cidade', data.localidade);
+         setValue('bairro', data.bairro);
+         setValue('estado', data.uf);
+         setValue('cep', cep);
+    }, [request, data]);
 
     function handleContinue() {
         const values = getValues();
@@ -265,6 +261,7 @@ export function Cadastro3({ route }: any) {
                         title="Continuar"
                         onPress={handleSubmit(handleContinue)}
                         isLoading={loading}
+                        enabled={!loading}
                     />
                 </Wrapper>
             </Container>
