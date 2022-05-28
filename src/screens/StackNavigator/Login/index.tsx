@@ -23,6 +23,7 @@ import {
     Text,
     ForgotPassword,
     CadastreSe,
+    LoginButton,
 } from './styles';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { AuthContext } from '../../../context/auth';
@@ -136,7 +137,7 @@ export function Login({ navigation }: any) {
                         </EsqueceuSenha>
                     </ForgotPassword>
 
-                    <Button
+                    <LoginButton
                         title="Entrar"
                         onPress={handleSubmit(handleLogin)}
                         isLoading={loading} // loading

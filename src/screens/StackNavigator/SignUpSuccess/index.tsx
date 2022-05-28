@@ -1,6 +1,6 @@
 import { Header } from '@components/Header';
 import React from 'react';
-import { Container, OkButton, StepsDoneImage, Subtitle, Title, Wrapper } from './styles';
+import { Container, OkButton, StepsDoneImage, Subtitle, Title, TitleWrapper, Wrapper } from './styles';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -29,8 +29,13 @@ export function SignUpSuccess() {
                 <StepsDoneImage
                     source={require('@assets/icons/CadastroFinalizado.png')}
                 />
+                
+                 <TitleWrapper>
+                        <Title>Cadastro</Title>
+                        <Title>finalizado!</Title>
+                </TitleWrapper>
+                
                 <Wrapper>
-                    <Title>Cadastro finalizado!</Title>
                     <Subtitle>
                         Parabéns! Agora você pode aproveitar nossas ofertas e
                         serviços e economizar com super cupons Develfood.

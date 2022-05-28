@@ -44,7 +44,7 @@ export function Cadastro3({ route }: any) {
 
     const schema = yup.object().shape({
         apelido: yup.string().required('Campo obrigatório'),
-        cep: yup.string().min(9, 'Cep inválido').test('is-cep', 'CEP inválido', () => !isError),
+        cep: yup.string().min(9, 'Cep inválido').test('is-cep', 'Cep inválido', () => !isError),
         rua: yup.string().required('Campo obrigatório'),
         cidade: yup.string().required('Campo obrigatório'),
         bairro: yup.string().required('Campo obrigatório'),
@@ -136,6 +136,7 @@ export function Cadastro3({ route }: any) {
                                         placeholder={'Apelido do End.'}
                                         value={value}
                                         onChangeText={onChange}
+                                        editable={!loading}
                                     />
                                 )}
                                 name={'apelido'}
@@ -161,6 +162,7 @@ export function Cadastro3({ route }: any) {
                                         onEndEditing={() => {
                                             handleCepInput();
                                         }}
+                                        editable={!loading}
                                     />
                                 )}
                                 name={'cep'}
@@ -179,6 +181,7 @@ export function Cadastro3({ route }: any) {
                                 placeholder={'Rua'}
                                 value={value}
                                 onChangeText={onChange}
+                                editable={!loading}
                             />
                         )}
                         name={'rua'}
@@ -198,6 +201,7 @@ export function Cadastro3({ route }: any) {
                                     console.log(text);
                                     onChange;
                                 }}
+                                editable={!loading}
                             />
                         )}
                         name={'cidade'}
@@ -213,6 +217,7 @@ export function Cadastro3({ route }: any) {
                                 placeholder={'Bairro'}
                                 value={value}
                                 onChangeText={onChange}
+                                editable={!loading}
                             />
                         )}
                         name={'bairro'}
@@ -233,6 +238,7 @@ export function Cadastro3({ route }: any) {
                                         placeholder={'Estado'}
                                         value={value}
                                         onChangeText={onChange}
+                                        editable={!loading}
                                     />
                                 )}
                                 name={'estado'}
@@ -253,6 +259,7 @@ export function Cadastro3({ route }: any) {
                                         placeholder={'Número'}
                                         value={value}
                                         onChangeText={onChange}
+                                        editable={!loading}
                                     />
                                 )}
                                 name={'numero'}

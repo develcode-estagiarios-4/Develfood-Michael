@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+import { Button } from '@components/Button';
 
 export const Container = styled.View`
     flex:1;
@@ -20,7 +21,7 @@ export const Hamburguer = styled.Image`
 `;
 
 export const Wrapper = styled.View`
-    padding: 40px;
+    padding: ${RFValue(35)}px;
     z-index: 1;
     margin-top: ${RFValue(185)}px;
 `;
@@ -50,6 +51,10 @@ export const EsqueceuSenha = styled.TouchableOpacity.attrs({
 export const ForgotPasswordText = styled.Text`
     color: ${({ theme }) => theme.colors.text_red};
     font-size: ${({ theme }) => theme.sizes.verySmall};
+`;
+
+export const LoginButton = styled(Button)`
+    margin-top: -12px;
 `;
 
 export const SignUpHere = styled.Text`

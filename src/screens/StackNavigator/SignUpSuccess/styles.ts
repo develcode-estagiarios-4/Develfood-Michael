@@ -1,12 +1,13 @@
 import { Button } from '@components/Button';
+import { Dimensions, useWindowDimensions } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
     flex: 1;
     background-color: ${({ theme }) => theme.colors.background};
-    padding: ${RFValue(30)}px;
-    padding-top: ${RFValue(95)}px;
+    padding: ${RFValue(35)}px;
+    padding-top: ${RFValue(90)}px;
 `;
 
 
@@ -18,15 +19,19 @@ export const StepsDoneImage = styled.Image`
 `;
 
 export const Wrapper = styled.View`
-    //background-color: chartreuse;
-    padding: 0 ${RFValue(4)}px;
+    padding: 0 ${RFValue(15)}px;
 `;
 
+export const TitleWrapper = styled.View`
+    flex-direction: row;
+    justify-content: space-evenly;
+
+`;
 
 export const Title = styled.Text`
-    font-size: ${({ theme }) => theme.sizes.huge};
+    font-size: ${({ theme }) => theme.sizes.hiperMegaExtraLarge};
     color: ${({ theme }) => theme.colors.text_dark};
-    font-family: ${({ theme }) => theme.fonts.secondaryMed};
+    font-family: ${({ theme }) => theme.fonts.secondaryBold};
     text-align: center;
 `;
 

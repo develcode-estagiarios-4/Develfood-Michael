@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 
 export const InputWrapper = styled.View`
     background-color: ${({ theme }) => theme.colors.background};
-    height: ${RFValue(45)}px;
+    height: ${RFValue(48)}px;
     border-width: 1px;
     border-color: ${({ theme }) => theme.colors.input};
     border-radius: 10px;
