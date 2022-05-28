@@ -75,13 +75,17 @@ function AuthProvider({ children }: AuthProviderProps) {
         request.body
     );
 
+    function createUserSuccess(data: any) { 
+        data.password && navigation.navigate('SignUpSuccess' as never);
+    }
+
     useEffect(() => {
         !!request.body &&
             handlePost(
                 request?.error.message,
                 request?.error.type,
                 request?.error.description,
-                (data) => { data && setIsData(true), console.log(data) },
+                createUserSuccess
             );
     }, [request]);
 
@@ -138,8 +142,6 @@ function AuthProvider({ children }: AuthProviderProps) {
                     'Ops... Não foi possível concluir a sua solicitação. Tente novamente.',
             },
         });
-
-        !isData && navigation.navigate('SignUpSuccess' as never);
     }
 
     function logIn(email: string, password: string) {
