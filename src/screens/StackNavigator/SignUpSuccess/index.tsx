@@ -1,13 +1,8 @@
 import { Header } from '@components/Header';
-import { Input } from '@components/Input';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Container, OkButton, StepsDoneImage, Subtitle, Title, Wrapper } from './styles';
-import * as yup from 'yup';
-import { Controller, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Button } from '@components/Button';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { Keyboard, Text } from 'react-native';
+import { Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 export function SignUpSuccess() {
