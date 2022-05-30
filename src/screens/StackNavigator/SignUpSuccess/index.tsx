@@ -1,12 +1,19 @@
 import { Header } from '@components/Header';
 import React from 'react';
-import { Container, OkButton, StepsDoneImage, Subtitle, Title, TitleWrapper, Wrapper } from './styles';
+import {
+    Container,
+    OkButton,
+    StepsDoneImage,
+    Subtitle,
+    Title,
+    TitleWrapper,
+    Wrapper,
+} from './styles';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 export function SignUpSuccess() {
-
     const navigation = useNavigation();
 
     function handleConclude() {
@@ -20,21 +27,20 @@ export function SignUpSuccess() {
             onPress={Keyboard.dismiss}
         >
             <Header
-                source={require('@assets/icons/back-arrow.png')}
-                onPress={() => {
-                    navigation.goBack();
-                }}
+                source={require('@assets/icons/x.png')}
+                onPress={handleConclude}
+                
             />
             <Container>
                 <StepsDoneImage
                     source={require('@assets/icons/CadastroFinalizado.png')}
                 />
-                
-                 <TitleWrapper>
-                        <Title>Cadastro</Title>
-                        <Title>finalizado!</Title>
+
+                <TitleWrapper>
+                    <Title>Cadastro</Title>
+                    <Title>finalizado!</Title>
                 </TitleWrapper>
-                
+
                 <Wrapper>
                     <Subtitle>
                         Parabéns! Agora você pode aproveitar nossas ofertas e

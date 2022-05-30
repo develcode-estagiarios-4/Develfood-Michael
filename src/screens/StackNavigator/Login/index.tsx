@@ -69,10 +69,6 @@ export function Login({ navigation }: any) {
             onPress={Keyboard.dismiss}
         >
             <Container>
-                <StatusBar
-                    barStyle="dark-content"
-                    backgroundColor={'white'}
-                />
                 <Pizza
                     style={{ height: RFValue(280), width: RFValue(130) }}
                     source={require('@assets/icons/pizza.png')}
