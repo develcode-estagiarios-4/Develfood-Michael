@@ -1,7 +1,7 @@
 import { Header } from '@components/Header';
 import { Input } from '@components/Input';
 import React, { useEffect, useState } from 'react';
-import { Container, StepsDoneImage, Wrapper } from './styles';
+import { Container, NextButton, StepsDoneImage, Wrapper } from './styles';
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -157,7 +157,7 @@ export function Cadastro1({ route }: any) {
                         name={'confirmPassword'}
                     />
 
-                    <Button
+                    <NextButton
                         title="Continuar"
                         onPress={handleSubmit(handleContinue)}
                     />

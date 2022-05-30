@@ -23,6 +23,7 @@ import {
     Text,
     ForgotPassword,
     CadastreSe,
+    LoginButton,
 } from './styles';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { AuthContext } from '../../../context/auth';
@@ -58,8 +59,7 @@ export function Login({ navigation }: any) {
 
     function handleLogin() {
        const values = getValues();
-        logIn(values.email, values.password);
-        //reset({['email']: '', ['password']: ''}); 
+       logIn(values.email, values.password);
     }
 
     return (
@@ -69,10 +69,6 @@ export function Login({ navigation }: any) {
             onPress={Keyboard.dismiss}
         >
             <Container>
-                <StatusBar
-                    barStyle="dark-content"
-                    backgroundColor={'white'}
-                />
                 <Pizza
                     style={{ height: RFValue(280), width: RFValue(130) }}
                     source={require('@assets/icons/pizza.png')}
@@ -137,7 +133,7 @@ export function Login({ navigation }: any) {
                         </EsqueceuSenha>
                     </ForgotPassword>
 
-                    <Button
+                    <LoginButton
                         title="Entrar"
                         onPress={handleSubmit(handleLogin)}
                         isLoading={loading} // loading

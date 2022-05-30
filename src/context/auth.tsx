@@ -1,4 +1,6 @@
+import { useNavigation } from '@react-navigation/native';
 import { usePost } from '@services/usePost';
+import { AxiosError } from 'axios';
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import { MessageType } from 'react-native-flash-message';
 
@@ -22,7 +24,6 @@ interface AuthContextData {
     }: SignUpProps): void;
     token: string;
     loading: boolean;
-    erro: boolean;
 }
 
 interface AuthProviderProps {
@@ -65,21 +66,27 @@ export const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
     const [request, setRequest] = useState({} as RequestProps);
-    const [erro, setErro] = useState(false);
+    const [isData, setIsData] = useState(false);
 
-    const { data, loading, error, handlePost } = usePost<
-        LoginRequest,
-        ResponseData
-    >(request.endpoint, request.body);
+    const navigation = useNavigation();
+
+    const { data, loading, handlePost } = usePost<LoginRequest, ResponseData>(
+        request.endpoint,
+        request.body
+    );
+
+    function createUserSuccess(data: any) { 
+        data.password && navigation.navigate('SignUpSuccess' as never);
+    }
 
     useEffect(() => {
         !!request.body &&
             handlePost(
                 request?.error.message,
                 request?.error.type,
-                request?.error.description
+                request?.error.description,
+                createUserSuccess
             );
-        !!error ? setErro(true) : setErro(false);
     }, [request]);
 
     function signUp({
@@ -160,7 +167,6 @@ function AuthProvider({ children }: AuthProviderProps) {
                 signUp,
                 token: data.token,
                 loading,
-                erro,
             }}
         >
             {children}

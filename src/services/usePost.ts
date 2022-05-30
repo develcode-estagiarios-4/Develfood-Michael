@@ -10,22 +10,22 @@ export function usePost<T = unknown, TResponse = unknown>(
 ) {
     const [data, setData] = useState({} as TResponse);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<unknown | Error>(null);
 
     async function handlePost(
         message: MessageOptions['message'],
         type: MessageOptions['type'],
-        description: MessageOptions['description']
+        description: MessageOptions['description'],
+        onSuccess?: (response: TResponse) => void
+        
     ) {
         try {
             setLoading(true);
-            setError(null);
-            console.log(body)
             const response = await api.post(endpoint, body, options);
             setData(response.data);
-        } catch (e: any) {
-            setError(e);
-            console.log(e);
+            console.log(response.data)
+            response.data && onSuccess && onSuccess(response.data);
+        } catch (error: AxiosError<any, any> | any) {
+            console.log(error.response.data);
             showMessage({
                 message,
                 description,
@@ -36,5 +36,5 @@ export function usePost<T = unknown, TResponse = unknown>(
         }
     }
 
-    return { data, loading, error, handlePost };
+    return { data, loading, handlePost };
 }

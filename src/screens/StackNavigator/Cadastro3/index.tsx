@@ -22,22 +22,37 @@ import { useCep } from '@services/ViaCep/cepApi';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '@context/auth';
 
+interface RequestProps {
+    endpoint: string;
+}
+
 export function Cadastro3({ route }: any) {
     const [cep, setCep] = useState('');
-    const { data, handleCep } = useCep(`/${cep}/json/`);
+    const [request, setRequest] = useState({} as RequestProps);
+    const [isError, setIsError] = useState(false);
+    const { data, handleCep } = useCep(request.endpoint);
     const navigation = useNavigation();
     const { email, password, firstName, lastName, cpf, phone } = route.params;
 
-    const { signUp, erro, loading } = useContext(AuthContext)
+    const { signUp, loading } = useContext(AuthContext);
+
+    function onSuccess(data: any) {
+        data.localidade
+            ? (setIsError(false), console.log('isError agora é false'))
+            : (setIsError(true), console.log('isError agora é true'));
+    }
 
     const schema = yup.object().shape({
         apelido: yup.string().required('Campo obrigatório'),
-        cep: yup.string().required('Campo obrigatório'),
+        cep: yup.string().min(9, 'Cep inválido').test('is-cep', 'Cep inválido', () => !isError),
         rua: yup.string().required('Campo obrigatório'),
         cidade: yup.string().required('Campo obrigatório'),
         bairro: yup.string().required('Campo obrigatório'),
         estado: yup.string().required('Campo obrigatório'),
-        numero: yup.string().required('Campo obrigatório'),
+        numero: yup
+            .number()
+            .required('Campo obrigatório')
+            .typeError('Insira um número'),
     });
 
     const {
@@ -53,42 +68,41 @@ export function Cadastro3({ route }: any) {
     });
 
     useEffect(() => {
-        setValue('rua', data.logradouro);
-        setValue('cidade', data.localidade);
-        setValue('bairro', data.bairro);
-        setValue('estado', data.uf);
-        setValue('cep', cep);
-        //console.log(data)
-    }, [setValue, data]);
+        !!request.endpoint && handleCep(onSuccess);
+    }, [request]);
+
+    useEffect(() => {
+         setValue('rua', data.logradouro);
+         setValue('cidade', data.localidade);
+         setValue('bairro', data.bairro);
+         setValue('estado', data.uf);
+         setValue('cep', cep);
+     }, [data]);
 
     function handleContinue() {
-
         const values = getValues();
 
-        signUp(
-            {
-                email,
-                password,
-                firstName,
-                lastName,
-                cpf,
-                phone,
-                street: values.rua,
-                number: values.numero,
-                neighborhood: values.bairro,
-                city: values.cidade,
-                zipcode: values.cep,
-                state: values.estado,
-                nickname: values.apelido,
-            } as never
-        );
-        
-        if (erro === false) {
-            navigation.navigate('Login' as never);
-            Alert.alert('pao', 'com manteiga');
-        }
+        signUp({
+            email,
+            password,
+            firstName,
+            lastName,
+            cpf,
+            phone,
+            street: values.rua,
+            number: values.numero,
+            neighborhood: values.bairro,
+            city: values.cidade,
+            zipcode: values.cep,
+            state: values.estado,
+            nickname: values.apelido,
+        } as never);
     }
-    
+
+    function handleCepInput() {
+        setRequest({ endpoint: `/${cep}/json/` });
+    }
+
     return (
         <TouchableWithoutFeedback
             style={{ flex: 1 }}
@@ -122,6 +136,7 @@ export function Cadastro3({ route }: any) {
                                         placeholder={'Apelido do End.'}
                                         value={value}
                                         onChangeText={onChange}
+                                        editable={!loading}
                                     />
                                 )}
                                 name={'apelido'}
@@ -145,8 +160,9 @@ export function Cadastro3({ route }: any) {
                                             setCep(text);
                                         }}
                                         onEndEditing={() => {
-                                            handleCep();
+                                            handleCepInput();
                                         }}
+                                        editable={!loading}
                                     />
                                 )}
                                 name={'cep'}
@@ -165,6 +181,7 @@ export function Cadastro3({ route }: any) {
                                 placeholder={'Rua'}
                                 value={value}
                                 onChangeText={onChange}
+                                editable={!loading}
                             />
                         )}
                         name={'rua'}
@@ -184,6 +201,7 @@ export function Cadastro3({ route }: any) {
                                     console.log(text);
                                     onChange;
                                 }}
+                                editable={!loading}
                             />
                         )}
                         name={'cidade'}
@@ -199,6 +217,7 @@ export function Cadastro3({ route }: any) {
                                 placeholder={'Bairro'}
                                 value={value}
                                 onChangeText={onChange}
+                                editable={!loading}
                             />
                         )}
                         name={'bairro'}
@@ -219,6 +238,7 @@ export function Cadastro3({ route }: any) {
                                         placeholder={'Estado'}
                                         value={value}
                                         onChangeText={onChange}
+                                        editable={!loading}
                                     />
                                 )}
                                 name={'estado'}
@@ -239,6 +259,7 @@ export function Cadastro3({ route }: any) {
                                         placeholder={'Número'}
                                         value={value}
                                         onChangeText={onChange}
+                                        editable={!loading}
                                     />
                                 )}
                                 name={'numero'}
@@ -249,6 +270,8 @@ export function Cadastro3({ route }: any) {
                     <Button
                         title="Continuar"
                         onPress={handleSubmit(handleContinue)}
+                        isLoading={loading}
+                        enabled={!loading}
                     />
                 </Wrapper>
             </Container>
