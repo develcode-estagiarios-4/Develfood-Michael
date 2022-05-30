@@ -16,9 +16,11 @@ import {
 interface Props extends BorderlessButtonProps {
     source: ImageSourcePropType;
     source2?: ImageSourcePropType;
+    title: string;
 }
 
-export function Header({ source, source2, ...rest }: Props) {
+export function Header({ source, source2, title, ...rest }: Props) {
+    console.log(title);
     return (
         <Container>
             {!source2 && (
@@ -26,8 +28,7 @@ export function Header({ source, source2, ...rest }: Props) {
                     <BorderlessButton {...rest}>
                         <Icon source={source} />
                     </BorderlessButton>
-
-                    <Title>Cadastro</Title>
+                    <Title>{title}</Title>
 
                     <UselessView />
                 </>
@@ -38,8 +39,7 @@ export function Header({ source, source2, ...rest }: Props) {
                     <BorderlessButton {...rest}>
                         <Icon source={source} />
                     </BorderlessButton>
-
-                    <Title>Cadastro</Title>
+                    <Title>{title}</Title>
                     <BorderlessButton>
                         <Icon source={source2} />
                     </BorderlessButton>

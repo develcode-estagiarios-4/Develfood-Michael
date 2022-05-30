@@ -114,6 +114,8 @@ export function Cadastro3({ route }: any) {
                 onPress={() => {
                     navigation.goBack();
                 }}
+                title={'Cadastro'}
+                
             />
             <Container>
                 <StepsDoneImage

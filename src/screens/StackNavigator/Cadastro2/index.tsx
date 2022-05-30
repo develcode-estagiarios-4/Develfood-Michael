@@ -91,6 +91,7 @@ export function Cadastro2({ route }: any) {
                     onPress={() => {
                         navigation.goBack();
                     }}
+                    title={'Cadastro'}
                 />
                 <StepsDoneImage
                     source={require('@assets/icons/CadastroConcluido1.png')}

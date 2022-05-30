@@ -71,6 +71,7 @@ export function Cadastro1({ route }: any) {
                     onPress={() => {
                         navigation.goBack();
                     }}
+                    title={'Cadastro'}
                 />
                 <StepsDoneImage
                     source={require('@assets/icons/cadastroConcluido0.png')}
@@ -88,7 +89,7 @@ export function Cadastro1({ route }: any) {
                                 placeholder={'exemplo@email.com'}
                                 value={value}
                                 onChangeText={onChange}
-                                //editable={!loading}
+                                autoCapitalize="none"
                             />
                         )}
                         name={'email'}

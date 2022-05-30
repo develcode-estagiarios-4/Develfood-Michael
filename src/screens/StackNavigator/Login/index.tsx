@@ -93,6 +93,7 @@ export function Login({ navigation }: any) {
                                     editable={!loading} // !loading
                                     onChangeText={onChange}
                                     value={value}
+                                    autoCapitalize="none"
                                 />
                             )}
                             name={'email'}

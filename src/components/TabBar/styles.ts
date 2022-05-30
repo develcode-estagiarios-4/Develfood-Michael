@@ -11,7 +11,7 @@ export const Container = styled.View`
   justify-content: space-around;
   bottom: 0;
   border-top-width: 1px;
-  border-color: ${({ theme }) => theme.colors.icon_gray};
+  border-color: #DFDFDF;
   padding-bottom: ${RFValue(10)}px;
   padding-top: ${RFValue(5)}px;
 `;

@@ -1,86 +1,159 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useFetch } from '@services/useFetch';
-import { Container, HeaderView, ScrollView, Title } from './styles';
-import { ActivityIndicator, Button } from 'react-native';
+import {
+    Banner,
+    BannerWrapper,
+    Container,
+    Content,
+    List,
+    RestaurantList,
+    ScrollView,
+    Title,
+    TitleWrapper,
+} from './styles';
+import { ActivityIndicator, Alert, Button, Image, Text, View } from 'react-native';
 import { usePost } from '@services/usePost';
 import { useDelete } from '@services/useDelete';
 import { usePut } from '@services/usePut';
 import { Header } from '@components/Header';
 import { AuthContext } from '../../../context/auth';
+import { StackActions, useFocusEffect } from '@react-navigation/native';
+import { FocusAwareStatusBar } from '@components/FocusStatusBar';
+import { HeaderHome } from '@components/HeaderHome';
+import { Input } from '@components/Input';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+interface ContentData {
+    id: number;
+    name: string;
+    photo: string;
+}
+
+interface DataProps {
+    content?: ContentData[];
+}
 
 export function Home({ navigation }: any) {
-    const { data, loading, error } = useFetch('/95040500/json/');
+    const [restaurants, setRestaurants] = useState([]);
+    const [page, setpage] = useState(0);
+    const { token } = useContext(AuthContext);
 
-    const { logIn, token } = useContext(AuthContext);
+    const { data, loading, error, fetchData } = useFetch<DataProps>(
+        `/restaurant?page=${page}&quantity=10`,
+        { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    const schema = yup.object().shape({
+        buscar: yup.string().required('Campo obrigatório'),
+    });
+
+    const {
+        control,
+        handleSubmit,
+        getValues,
+        formState: { errors },
+        setValue,
+        reset,
+        clearErrors,
+    } = useForm({
+        resolver: yupResolver(schema),
+    });
+
+    async function loadRestaurants() {
+        await fetchData()
+        console.log(data)
+        !!error && Alert.alert(error)
+    }
+
+    function handleOnEndReached() { 
+        setpage(page + 1)
+        console.log(page)
+        loadRestaurants()
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            loadRestaurants();
+        }, [])
+    );
+    //console.log(dataList);
 
     return (
-        <Container>
-            {loading ? (
-                <ActivityIndicator
-                    style={{ flex: 1 }}
-                    size={'large'}
-                />
-            ) : (
-                <ScrollView>
-                    <Title>get</Title>
-                    <Title>
-                        {data.logradouro} {'\n'} {'\n'} {data.bairro} {'\n'}{' '}
-                        {'\n'}
-                        {data.localidade}
-                    </Title>
+        <>
+            <FocusAwareStatusBar
+                barStyle={'light-content'}
+                backgroundColor={'#C20C18'}
+            />
+            <HeaderHome
+                source={require('@assets/icons/pinMap.png')}
+                title={'rua Arcy da Nobrega 667, Panazollo'}
+            />
+            <Container>
+                <>
+                    <BannerWrapper>
+                        <Banner source={require('@assets/icons/banner.png')} />
+                        <Banner source={require('@assets/icons/banner.png')} />
+                    </BannerWrapper>
+                    <TitleWrapper>
+                        <Title>Categoria</Title>
+                    </TitleWrapper>
+                    <Content>
+                        <Controller
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                                <Input
+                                    control={control}
+                                    source={require('@assets/icons/lupa.png')}
+                                    placeholder="Buscar restaurantes"
+                                    onChangeText={() => {
+                                        onChange;
+                                    }}
+                                    value={value}
+                                />
+                            )}
+                            name={'apelido'}
+                        />
 
-                    <Title>post</Title>
-                    <Button
-                        title="criar usuario"
-                        onPress={() => {
-                            usePost(
-                                '/public/v2/users',
-                                {
-                                    email: 'irineu@gmail.com',
-                                    gender: 'male',
-                                    name: 'xablau',
-                                    status: 'active',
-                                },
-                                {
-                                    headers: {
-                                        Authorization:
-                                            'Bearer daf3a258b8841c825fae207d9a61a5f5d69bcdaac7086cb868b59da6efc9f25f',
-                                    },
-                                }
-                            );
-                        }}
-                    />
-                    <Title>delete</Title>
-                    <Button
-                        title="deletar usuario"
-                        onPress={() => {
-                            useDelete('/public/v2/users/11706', {
-                                headers: {
-                                    Authorization:
-                                        'Bearer daf3a258b8841c825fae207d9a61a5f5d69bcdaac7086cb868b59da6efc9f25f',
-                                },
-                            });
-                        }}
-                    />
-                    <Title>put</Title>
-                    <Button
-                        title="atualizar usuario"
-                        onPress={() => {
-                            usePut(
-                                '/public/v2/users/11706',
-                                {},
+                        <Text>API's</Text>
+                        {loading ? (
+                            <ActivityIndicator
+                                style={{ flex: 1 }}
+                                size={'large'}
+                            />
+                        ) : (
+                            <View>
+                                <RestaurantList
+                                    data={data.content}
+                                    renderItem={({ item }: any) => (
+                                        <>
+                                            <Text>id: {item.id}</Text>
+                                            <Text>nome: {item.name}</Text>
+                                            <Text>foto: {item.photo}</Text>
+                                        </>
+                                    )}
+                                    onEndReached={() => {
+                                        handleOnEndReached();
+                                    }}
+                                    style={{
+                                        flex: 1,
+                                        borderWidth: 2,
+                                        marginTop: 10,
+                                    }}
+                                />
+                            </View>
+                        )}
+                    </Content>
 
-                                {
-                                    headers: {
-                                        Authorization:
-                                            'Bearer daf3a258b8841c825fae207d9a61a5f5d69bcdaac7086cb868b59da6efc9f25f',
-                                    },
-                                }
-                            );
-                        }}
-                    />
-                </ScrollView>
-            )}
-        </Container>
+                    {/* <List
+                            data={data}
+                            keyExtractor={(item) => item}
+                            onEndReached={}
+                            onEndReachedThreshold={}
+                        /> */}
+                </>
+            </Container>
+        </>
     );
 }

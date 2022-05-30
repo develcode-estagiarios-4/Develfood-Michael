@@ -1,36 +1,27 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { useEffect, useState } from 'react';
+import { api } from './api';
 
-const api = axios.create({
-    baseURL: 'https://viacep.com.br/ws',
-});
-
-interface Data {
-    localidade: string;
-    logradouro: string;
-    bairro: string;
-    uf: string;
-}
-
-export function useFetch(url: string, options?: AxiosRequestConfig) {
-    const [data, setData] = useState<Data>({} as Data);
+export function useFetch<TResponse = unknown>(url: string, options?: AxiosRequestConfig) {
+    const [data, setData] = useState({} as TResponse);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<Error | null | unknown>(null);
+    const [error, setError] = useState<AxiosError<any, any> | any>(null);
 
-    useEffect(() => {
+    
         async function fetchData() {
             try {
                 setLoading(true);
                 const { data } = await api.get(url, options);
+                
                 setData(data);
             } catch (e) {
+                console.log(e)
                 setError(e);
             } finally {
                 setLoading(false);
             }
         }
-        fetchData();
-    }, []);
 
-    return { data, loading, error };
+
+    return { data, loading, error, fetchData };
 }

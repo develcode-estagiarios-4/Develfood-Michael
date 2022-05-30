@@ -29,7 +29,7 @@ export function SignUpSuccess() {
             <Header
                 source={require('@assets/icons/x.png')}
                 onPress={handleConclude}
-                
+                title={'Cadastro'}
             />
             <Container>
                 <StepsDoneImage
