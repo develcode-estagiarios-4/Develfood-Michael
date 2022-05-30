@@ -36,7 +36,7 @@ interface DataProps {
 }
 
 export function Home({ navigation }: any) {
-    const [restaurants, setRestaurants] = useState([]);
+    
     const [page, setpage] = useState(0);
     const { token } = useContext(AuthContext);
 
@@ -44,6 +44,8 @@ export function Home({ navigation }: any) {
         `/restaurant?page=${page}&quantity=10`,
         { headers: { Authorization: `Bearer ${token}` } }
     );
+
+    const [restaurants, setRestaurants] = useState([data]);
 
     const schema = yup.object().shape({
         buscar: yup.string().required('Campo obrigatório'),
@@ -71,6 +73,8 @@ export function Home({ navigation }: any) {
         setpage(page + 1)
         console.log(page)
         loadRestaurants()
+        setRestaurants(oldData => [...oldData, ...data.content])
+
     }
 
     useFocusEffect(
@@ -124,13 +128,26 @@ export function Home({ navigation }: any) {
                             />
                         ) : (
                             <View>
-                                <RestaurantList
-                                    data={data.content}
+                                    <RestaurantList
+                                        data={restaurants}
+                                        
                                     renderItem={({ item }: any) => (
                                         <>
                                             <Text>id: {item.id}</Text>
                                             <Text>nome: {item.name}</Text>
-                                            <Text>foto: {item.photo}</Text>
+                                            
+
+                                            {/* {item.photo && (
+                                                <Image
+                                                    style={{
+                                                        width: 25,
+                                                        height: 25,
+                                                    }}
+                                                    source={{
+                                                        uri: `data:image/png;base64,${item.photo}`,
+                                                    }}
+                                                />
+                                            )} */}
                                         </>
                                     )}
                                     onEndReached={() => {
