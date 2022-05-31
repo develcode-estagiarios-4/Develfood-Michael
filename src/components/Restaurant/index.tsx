@@ -18,7 +18,7 @@ export function Restaurants({ name }: ListRestaurantProps) {
     const theme = useTheme();
     return (
         <Container>
-            <RestaurantImage source={require('@assets/icons/x.png')} />
+            <RestaurantImage source={require('@assets/icons/restaurantBanner.png')} />
 
             <Content>
                 <Title>{name}</Title>

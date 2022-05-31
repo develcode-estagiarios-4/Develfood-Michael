@@ -3,22 +3,16 @@ import { useFetch } from '@services/useFetch';
 import {
     Banner,
     BannerWrapper,
+    Categories,
     Container,
     Content,
     List,
     RestaurantList,
-    ScrollView,
     Title,
     TitleWrapper,
-} from './styles';
-import {
-    ActivityIndicator,
-    Alert,
-    Button,
-    Image,
-    Text,
     View,
-} from 'react-native';
+} from './styles';
+import { ActivityIndicator, Alert, Button, Image, Text } from 'react-native';
 import { usePost } from '@services/usePost';
 import { useDelete } from '@services/useDelete';
 import { usePut } from '@services/usePut';
@@ -32,6 +26,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Restaurants } from '@components/Restaurant';
+import { Categoria } from '@components/Categorias';
 
 interface Restaurant {
     id: number;
@@ -44,7 +39,23 @@ interface RestaurantList {
 }
 
 export function Home({ navigation }: any) {
-    const [page, setpage] = useState(0);
+    const schema = yup.object().shape({
+        pesquisar: yup.string().required('Campo obrigatório'),
+    });
+
+    const {
+        control,
+        handleSubmit,
+        getValues,
+        formState: { errors },
+        setValue,
+        reset,
+        clearErrors,
+    } = useForm({
+        resolver: yupResolver(schema),
+    });
+
+    const [page, setPage] = useState(0);
     const { token } = useContext(AuthContext);
 
     const { data, loading, error, fetchData } = useFetch<RestaurantList>(
@@ -58,22 +69,26 @@ export function Home({ navigation }: any) {
         !!data.content && setRestaurants([...restaurants, ...data.content]);
     }
 
-    console.log(page);
     async function loadRestaurants() {
         await fetchData(onSuccess);
-        setpage(page + 1);
-        //console.log(restaurants)
+        setPage(1);
     }
 
-    async function handleOnEndReached() {
-        console.log(page);
-        await loadRestaurants();
+    async function handleLoadOnEnd() {
+        await fetchData(onSuccess);
+        setPage(page + 1);
+    }
+
+    function handleOnEndReached() {
+        handleLoadOnEnd();
     }
 
     useEffect(() => {
         loadRestaurants();
+        if (restaurants.length > 12) {
+            Alert.alert('deu errado familia');
+        }
     }, []);
-    //console.log(dataList);
 
     return (
         <>
@@ -81,71 +96,73 @@ export function Home({ navigation }: any) {
                 barStyle={'light-content'}
                 backgroundColor={'#C20C18'}
             />
-            <HeaderHome
-                source={require('@assets/icons/pinMap.png')}
-                title={'rua Arcy da Nobrega 667, Panazollo'}
-            />
             <Container>
-                <>
-                    <BannerWrapper>
-                        <Banner source={require('@assets/icons/banner.png')} />
-                        <Banner source={require('@assets/icons/banner.png')} />
-                    </BannerWrapper>
-                    <TitleWrapper>
-                        <Title>Categoria</Title>
-                    </TitleWrapper>
-                    <Content>
-                        {/* <Controller
-                            //control={control}
-                            render={({ field: { onChange, value } }) => (
-                                <Input
-                                    //control={control}
-                                    source={require('@assets/icons/lupa.png')}
-                                    placeholder="Buscar restaurantes"
-                                    onChangeText={() => {
-                                        onChange;
-                                    }}
-                                    value={value}
-                                />
-                            )}
-                            name={'apelido'}
-                        /> */}
-
-                        <Text>API's</Text>
-                        {loading ? (
-                            <ActivityIndicator
-                                style={{ flex: 1 }}
-                                size={'large'}
+                <RestaurantList
+                    data={restaurants}
+                    numColumns={2}
+                    keyExtractor={(item) => item.id}
+                    ListHeaderComponent={() => (
+                        <>
+                            <HeaderHome
+                                source={require('@assets/icons/pinMap.png')}
+                                title={'rua Arcy da Nobrega 667, Panazollo'}
                             />
-                        ) : (
-                            <View>
-                                <RestaurantList
-                                    data={restaurants}
-                                    numColumns={2}
-                                    keyExtractor={(item) => item.id}
-                                    renderItem={({ item }: any) => (
-                                        <Restaurants name={item.name} />
-                                    )}
-                                    onEndReached={() => {
-                                        handleOnEndReached();
-                                    }}
-                                    style={{
-                                        flex: 1,
-                                        borderWidth: 2,
-                                        marginTop: 10,
-                                    }}
+                            <BannerWrapper>
+                                <Banner
+                                    source={require('@assets/icons/banner.png')}
                                 />
-                            </View>
-                        )}
-                    </Content>
+                                <Banner
+                                    source={require('@assets/icons/banner.png')}
+                                />
+                            </BannerWrapper>
 
-                    {/* <List
-                            data={data}
-                            keyExtractor={(item) => item}
-                            onEndReached={}
-                            onEndReachedThreshold={}
-                        /> */}
-                </>
+                            <Content>
+                                <TitleWrapper>
+                                    <Title>Categoria</Title>
+                                </TitleWrapper>
+                                <Categories>
+                                    <Categoria title="Pizza" />
+                                    <Categoria title="Brasileira" />
+                                    <Categoria title="Doces" />
+                                    <Categoria title="Pastelaria" />
+                                    <Categoria title="Mercado" />
+                                    <Categoria title="Japonês" />
+                                </Categories>
+                                <View>
+                                    <Controller
+                                        control={control}
+                                        render={({
+                                            field: { onChange, value },
+                                        }) => (
+                                            <Input
+                                                control={control}
+                                                source={require('@assets/icons/lupa.png')}
+                                                placeholder="Buscar restaurantes"
+                                                onChangeText={() => {
+                                                    onChange;
+                                                }}
+                                                value={value}
+                                            />
+                                        )}
+                                        name={'pesquisar'}
+                                    />
+                                    <Text>API's</Text>
+                                </View>
+                            </Content>
+                        </>
+                    )}
+                    ListFooterComponent={() => (
+                        <View style={{height: 50, justifyContent: 'center',}}>
+                            {loading && <ActivityIndicator />}
+                        </View>
+                    )}
+                    renderItem={({ item }: any) => (
+                        <Restaurants name={item.name} />
+                    )}
+                    onEndReached={() => {
+                        handleOnEndReached();
+                    }}
+                />
             </Container>
         </>
     );

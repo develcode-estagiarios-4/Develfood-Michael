@@ -8,6 +8,7 @@ export const Container = styled.View`
     height: ${RFValue(50)}px;
     align-items: center;
     padding: 10px;
+    padding-top: 10px;
 `;
 
 export const ButtonContainer = styled.View`

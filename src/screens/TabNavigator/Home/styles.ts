@@ -3,26 +3,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
     flex: 1;
-
-    margin-bottom: 70px;
-
     background-color: ${({ theme }) => theme.colors.background};
-`;
-
-export const Content = styled.View`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    margin: 0 ${RFValue(20)}px;
-    margin-top: ${RFValue(320)}px;
-`;
-
-
-export const List = styled.View`
-    background-color: steelblue;
-    width: 100%;
-    padding: 25px;
-
 `;
 
 export const BannerWrapper = styled.ScrollView.attrs({
@@ -32,7 +13,7 @@ export const BannerWrapper = styled.ScrollView.attrs({
 })`
     flex: 1;
     position: absolute;
-    margin-top: ${RFValue(10)}px;
+    top: ${RFValue(15)}px;
     //background-color: red;
 `;
 
@@ -43,10 +24,42 @@ export const Banner = styled.Image`
     border-radius: 10px;
 `;
 
+
+export const Content = styled.View`
+    
+    //justify-content: center;
+    //align-items: center;
+    //padding: 0 ${RFValue(20)}px;
+    margin-top: ${RFValue(175)}px;
+    //align-items: center;
+`;
+
+export const View = styled.View`
+    padding: 0 20px;
+    margin: 15px 0;
+`;
+
+export const Categories = styled.ScrollView.attrs({
+    horizontal: true,
+    showsHorizontalScrollIndicator: false,
+    contentContainerStyle: { paddingLeft: 12 },
+})`
+    
+`;
+
+
+export const List = styled.View`
+    background-color: steelblue;
+    width: 100%;
+    padding: 25px;
+
+`;
+
+
 export const TitleWrapper = styled.View`
-    position: absolute;
-    margin-top: ${RFValue(256)}px;
-    margin-left: ${RFValue(14)}px;
+   //background-color: yellow;
+   padding: 0 20px;
+   margin-bottom: 15px;
 `;
 
 export const Title = styled.Text`
@@ -57,4 +70,7 @@ export const Title = styled.Text`
 
 
 
-export const RestaurantList = styled.FlatList``;
+export const RestaurantList = styled.FlatList`
+    //background-color: cadetblue;
+    width: 100%;
+`;

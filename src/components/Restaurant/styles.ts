@@ -2,15 +2,20 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-    width: ${RFValue(156)}px;
-    height: ${RFValue(173)}px;
-    background-color: ${({ theme }) => theme.colors.background};
-    border-radius: ${RFValue(8)}px;
+    width: ${RFValue(150)}px;
+    height: ${RFValue(170)}px;
+    background-color: red;//${({ theme }) => theme.colors.background};
+    border-radius: ${RFValue(15)}px;
+    margin: 10px 12px;
+    
 `;
 
-export const RestaurantImage = styled.Image`
-    width: ${RFValue(156)}px;
-    height: ${RFValue(127)}px;
+export const RestaurantImage = styled.Image.attrs({
+    resizeMode: 'contain',
+})`
+    width: ${RFValue(150)}px;
+    height: ${RFValue(122)}px;
+    
 `;
 
 export const Content = styled.View`
@@ -20,7 +25,7 @@ export const Content = styled.View`
     background-color: ${({ theme }) => theme.colors.background};
     position: absolute;
     bottom: 0;
-    border-radius: ${RFValue(8)}px;
+    border-radius: ${RFValue(15)}px;
 `;
 
 export const Title = styled.Text`
