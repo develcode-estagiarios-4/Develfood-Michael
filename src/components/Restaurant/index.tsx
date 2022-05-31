@@ -17,18 +17,22 @@ interface ListRestaurantProps {
 export function Restaurants({ name }: ListRestaurantProps) {
     const theme = useTheme();
     return (
-        <Container>
-            <RestaurantImage source={require('@assets/icons/restaurantBanner.png')} />
+        
+                <Container>
+                    <RestaurantImage
+                        source={require('@assets/icons/restaurantBanner.png')}
+                    />
 
-            <Content>
-                <Title>{name}</Title>
+                    <Content>
+                        <Title>{name}</Title>
 
-                <Description>
-                    <SubTitle>Pizza</SubTitle>
+                        <Description>
+                            <SubTitle>Pizza</SubTitle>
 
-                    <Avaliation>5</Avaliation>
-                </Description>
-            </Content>
-        </Container>
+                            <Avaliation>5</Avaliation>
+                        </Description>
+                    </Content>
+                </Container>
+         
     );
 }

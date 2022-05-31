@@ -36,6 +36,9 @@ interface Restaurant {
 
 interface RestaurantList {
     content?: Restaurant[];
+    number: number;
+    totalPages: number;
+    first: boolean;
 }
 
 export function Home({ navigation }: any) {
@@ -63,32 +66,48 @@ export function Home({ navigation }: any) {
         { headers: { Authorization: `Bearer ${token}` } }
     );
 
-    const [restaurants, setRestaurants] = useState([data]);
+    const [restaurants, setRestaurants] = useState([]);
+    const [info, setInfo] = useState({});
 
     function onSuccess(data: any) {
-        !!data.content && setRestaurants([...restaurants, ...data.content]);
+        !!data.content && setRestaurants([...restaurants, ...data.content] as never);
+        !!data &&
+            setInfo({
+                number: data.number,
+                totalPages: data.totalPages,
+                first: data.first,
+            });
+        console.log(data.number, data.first);
+        console.log(info);
     }
 
     async function loadRestaurants() {
+        setRestaurants([])
         await fetchData(onSuccess);
         setPage(1);
     }
 
     async function handleLoadOnEnd() {
-        await fetchData(onSuccess);
-        setPage(page + 1);
+        if (data.number < data.totalPages - 1) {
+            await fetchData(onSuccess);
+
+            setPage(page + 1);
+            console.log("menor")
+        }
+
+        //if (page === data.)
     }
 
     function handleOnEndReached() {
         handleLoadOnEnd();
     }
 
-    useEffect(() => {
-        loadRestaurants();
-        if (restaurants.length > 12) {
-            Alert.alert('deu errado familia');
-        }
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+           loadRestaurants();
+            console.log('chamou useEffect');
+        }, [])
+    );
 
     return (
         <>
@@ -146,13 +165,18 @@ export function Home({ navigation }: any) {
                                         )}
                                         name={'pesquisar'}
                                     />
-                                    <Text>API's</Text>
                                 </View>
                             </Content>
                         </>
                     )}
                     ListFooterComponent={() => (
-                        <View style={{height: 50, justifyContent: 'center',}}>
+                        <View
+                            style={{
+                                width: '100%',
+                                height: 50,
+                                justifyContent: 'center',
+                            }}
+                        >
                             {loading && <ActivityIndicator />}
                         </View>
                     )}

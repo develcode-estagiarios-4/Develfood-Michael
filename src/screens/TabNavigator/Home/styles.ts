@@ -13,7 +13,7 @@ export const BannerWrapper = styled.ScrollView.attrs({
 })`
     flex: 1;
     position: absolute;
-    top: ${RFValue(15)}px;
+    top: ${RFValue(60)}px;
     //background-color: red;
 `;
 
