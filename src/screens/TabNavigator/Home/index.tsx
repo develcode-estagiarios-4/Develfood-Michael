@@ -11,7 +11,14 @@ import {
     Title,
     TitleWrapper,
 } from './styles';
-import { ActivityIndicator, Alert, Button, Image, Text, View } from 'react-native';
+import {
+    ActivityIndicator,
+    Alert,
+    Button,
+    Image,
+    Text,
+    View,
+} from 'react-native';
 import { usePost } from '@services/usePost';
 import { useDelete } from '@services/useDelete';
 import { usePut } from '@services/usePut';
@@ -24,64 +31,48 @@ import { Input } from '@components/Input';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { Restaurants } from '@components/Restaurant';
 
-interface ContentData {
+interface Restaurant {
     id: number;
     name: string;
     photo: string;
 }
 
-interface DataProps {
-    content?: ContentData[];
+interface RestaurantList {
+    content?: Restaurant[];
 }
 
 export function Home({ navigation }: any) {
-    
     const [page, setpage] = useState(0);
     const { token } = useContext(AuthContext);
 
-    const { data, loading, error, fetchData } = useFetch<DataProps>(
+    const { data, loading, error, fetchData } = useFetch<RestaurantList>(
         `/restaurant?page=${page}&quantity=10`,
         { headers: { Authorization: `Bearer ${token}` } }
     );
 
     const [restaurants, setRestaurants] = useState([data]);
 
-    const schema = yup.object().shape({
-        buscar: yup.string().required('Campo obrigatório'),
-    });
+    function onSuccess(data: any) {
+        !!data.content && setRestaurants([...restaurants, ...data.content]);
+    }
 
-    const {
-        control,
-        handleSubmit,
-        getValues,
-        formState: { errors },
-        setValue,
-        reset,
-        clearErrors,
-    } = useForm({
-        resolver: yupResolver(schema),
-    });
-
+    console.log(page);
     async function loadRestaurants() {
-        await fetchData()
-        console.log(data)
-        !!error && Alert.alert(error)
+        await fetchData(onSuccess);
+        setpage(page + 1);
+        //console.log(restaurants)
     }
 
-    function handleOnEndReached() { 
-        setpage(page + 1)
-        console.log(page)
-        loadRestaurants()
-        setRestaurants(oldData => [...oldData, ...data.content])
-
+    async function handleOnEndReached() {
+        console.log(page);
+        await loadRestaurants();
     }
 
-    useFocusEffect(
-        useCallback(() => {
-            loadRestaurants();
-        }, [])
-    );
+    useEffect(() => {
+        loadRestaurants();
+    }, []);
     //console.log(dataList);
 
     return (
@@ -104,11 +95,11 @@ export function Home({ navigation }: any) {
                         <Title>Categoria</Title>
                     </TitleWrapper>
                     <Content>
-                        <Controller
-                            control={control}
+                        {/* <Controller
+                            //control={control}
                             render={({ field: { onChange, value } }) => (
                                 <Input
-                                    control={control}
+                                    //control={control}
                                     source={require('@assets/icons/lupa.png')}
                                     placeholder="Buscar restaurantes"
                                     onChangeText={() => {
@@ -118,7 +109,7 @@ export function Home({ navigation }: any) {
                                 />
                             )}
                             name={'apelido'}
-                        />
+                        /> */}
 
                         <Text>API's</Text>
                         {loading ? (
@@ -128,27 +119,12 @@ export function Home({ navigation }: any) {
                             />
                         ) : (
                             <View>
-                                    <RestaurantList
-                                        data={restaurants}
-                                        
+                                <RestaurantList
+                                    data={restaurants}
+                                    numColumns={2}
+                                    keyExtractor={(item) => item.id}
                                     renderItem={({ item }: any) => (
-                                        <>
-                                            <Text>id: {item.id}</Text>
-                                            <Text>nome: {item.name}</Text>
-                                            
-
-                                            {/* {item.photo && (
-                                                <Image
-                                                    style={{
-                                                        width: 25,
-                                                        height: 25,
-                                                    }}
-                                                    source={{
-                                                        uri: `data:image/png;base64,${item.photo}`,
-                                                    }}
-                                                />
-                                            )} */}
-                                        </>
+                                        <Restaurants name={item.name} />
                                     )}
                                     onEndReached={() => {
                                         handleOnEndReached();

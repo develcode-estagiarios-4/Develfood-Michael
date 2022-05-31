@@ -18,8 +18,11 @@ export const Content = styled.View`
 `;
 
 
-export const List = styled.FlatList`
-    font-family: ${({ theme }) => theme.fonts.secondaryMed};
+export const List = styled.View`
+    background-color: steelblue;
+    width: 100%;
+    padding: 25px;
+
 `;
 
 export const BannerWrapper = styled.ScrollView.attrs({
@@ -51,5 +54,7 @@ export const Title = styled.Text`
     font-size: ${RFValue(14)}px;
     font-weight: bold;
 `;
+
+
 
 export const RestaurantList = styled.FlatList``;
