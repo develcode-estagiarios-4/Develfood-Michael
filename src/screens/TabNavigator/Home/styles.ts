@@ -2,7 +2,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-    flex: 1;
+    //flex: 1;
     background-color: ${({ theme }) => theme.colors.background};
 `;
 
@@ -68,7 +68,13 @@ export const Title = styled.Text`
     font-weight: bold;
 `;
 
-
+export const RestaurantWrapper = styled.View`
+    //align-self: center;
+    //flex-grow: 1;
+    flex: 1;
+    align-items: center;
+    margin: ${RFValue(12)}px 0;
+`;
 
 export const RestaurantList = styled.FlatList`
     //background-color: cadetblue;

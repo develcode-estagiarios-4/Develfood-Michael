@@ -1,5 +1,7 @@
 import React from 'react';
+import { ImageProps } from 'react-native';
 import { useTheme } from 'styled-components';
+import { number } from 'yup';
 import {
     Container,
     RestaurantImage,
@@ -8,31 +10,33 @@ import {
     Description,
     SubTitle,
     Avaliation,
+    Star,
+    AvaliationWrapper,
 } from './styles';
 
 interface ListRestaurantProps {
     name: string;
+    source: ImageProps['source'];
 }
 
-export function Restaurants({ name }: ListRestaurantProps) {
+export function Restaurants({ name, source }: ListRestaurantProps) {
     const theme = useTheme();
     return (
-        
-                <Container>
-                    <RestaurantImage
-                        source={require('@assets/icons/restaurantBanner.png')}
-                    />
+        <Container>
+            <RestaurantImage source={source} />
 
-                    <Content>
-                        <Title>{name}</Title>
+            <Content>
+                <Title>{name}</Title>
 
-                        <Description>
-                            <SubTitle>Pizza</SubTitle>
+                <Description>
+                    <SubTitle>Pizza</SubTitle>
 
-                            <Avaliation>5</Avaliation>
-                        </Description>
-                    </Content>
-                </Container>
-         
+                    <AvaliationWrapper>
+                        <Star source={require('@assets/icons/star.png')} />
+                        <Avaliation>{Math.ceil(Math.random() * 5)}</Avaliation>
+                    </AvaliationWrapper>
+                </Description>
+            </Content>
+        </Container>
     );
 }

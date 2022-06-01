@@ -8,6 +8,7 @@ import {
     Content,
     List,
     RestaurantList,
+    RestaurantWrapper,
     Title,
     TitleWrapper,
     View,
@@ -70,7 +71,8 @@ export function Home({ navigation }: any) {
     const [info, setInfo] = useState({});
 
     function onSuccess(data: any) {
-        !!data.content && setRestaurants([...restaurants, ...data.content] as never);
+        !!data.content &&
+            setRestaurants([...restaurants, ...data.content] as never);
         !!data &&
             setInfo({
                 number: data.number,
@@ -78,11 +80,9 @@ export function Home({ navigation }: any) {
                 first: data.first,
             });
         console.log(data.number, data.first);
-        console.log(info);
     }
 
     async function loadRestaurants() {
-        setRestaurants([])
         await fetchData(onSuccess);
         setPage(1);
     }
@@ -92,7 +92,7 @@ export function Home({ navigation }: any) {
             await fetchData(onSuccess);
 
             setPage(page + 1);
-            console.log("menor")
+            console.log('menor');
         }
 
         //if (page === data.)
@@ -104,7 +104,8 @@ export function Home({ navigation }: any) {
 
     useFocusEffect(
         useCallback(() => {
-           loadRestaurants();
+            setRestaurants([]);
+            loadRestaurants();
             console.log('chamou useEffect');
         }, [])
     );
@@ -181,7 +182,18 @@ export function Home({ navigation }: any) {
                         </View>
                     )}
                     renderItem={({ item }: any) => (
-                        <Restaurants name={item.name} />
+                        <RestaurantWrapper>
+                            <Restaurants
+                                name={item.name}
+                                source={
+                                    item.photo
+                                        ? {
+                                              uri: `${item.photo}`,
+                                          }
+                                        : require('@assets/icons/defaultRestaurant.png')
+                                }
+                            />
+                        </RestaurantWrapper>
                     )}
                     onEndReached={() => {
                         handleOnEndReached();
