@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Cadastro1 } from '@screens/StackNavigator/Cadastro1';
 import { Cadastro2 } from '@screens/StackNavigator/Cadastro2';
@@ -11,13 +11,17 @@ import { StatusBar } from 'react-native';
 export function StackScreenRoutes() {
     const { Navigator, Screen } = createNativeStackNavigator();
 
+    useEffect(() => { 
+        StatusBar.setBarStyle('dark-content', true);
+    }, []);
+
     return (
         <>
             <StatusBar
                 barStyle="dark-content"
                 backgroundColor={'white'}
-                animated={true}
-                showHideTransition="slide"
+                //animated={true}
+                //showHideTransition="slide"
             />
             <Navigator
                 initialRouteName="Login"

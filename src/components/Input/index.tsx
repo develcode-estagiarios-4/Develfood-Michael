@@ -17,8 +17,8 @@ interface Props extends TextInputProps {
     source2?: ImageSourcePropType;
     onPress?: () => void;
     control: Control;
-    name: string;
-    error: string;
+    name?: string;
+    error?: string;
     editable?: boolean;
 }
 
