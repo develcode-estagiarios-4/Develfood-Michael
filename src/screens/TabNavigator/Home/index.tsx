@@ -14,10 +14,6 @@ import {
     View,
 } from './styles';
 import { ActivityIndicator, Alert, Button, Image, Text } from 'react-native';
-import { usePost } from '@services/usePost';
-import { useDelete } from '@services/useDelete';
-import { usePut } from '@services/usePut';
-import { Header } from '@components/Header';
 import { AuthContext } from '../../../context/auth';
 import { StackActions, useFocusEffect } from '@react-navigation/native';
 import { FocusAwareStatusBar } from '@components/FocusStatusBar';
