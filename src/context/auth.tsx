@@ -4,6 +4,10 @@ import { AxiosError } from 'axios';
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import { MessageType } from 'react-native-flash-message';
 
+interface Photo {
+    code: string;
+}
+
 interface AuthContextData {
     logIn(email: string, password: string): void;
     signUp({
@@ -52,7 +56,7 @@ interface SignUpProps {
     lastName: string;
     cpf: string;
     phone: string;
-    photo: Object;
+    photo: Photo;
     street: string;
     number: string;
     neighborhood: string;
@@ -66,7 +70,6 @@ export const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
     const [request, setRequest] = useState({} as RequestProps);
-    const [isData, setIsData] = useState(false);
 
     const navigation = useNavigation();
 
@@ -89,46 +92,29 @@ function AuthProvider({ children }: AuthProviderProps) {
             );
     }, [request]);
 
-    function signUp({
-        email,
-        password,
-        firstName,
-        lastName,
-        cpf,
-        phone,
-        photo,
-        street,
-        number,
-        neighborhood,
-        city,
-        zipcode,
-        state,
-        nickname,
-    }: SignUpProps) {
+    function signUp(params: SignUpProps) {
         const signUpData = {
-            email,
-            password,
+            email: params.email,
+            password: params.password,
             creationDate: new Date(),
             role: {
                 id: 2,
             },
             costumer: {
-                firstName,
-                lastName,
-                cpf,
-                phone,
-                photo: {
-                    code: ""
-                },
+                firstName: params.firstName,
+                lastName: params.lastName,
+                cpf: params.cpf,
+                phone: params.phone,
+                photo: params.photo,
                 address: [
                     {
-                        street,
-                        number,
-                        neighborhood,
-                        city,
-                        zipCode: zipcode,
-                        state,
-                        nickname,
+                        street: params.street,
+                        number: params.number,
+                        neighborhood: params.neighborhood,
+                        city: params.city,
+                        zipCode: params.zipcode,
+                        state: params.state,
+                        nickname: params.nickname,
                     },
                 ],
             },

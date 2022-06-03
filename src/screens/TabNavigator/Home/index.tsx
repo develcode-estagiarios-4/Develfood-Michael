@@ -25,6 +25,7 @@ import * as yup from 'yup';
 import { Restaurants } from '@components/Restaurant';
 import { Categoria } from '@components/Categorias';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+import theme from '../../../styles/theme';
 
 interface Restaurant {
     id: number;
@@ -165,7 +166,7 @@ export function Home({ navigation }: any) {
                                 justifyContent: 'center',
                             }}
                         >
-                            {loading && <ActivityIndicator size={50} color={'#C20C18'} />}
+                            {loading && <ActivityIndicator size={50} color={theme.colors.background_red} />}
                         </View>
                     )}
                     renderItem={({ item }: any) => (
