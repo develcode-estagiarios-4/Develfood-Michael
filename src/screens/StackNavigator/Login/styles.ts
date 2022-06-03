@@ -27,12 +27,16 @@ export const Wrapper = styled.View`
 `;
 
 export const LogoWrapper = styled.View`
-    width: 100%;
-    background-color: blue;
+    width: ${RFValue(170)}px;
+    height: ${RFValue(70)}px;
 `;
 
-export const Logo = styled.Image`
+export const Logo = styled.Image.attrs({
+    resizeMode: 'contain'
+})`
     margin-bottom: ${RFValue(10)}px;
+    width: 100%;
+    height: 100%;
 `;
 
 export const Form = styled.View`

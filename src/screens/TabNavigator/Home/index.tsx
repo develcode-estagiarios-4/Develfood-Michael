@@ -24,6 +24,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Restaurants } from '@components/Restaurant';
 import { Categoria } from '@components/Categorias';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+import theme from '../../../styles/theme';
 
 interface Restaurant {
     id: number;
@@ -64,17 +66,10 @@ export function Home({ navigation }: any) {
     );
 
     const [restaurants, setRestaurants] = useState([]);
-    const [info, setInfo] = useState({});
 
     function onSuccess(data: any) {
         !!data.content &&
             setRestaurants([...restaurants, ...data.content] as never);
-        !!data &&
-            setInfo({
-                number: data.number,
-                totalPages: data.totalPages,
-                first: data.first,
-            });
         console.log(data.number, data.first);
     }
 
@@ -84,14 +79,11 @@ export function Home({ navigation }: any) {
     }
 
     async function handleLoadOnEnd() {
-        if (data.number < data.totalPages - 1) {
+        if (data.totalPages !== page) {
             await fetchData(onSuccess);
-
             setPage(page + 1);
             console.log('menor');
         }
-
-        //if (page === data.)
     }
 
     function handleOnEndReached() {
@@ -170,11 +162,11 @@ export function Home({ navigation }: any) {
                         <View
                             style={{
                                 width: '100%',
-                                height: 50,
+                                height: RFPercentage(30),
                                 justifyContent: 'center',
                             }}
                         >
-                            {loading && <ActivityIndicator />}
+                            {loading && <ActivityIndicator size={50} color={theme.colors.background_red} />}
                         </View>
                     )}
                     renderItem={({ item }: any) => (

@@ -89,6 +89,9 @@ export function Cadastro3({ route }: any) {
             lastName,
             cpf,
             phone,
+            photo: {
+                code: ''
+            },
             street: values.rua,
             number: values.numero,
             neighborhood: values.bairro,
