@@ -64,17 +64,10 @@ export function Home({ navigation }: any) {
     );
 
     const [restaurants, setRestaurants] = useState([]);
-    const [info, setInfo] = useState({});
 
     function onSuccess(data: any) {
         !!data.content &&
             setRestaurants([...restaurants, ...data.content] as never);
-        !!data &&
-            setInfo({
-                number: data.number,
-                totalPages: data.totalPages,
-                first: data.first,
-            });
         console.log(data.number, data.first);
     }
 
@@ -84,14 +77,11 @@ export function Home({ navigation }: any) {
     }
 
     async function handleLoadOnEnd() {
-        if (data.number < data.totalPages - 1) {
+        if (data.totalPages !== page) {
             await fetchData(onSuccess);
-
             setPage(page + 1);
             console.log('menor');
         }
-
-        //if (page === data.)
     }
 
     function handleOnEndReached() {

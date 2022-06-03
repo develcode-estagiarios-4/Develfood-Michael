@@ -52,7 +52,7 @@ interface SignUpProps {
     lastName: string;
     cpf: string;
     phone: string;
-    photo: string;
+    photo: Object;
     street: string;
     number: string;
     neighborhood: string;
@@ -117,7 +117,9 @@ function AuthProvider({ children }: AuthProviderProps) {
                 lastName,
                 cpf,
                 phone,
-                photo,
+                photo: {
+                    code: ""
+                },
                 address: [
                     {
                         street,
