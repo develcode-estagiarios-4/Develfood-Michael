@@ -24,6 +24,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Restaurants } from '@components/Restaurant';
 import { Categoria } from '@components/Categorias';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 interface Restaurant {
     id: number;
@@ -160,11 +161,11 @@ export function Home({ navigation }: any) {
                         <View
                             style={{
                                 width: '100%',
-                                height: 50,
+                                height: RFPercentage(30),
                                 justifyContent: 'center',
                             }}
                         >
-                            {loading && <ActivityIndicator />}
+                            {loading && <ActivityIndicator size={50} color={'#C20C18'} />}
                         </View>
                     )}
                     renderItem={({ item }: any) => (

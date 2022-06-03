@@ -3,10 +3,7 @@ import { Input } from '@components/Input';
 import React, { useContext, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import {
-    Keyboard,
-    StatusBar,
-} from 'react-native';
+import { Keyboard, StatusBar } from 'react-native';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import {
@@ -24,6 +21,7 @@ import {
     ForgotPassword,
     CadastreSe,
     LoginButton,
+    LogoWrapper,
 } from './styles';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { AuthContext } from '../../../context/auth';
@@ -55,11 +53,9 @@ export function Login({ navigation }: any) {
         setIsClicked(!isClicked);
     }
 
-    
-
     function handleLogin() {
-       const values = getValues();
-       logIn(values.email, values.password);
+        const values = getValues();
+        logIn(values.email, values.password);
     }
 
     return (
@@ -79,7 +75,12 @@ export function Login({ navigation }: any) {
                 />
                 <Wrapper>
                     <Form>
-                        <Logo source={require('@assets/icons/logoLogin.png')} />
+                        <LogoWrapper>
+                            <Logo
+                                source={require('@assets/icons/logoLogin.png')}
+                            />
+                        </LogoWrapper>
+
                         <Controller
                             control={control}
                             render={({ field: { onChange, value } }) => (
@@ -163,4 +164,4 @@ export function Login({ navigation }: any) {
             </Container>
         </TouchableWithoutFeedback>
     );
-};
+}

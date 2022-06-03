@@ -2,7 +2,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-    //flex: 1;
+    flex: 1;
     background-color: ${({ theme }) => theme.colors.background};
 `;
 
@@ -14,7 +14,6 @@ export const BannerWrapper = styled.ScrollView.attrs({
     flex: 1;
     position: absolute;
     top: ${RFValue(60)}px;
-    //background-color: red;
 `;
 
 export const Banner = styled.Image`
@@ -26,12 +25,7 @@ export const Banner = styled.Image`
 
 
 export const Content = styled.View`
-    
-    //justify-content: center;
-    //align-items: center;
-    //padding: 0 ${RFValue(20)}px;
     margin-top: ${RFValue(175)}px;
-    //align-items: center;
 `;
 
 export const View = styled.View`
