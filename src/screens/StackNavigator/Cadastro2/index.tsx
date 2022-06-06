@@ -56,13 +56,6 @@ export function Cadastro2({ route }: any) {
         resolver: yupResolver(schema),
     });
 
-    useEffect(() => {
-        setValue('nome', 'Michael', { shouldValidate: true }); // remover useEffect antes do pull request
-        setValue('sobrenome', 'Junges');
-        setValue('cpf', cpfvalidator.generate());
-        setValue('telefone', '549999999999');
-    }, []);
-
     function handleContinue() {
         const values = getValues();
 

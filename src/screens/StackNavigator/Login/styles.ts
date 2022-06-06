@@ -24,7 +24,6 @@ export const Hamburguer = styled.Image`
 export const Wrapper = styled.View`
     padding: ${RFValue(35)}px;
     z-index: 1;
-    //margin-top: ${RFValue(185)}px;
     align-self: center;
 `;
 

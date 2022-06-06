@@ -42,7 +42,6 @@ export const Categories = styled.ScrollView.attrs({
 `;
 
 export const TitleWrapper = styled.View`
-   //background-color: yellow;
    padding: 0 20px;
    margin-bottom: 15px;
 `;
@@ -54,7 +53,5 @@ export const Title = styled.Text`
 `;
 
 export const RestaurantList = styled.FlatList`
-    //background-color: cadetblue;
-    //width: 100%;
-    //flex: 1;
+
 `;

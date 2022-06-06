@@ -114,7 +114,6 @@ export function Home({ navigation }: any) {
                         justifyContent: 'space-between',
                         paddingHorizontal: RFValue(CardMargins),
                         paddingBottom: 15,
-                        backgroundColor: 'red',
                     }}
                     ListHeaderComponent={() => (
                         <>
