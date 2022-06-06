@@ -5,11 +5,9 @@ export const Container = styled.View.attrs({
     elevation: 7,
 })`
     width: ${RFValue(140)}px;
-    height: ${RFValue(170)}px;
+    height: ${RFValue(165)}px;
     background-color: ${({ theme }) => theme.colors.background};
     border-radius: ${RFValue(15)}px;
-    //margin-left: ${RFValue(15)}px;
-    //margin-bottom: ${RFValue(10)}px;
 `;
 
 export const RestaurantImage = styled.Image.attrs({

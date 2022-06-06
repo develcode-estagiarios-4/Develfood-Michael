@@ -6,6 +6,7 @@ export const Container = styled.View`
     flex:1;
     background-color: ${({ theme }) => theme.colors.background};
     align-items: center;
+    justify-content: center;
 `;
 
 export const Pizza = styled.Image`
@@ -23,7 +24,8 @@ export const Hamburguer = styled.Image`
 export const Wrapper = styled.View`
     padding: ${RFValue(35)}px;
     z-index: 1;
-    margin-top: ${RFValue(185)}px;
+    //margin-top: ${RFValue(185)}px;
+    align-self: center;
 `;
 
 export const LogoWrapper = styled.View`

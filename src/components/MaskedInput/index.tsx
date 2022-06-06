@@ -57,7 +57,7 @@ export function MaskedInput({
                             marginLeft: 5,
                             flex: 1,
                             fontFamily: theme.fonts.primaryReg,
-                            fontSize: theme.sizes.intermediate,
+                            fontSize: theme.sizes.small,
                         }}
                         {...rest}
                     />

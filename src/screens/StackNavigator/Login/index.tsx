@@ -156,8 +156,8 @@ export function Login({ navigation }: any) {
                 </Wrapper>
                 <Particles
                     style={{
-                        height: RFValue(210),
-                        width: RFPercentage(45),
+                        height: RFValue(220),
+                        width: RFValue(324),
                     }}
                     source={require('@assets/icons/pozinho.png')}
                 />
