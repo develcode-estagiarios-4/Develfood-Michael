@@ -6,14 +6,12 @@ import {
     Categories,
     Container,
     Content,
-    List,
     RestaurantList,
-    RestaurantWrapper,
     Title,
     TitleWrapper,
     View,
 } from './styles';
-import { ActivityIndicator, Alert, Button, Image, Text } from 'react-native';
+import { ActivityIndicator, Alert, Button, Dimensions, Image, Text } from 'react-native';
 import { AuthContext } from '../../../context/auth';
 import { StackActions, useFocusEffect } from '@react-navigation/native';
 import { FocusAwareStatusBar } from '@components/FocusStatusBar';
@@ -39,6 +37,9 @@ interface RestaurantList {
     totalPages: number;
     first: boolean;
 }
+    
+const CardMargins =
+    (Dimensions.get('screen').width - RFValue(280)) / RFValue(3.2);
 
 export function Home({ navigation }: any) {
     const schema = yup.object().shape({
@@ -92,7 +93,7 @@ export function Home({ navigation }: any) {
 
     useFocusEffect(
         useCallback(() => {
-            setRestaurants([]);
+            //setRestaurants([]);
             loadRestaurants();
             console.log('chamou useEffect');
         }, [])
@@ -109,6 +110,12 @@ export function Home({ navigation }: any) {
                     data={restaurants}
                     numColumns={2}
                     keyExtractor={(item) => item.id}
+                    columnWrapperStyle={{
+                        justifyContent: 'space-between',
+                        paddingHorizontal: RFValue(CardMargins),
+                        paddingBottom: 15,
+                        backgroundColor: 'red',
+                    }}
                     ListHeaderComponent={() => (
                         <>
                             <HeaderHome
@@ -162,26 +169,31 @@ export function Home({ navigation }: any) {
                         <View
                             style={{
                                 width: '100%',
-                                height: RFPercentage(30),
+                                height: RFPercentage(20),
                                 justifyContent: 'center',
                             }}
                         >
-                            {loading && <ActivityIndicator size={50} color={theme.colors.background_red} />}
+                            {loading && (
+                                <ActivityIndicator
+                                    size={50}
+                                    color={theme.colors.background_red}
+                                />
+                            )}
                         </View>
                     )}
                     renderItem={({ item }: any) => (
-                        <RestaurantWrapper>
-                            <Restaurants
-                                name={item.name}
-                                source={
-                                    item.photo
-                                        ? {
-                                              uri: `${item.photo}`,
-                                          }
-                                        : require('@assets/icons/defaultRestaurant.png')
-                                }
-                            />
-                        </RestaurantWrapper>
+                        //<RestaurantWrapper>
+                        <Restaurants
+                            name={item.name}
+                            source={
+                                item.photo
+                                    ? {
+                                          uri: `${item.photo}`,
+                                      }
+                                    : require('@assets/icons/defaultRestaurant.png')
+                            }
+                        />
+                        //</RestaurantWrapper>
                     )}
                     onEndReached={() => {
                         handleOnEndReached();
