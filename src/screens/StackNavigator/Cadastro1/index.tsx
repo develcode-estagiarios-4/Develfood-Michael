@@ -41,12 +41,6 @@ export function Cadastro1({ route }: any) {
         resolver: yupResolver(schema),
     });
 
-    useEffect(() => {
-        setValue('email', 'seunome@email.com', { shouldValidate: true }); //RETIRAR ISSO AQUI ANTES DO PULL REQUEST
-        setValue('password', '123456');
-        setValue('confirmPassword', '123456');
-    }, []);
-
     function handleContinue() {
         const values = getValues();
 
