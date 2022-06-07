@@ -16,7 +16,7 @@ interface Props extends TextInputProps {
     source: ImageSourcePropType;
     source2?: ImageSourcePropType;
     onPress?: () => void;
-    control: Control;
+    control?: Control;
     name?: string;
     error?: string;
     editable?: boolean;
@@ -42,7 +42,7 @@ export function Input({
                             marginLeft: 5,
                             flex: 1,
                             fontFamily: theme.fonts.primaryReg,
-                            fontSize: theme.sizes.small
+                            fontSize: theme.sizes.small,
                         }}
                         editable={editable}
                         {...rest}
