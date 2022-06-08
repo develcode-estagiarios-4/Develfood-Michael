@@ -113,7 +113,7 @@ export function Home({ navigation }: any) {
                 <RestaurantList
                     data={restaurants}
                     numColumns={2}
-                    keyExtractor={(item: any) => item?.id}
+                    keyExtractor={(item) => item?.id}
                     columnWrapperStyle={{
                         justifyContent: 'space-between',
                         paddingHorizontal: RFValue(CardMargins),
@@ -175,7 +175,7 @@ export function Home({ navigation }: any) {
                             )}
                         </View>
                     )}
-                    renderItem={({ item }: any) => (
+                    renderItem={({ item }) => (
                         <Restaurants
                             name={item.name}
                             source={
