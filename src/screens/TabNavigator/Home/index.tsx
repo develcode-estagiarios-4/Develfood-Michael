@@ -11,19 +11,24 @@ import {
     TitleWrapper,
     View,
 } from './styles';
-import { ActivityIndicator, Alert, Button, Dimensions, Image, Text } from 'react-native';
+import {
+    ActivityIndicator,
+    Alert,
+    Button,
+    Dimensions,
+    Image,
+    Text,
+} from 'react-native';
 import { AuthContext } from '../../../context/auth';
 import { StackActions, useFocusEffect } from '@react-navigation/native';
 import { FocusAwareStatusBar } from '@components/FocusStatusBar';
 import { HeaderHome } from '@components/HeaderHome';
-import { Input } from '@components/Input';
-import { Controller, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { Restaurants } from '@components/Restaurant';
 import { Categoria } from '@components/Categorias';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../../styles/theme';
+import { Input } from '@components/Input';
+import { useDebouncedCallback } from 'use-debounce';
 
 interface Restaurant {
     id: number;
@@ -37,53 +42,42 @@ interface RestaurantList {
     totalPages: number;
     first: boolean;
 }
-    
+
 const CardMargins =
     (Dimensions.get('screen').width - RFValue(280)) / RFValue(3.2);
 
 export function Home({ navigation }: any) {
-    const schema = yup.object().shape({
-        pesquisar: yup.string().required('Campo obrigatório'),
+    const [filter, setFilter] = useState({
+        input: '',
+        page: 0,
     });
+    const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
 
-    const {
-        control,
-        handleSubmit,
-        getValues,
-        formState: { errors },
-        setValue,
-        reset,
-        clearErrors,
-    } = useForm({
-        resolver: yupResolver(schema),
-    });
-
-    const [page, setPage] = useState(0);
     const { token } = useContext(AuthContext);
 
     const { data, loading, error, fetchData } = useFetch<RestaurantList>(
-        `/restaurant?page=${page}&quantity=10`,
+        `/restaurant/filter?name=${filter.input}&page=${filter.page}&quantity=10`,
         { headers: { Authorization: `Bearer ${token}` } }
     );
 
-    const [restaurants, setRestaurants] = useState([]);
+    const debounced = useDebouncedCallback(
+        (text) => {
+            handleOnChangeText(text);
+        },
+        1500
+    );
 
-    function onSuccess(data: any) {
-        !!data.content &&
-            setRestaurants([...restaurants, ...data.content] as never);
-        console.log(data.number, data.first);
+    function onSuccess(data: RestaurantList) {
+        !!data.content && setRestaurants([...restaurants, ...data.content]);
     }
 
     async function loadRestaurants() {
         await fetchData(onSuccess);
-        setPage(1);
     }
 
     async function handleLoadOnEnd() {
-        if (data.totalPages !== page) {
-            await fetchData(onSuccess);
-            setPage(page + 1);
-            console.log('menor');
+        if (data.totalPages !== filter.page) {
+            setFilter({ ...filter, page: filter.page + 1 });
         }
     }
 
@@ -91,13 +85,23 @@ export function Home({ navigation }: any) {
         handleLoadOnEnd();
     }
 
-    useFocusEffect(
-        useCallback(() => {
-            //setRestaurants([]);
-            loadRestaurants();
-            console.log('chamou useEffect');
-        }, [])
-    );
+    function handleOnChangeText(value: string) {
+        if (value.length > 1) {
+            setRestaurants([]);
+            setFilter({ input: value, page: 0 });
+        } else if (value.length <= 1) {
+            setRestaurants([]);
+            setFilter({ input: '', page: 0 });
+        }
+    }
+
+    useEffect(() => {
+        loadRestaurants();
+    }, []);
+
+    useEffect(() => {
+        loadRestaurants();
+    }, [filter]);
 
     return (
         <>
@@ -109,13 +113,13 @@ export function Home({ navigation }: any) {
                 <RestaurantList
                     data={restaurants}
                     numColumns={2}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item?.id}
                     columnWrapperStyle={{
                         justifyContent: 'space-between',
                         paddingHorizontal: RFValue(CardMargins),
                         paddingBottom: 15,
                     }}
-                    ListHeaderComponent={() => (
+                    ListHeaderComponent={
                         <>
                             <HeaderHome
                                 source={require('@assets/icons/pinMap.png')}
@@ -143,27 +147,18 @@ export function Home({ navigation }: any) {
                                     <Categoria title="Japonês" />
                                 </Categories>
                                 <View>
-                                    <Controller
-                                        control={control}
-                                        render={({
-                                            field: { onChange, value },
-                                        }) => (
-                                            <Input
-                                                control={control}
-                                                source={require('@assets/icons/lupa.png')}
-                                                placeholder="Buscar restaurantes"
-                                                onChangeText={() => {
-                                                    onChange;
-                                                }}
-                                                value={value}
-                                            />
-                                        )}
-                                        name={'pesquisar'}
+                                    <Input
+                                        name={'baka'}
+                                        source={require('@assets/icons/lupa.png')}
+                                        placeholder="Buscar restaurantes"
+                                        onChangeText={(text) => {
+                                            debounced(text);
+                                        }}
                                     />
                                 </View>
                             </Content>
                         </>
-                    )}
+                    }
                     ListFooterComponent={() => (
                         <View
                             style={{
@@ -180,8 +175,7 @@ export function Home({ navigation }: any) {
                             )}
                         </View>
                     )}
-                    renderItem={({ item }: any) => (
-                        //<RestaurantWrapper>
+                    renderItem={({ item }) => (
                         <Restaurants
                             name={item.name}
                             source={
@@ -192,7 +186,6 @@ export function Home({ navigation }: any) {
                                     : require('@assets/icons/defaultRestaurant.png')
                             }
                         />
-                        //</RestaurantWrapper>
                     )}
                     onEndReached={() => {
                         handleOnEndReached();
