@@ -28,6 +28,7 @@ import { Categoria } from '@components/Categorias';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../../styles/theme';
 import { Input } from '@components/Input';
+import { useDebouncedCallback } from 'use-debounce';
 
 interface Restaurant {
     id: number;
@@ -46,28 +47,28 @@ const CardMargins =
     (Dimensions.get('screen').width - RFValue(280)) / RFValue(3.2);
 
 export function Home({ navigation }: any) {
-    const [page, setPage] = useState(0);
-    const [input, setInput] = useState('');
+    const [filter, setFilter] = useState({
+        input: '',
+        page: 0,
+    });
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
-    const [searchedRestaurants, setSearchedRestaurants] = useState<
-        Restaurant[]
-    >([]);
 
     const { token } = useContext(AuthContext);
 
     const { data, loading, error, fetchData } = useFetch<RestaurantList>(
-        `/restaurant/filter?name=${input}&page=${page}&quantity=10`,
+        `/restaurant/filter?name=${filter.input}&page=${filter.page}&quantity=10`,
         { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    const debounced = useDebouncedCallback(
+        (text) => {
+            handleOnChangeText(text);
+        },
+        1500
     );
 
     function onSuccess(data: RestaurantList) {
         !!data.content && setRestaurants([...restaurants, ...data.content]);
-        //console.log('pagina: ', data.number, 'primeira página: ', data.first);
-    }
-
-    function onSearchSuccess(data: RestaurantList) {
-        !!data.content && setSearchedRestaurants(data.content);
-        
     }
 
     async function loadRestaurants() {
@@ -75,10 +76,8 @@ export function Home({ navigation }: any) {
     }
 
     async function handleLoadOnEnd() {
-        if (data.totalPages !== page) {
-            await fetchData(onSuccess);
-            setPage(page + 1);
-            //console.log('carregou pagina', page);
+        if (data.totalPages !== filter.page) {
+            setFilter({ ...filter, page: filter.page + 1 });
         }
     }
 
@@ -86,17 +85,23 @@ export function Home({ navigation }: any) {
         handleLoadOnEnd();
     }
 
-    useEffect(() => {
-        setSearchedRestaurants([]);
-        input && fetchData(onSearchSuccess);
-    }, [input]);
+    function handleOnChangeText(value: string) {
+        if (value.length > 1) {
+            setRestaurants([]);
+            setFilter({ input: value, page: 0 });
+        } else if (value.length <= 1) {
+            setRestaurants([]);
+            setFilter({ input: '', page: 0 });
+        }
+    }
 
-    useFocusEffect(
-        useCallback(() => {
-            loadRestaurants();
-            console.log('carregou pela primeira vez');
-        }, [])
-    );
+    useEffect(() => {
+        loadRestaurants();
+    }, []);
+
+    useEffect(() => {
+        loadRestaurants();
+    }, [filter]);
 
     return (
         <>
@@ -106,7 +111,7 @@ export function Home({ navigation }: any) {
             />
             <Container>
                 <RestaurantList
-                    data={searchedRestaurants}
+                    data={restaurants}
                     numColumns={2}
                     keyExtractor={(item: any) => item?.id}
                     columnWrapperStyle={{
@@ -146,11 +151,9 @@ export function Home({ navigation }: any) {
                                         name={'baka'}
                                         source={require('@assets/icons/lupa.png')}
                                         placeholder="Buscar restaurantes"
-                                        onChangeText={(event) => {
-                                            setInput(event);
-                                            //console.log(event.nativeEvent.text);
+                                        onChangeText={(text) => {
+                                            debounced(text);
                                         }}
-                                        value={input}
                                     />
                                 </View>
                             </Content>
