@@ -1,9 +1,8 @@
+import { RectButton } from 'react-native-gesture-handler';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
-export const Container = styled.View.attrs({
-    elevation: 7,
-})`
+export const Container = styled(RectButton)`
     width: ${RFValue(140)}px;
     height: ${RFValue(165)}px;
     background-color: ${({ theme }) => theme.colors.background};
@@ -19,7 +18,9 @@ export const RestaurantImage = styled.Image.attrs({
     border-radius: ${RFValue(15)}px;
 `;
 
-export const Content = styled.View`
+export const Content = styled.View.attrs({
+    elevation: 6
+})`
     width: 100%;
     padding-left: ${RFValue(12)}px;
     height: ${RFValue(60)}px;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ImageProps } from 'react-native';
+import { RectButtonProps } from 'react-native-gesture-handler';
 import { useTheme } from 'styled-components';
 import { number } from 'yup';
 import {
@@ -14,15 +15,15 @@ import {
     AvaliationWrapper,
 } from './styles';
 
-interface ListRestaurantProps {
+interface ListRestaurantProps extends RectButtonProps{
     name: string;
     source: ImageProps['source'];
 }
 
-export function Restaurants({ name, source }: ListRestaurantProps) {
+export function Restaurants({ name, source, ...rest }: ListRestaurantProps) {
     const theme = useTheme();
     return (
-        <Container>
+        <Container {...rest}>
             <RestaurantImage source={source} />
 
             <Content>

@@ -20,7 +20,11 @@ import {
     Text,
 } from 'react-native';
 import { AuthContext } from '../../../context/auth';
-import { StackActions, useFocusEffect } from '@react-navigation/native';
+import {
+    StackActions,
+    useFocusEffect,
+    useNavigation,
+} from '@react-navigation/native';
 import { FocusAwareStatusBar } from '@components/FocusStatusBar';
 import { HeaderHome } from '@components/HeaderHome';
 import { Restaurants } from '@components/Restaurant';
@@ -53,6 +57,8 @@ export function Home({ navigation }: any) {
     });
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
 
+    //const navigation = useNavigation();
+
     const { token } = useContext(AuthContext);
 
     const { data, loading, error, fetchData } = useFetch<RestaurantList>(
@@ -60,12 +66,9 @@ export function Home({ navigation }: any) {
         { headers: { Authorization: `Bearer ${token}` } }
     );
 
-    const debounced = useDebouncedCallback(
-        (text) => {
-            handleOnChangeText(text);
-        },
-        1500
-    );
+    const debounced = useDebouncedCallback((text) => {
+        handleOnChangeText(text);
+    }, 1500);
 
     function onSuccess(data: RestaurantList) {
         !!data.content && setRestaurants([...restaurants, ...data.content]);
@@ -75,14 +78,10 @@ export function Home({ navigation }: any) {
         await fetchData(onSuccess);
     }
 
-    async function handleLoadOnEnd() {
+    function handleOnEndReached() {
         if (data.totalPages !== filter.page) {
             setFilter({ ...filter, page: filter.page + 1 });
         }
-    }
-
-    function handleOnEndReached() {
-        handleLoadOnEnd();
     }
 
     function handleOnChangeText(value: string) {
@@ -94,10 +93,6 @@ export function Home({ navigation }: any) {
             setFilter({ input: '', page: 0 });
         }
     }
-
-    useEffect(() => {
-        loadRestaurants();
-    }, []);
 
     useEffect(() => {
         loadRestaurants();
@@ -177,6 +172,12 @@ export function Home({ navigation }: any) {
                     )}
                     renderItem={({ item }) => (
                         <Restaurants
+                            onPress={() => {
+                                navigation.navigate('Restaurant', {
+                                    id: item.id,
+                                });
+                                //navigation.setOptions({ tabBarVisible: false });
+                            }}
                             name={item.name}
                             source={
                                 item.photo
