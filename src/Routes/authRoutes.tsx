@@ -1,9 +1,8 @@
-import { Login } from '@screens/StackNavigator/Login'
 import React, { useContext, useEffect } from 'react'
 import { AuthContext } from '../context/auth'
-import { TabScreenRoutes } from './routes'
 import RNBootSplash from 'react-native-bootsplash';
-import { StackScreenRoutes } from '.';
+import { SignInRoutes } from '.';
+import { StackScreenRoutes } from './homeRoutes';
 
 export function AuthRoutes() {
 
@@ -13,9 +12,5 @@ export function AuthRoutes() {
 
     const { token } = useContext(AuthContext)
 
-    return (
-        <>
-            {token ? <TabScreenRoutes /> : <StackScreenRoutes />}   
-        </>
-    )
+    return <>{token ? <StackScreenRoutes /> : <SignInRoutes />}</>;
 }

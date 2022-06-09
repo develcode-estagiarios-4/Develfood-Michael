@@ -50,7 +50,7 @@ interface RestaurantList {
 const CardMargins =
     (Dimensions.get('screen').width - RFValue(280)) / RFValue(3.2);
 
-export function Home({ navigation }: any) {
+export function Home({ navigation, route }: any) {
     const [filter, setFilter] = useState({
         input: '',
         page: 0,
@@ -175,6 +175,8 @@ export function Home({ navigation }: any) {
                             onPress={() => {
                                 navigation.navigate('Restaurant', {
                                     id: item.id,
+                                    name: item.name,
+                                    photo: item.photo
                                 });
                                 //navigation.setOptions({ tabBarVisible: false });
                             }}

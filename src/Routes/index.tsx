@@ -8,7 +8,7 @@ import { SignUpSuccess } from '@screens/StackNavigator/SignUpSuccess';
 import { StatusBar } from 'react-native';
 // import { SignInSuccess } from '@screens/StackNavigator/SignInSuccess';
 
-export function StackScreenRoutes() {
+export function SignInRoutes() {
     const { Navigator, Screen } = createNativeStackNavigator();
 
     useEffect(() => { 

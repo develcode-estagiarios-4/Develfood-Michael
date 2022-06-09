@@ -16,10 +16,11 @@ import {
 interface Props extends BorderlessButtonProps {
     source: ImageSourcePropType;
     source2?: ImageSourcePropType;
-    title: string;
+    title?: string;
+    onPress2?: () => void;
 }
 
-export function Header({ source, source2, title, ...rest }: Props) {
+export function Header({ source, source2, onPress2, title, ...rest }: Props) {
     console.log(title);
     return (
         <Container>
@@ -40,9 +41,9 @@ export function Header({ source, source2, title, ...rest }: Props) {
                         <Icon source={source} />
                     </BorderlessButton>
                     <Title>{title}</Title>
-                    <BorderlessButton>
+                    <BorderlessButton onPress={onPress2}>
                         <Icon source={source2} />
-                    </BorderlessButton>
+                    </BorderlessButton >
                 </>
             )}
         </Container>

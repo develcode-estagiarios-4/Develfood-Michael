@@ -1,9 +1,9 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RestaurantPage } from '@screens/StackNavigator/RestaurantPage';
-import { Home } from '@screens/TabNavigator/Home';
+import { TabScreenRoutes } from './routes';
 
-export function HomeRoutes({navigation}: any) {
+export function StackScreenRoutes({ navigation }: any) {
     const { Navigator, Screen } = createNativeStackNavigator();
     return (
         <Navigator
@@ -14,7 +14,7 @@ export function HomeRoutes({navigation}: any) {
         >
             <Screen
                 name="Home"
-                component={Home}
+                component={TabScreenRoutes}
             />
             <Screen
                 name="Restaurant"
