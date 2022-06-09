@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ImageProps } from 'react-native';
-import { useTheme } from 'styled-components';
-import { number } from 'yup';
+import theme from '@styles/theme';
 import {
     Container,
     RestaurantImage,
@@ -12,6 +11,9 @@ import {
     Avaliation,
     Star,
     AvaliationWrapper,
+    Like,
+    Button,
+    LikeWrapper,
 } from './styles';
 
 interface ListRestaurantProps {
@@ -20,9 +22,17 @@ interface ListRestaurantProps {
 }
 
 export function Restaurants({ name, source }: ListRestaurantProps) {
-    const theme = useTheme();
+
+     const [focused, setFocused] = useState(false);
+
     return (
         <Container>
+            <LikeWrapper>
+                <Button onPress={() => setFocused(!focused)}>
+                    <Like source={require('@assets/icons/emptyHeart.png')} style={focused ? {tintColor: theme.colors.icon_red} : null}/>
+                </Button>
+            </LikeWrapper>
+
             <RestaurantImage source={source} />
 
             <Content>
