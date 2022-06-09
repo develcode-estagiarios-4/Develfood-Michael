@@ -1,12 +1,44 @@
 import { RectButton } from 'react-native-gesture-handler';
+import { BorderlessButton } from 'react-native-gesture-handler';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
-export const Container = styled(RectButton)`
+export const Container = styled.TouchableOpacity.attrs({
+    activeOpacity: 1,
+})`
     width: ${RFValue(140)}px;
     height: ${RFValue(165)}px;
     background-color: ${({ theme }) => theme.colors.background};
     border-radius: ${RFValue(15)}px;
+`;
+
+export const LikeWrapper = styled.View`
+    position: absolute;
+    z-index: 1;
+    background-color: ${({ theme }) => theme.colors.background};
+    border-width: 1px;
+    border-color: ${({ theme }) => theme.colors.icon_gray};
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    width: ${RFValue(40)}px;
+    height: ${RFValue(40)}px;
+    justify-content: center;
+    align-items: center;
+    right: 0;
+`;
+
+export const Button = styled.TouchableOpacity.attrs({
+    activeOpacity: 0.8,
+})`
+    width: ${RFValue(25)}px;
+    height: ${RFValue(25)}px;
+`;
+
+export const Like = styled.Image.attrs({
+    resizeMode: 'contain',
+})`
+    width: ${RFValue(25)}px;
+    height: ${RFValue(25)}px;
 `;
 
 export const RestaurantImage = styled.Image.attrs({
@@ -58,7 +90,6 @@ export const SubTitle = styled.Text`
 export const AvaliationWrapper = styled.View`
     flex-direction: row;
     align-items: center;
-    
 `;
 
 export const Avaliation = styled.Text`

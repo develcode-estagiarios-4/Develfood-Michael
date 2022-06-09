@@ -1,8 +1,7 @@
-import React from 'react';
-import { ImageProps } from 'react-native';
+import React, { useState } from 'react';
+import { ImageProps, TouchableOpacityProps } from 'react-native';
 import { RectButtonProps } from 'react-native-gesture-handler';
-import { useTheme } from 'styled-components';
-import { number } from 'yup';
+import theme from '@styles/theme';
 import {
     Container,
     RestaurantImage,
@@ -13,17 +12,28 @@ import {
     Avaliation,
     Star,
     AvaliationWrapper,
+    Like,
+    Button,
+    LikeWrapper,
 } from './styles';
 
-interface ListRestaurantProps extends RectButtonProps{
+interface ListRestaurantProps extends TouchableOpacityProps{
     name: string;
     source: ImageProps['source'];
 }
 
 export function Restaurants({ name, source, ...rest }: ListRestaurantProps) {
-    const theme = useTheme();
+
+     const [focused, setFocused] = useState(false);
+
     return (
         <Container {...rest}>
+            <LikeWrapper>
+                <Button onPress={() => setFocused(!focused)}>
+                    <Like source={require('@assets/icons/emptyHeart.png')} style={focused ? {tintColor: theme.colors.icon_red} : null}/>
+                </Button>
+            </LikeWrapper>
+
             <RestaurantImage source={source} />
 
             <Content>
