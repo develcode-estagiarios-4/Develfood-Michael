@@ -8,16 +8,7 @@ export const Container = styled.View`
     justify-content: space-between;
     height: ${RFValue(50)}px;
     align-items: center;
-    padding: 10px;
-`;
-
-export const ButtonContainer = styled.View`
-    height: ${RFValue(56)}px;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    margin-top: ${RFValue(5)}px;
+    padding: ${RFValue(15)}px;
 `;
 
 export const UselessView = styled.View`
@@ -36,6 +27,13 @@ export const Icon = styled.Image.attrs({
 })`
     width: ${RFValue(30)}px;
     height: ${RFValue(30)}px;
+`;
+
+export const Like = styled.Image.attrs({
+    resizeMode: 'contain',
+})`
+    width: ${RFValue(22)}px;
+    height: ${RFValue(22)}px;
 `;
 
 export const Title = styled.Text`

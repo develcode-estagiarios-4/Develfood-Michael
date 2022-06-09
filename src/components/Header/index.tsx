@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ImageProps, ImageSourcePropType, View } from 'react-native';
 import {
     BorderlessButton,
     BorderlessButtonProps,
 } from 'react-native-gesture-handler';
+import theme from '@styles/theme';
 import {
-    ButtonContainer,
     Container,
     Icon,
+    Like,
     MapContainer,
     Title,
     UselessView,
@@ -17,16 +18,25 @@ interface Props extends BorderlessButtonProps {
     source: ImageSourcePropType;
     source2?: ImageSourcePropType;
     title?: string;
-    onPress2?: () => void;
+    like?: () => void;
+    goBack?: () => void;
 }
 
-export function Header({ source, source2, onPress2, title, ...rest }: Props) {
-    console.log(title);
+export function Header({
+    source,
+    source2,
+    goBack,
+    like,
+    title,
+    ...rest
+}: Props) {
+    const [focused, setFocused] = useState(false);
+
     return (
         <Container>
             {!source2 && (
                 <>
-                    <BorderlessButton {...rest}>
+                    <BorderlessButton onPress={goBack}>
                         <Icon source={source} />
                     </BorderlessButton>
                     <Title>{title}</Title>
@@ -37,13 +47,20 @@ export function Header({ source, source2, onPress2, title, ...rest }: Props) {
 
             {!!source2 && (
                 <>
-                    <BorderlessButton {...rest}>
+                    <BorderlessButton onPress={goBack}>
                         <Icon source={source} />
                     </BorderlessButton>
                     <Title>{title}</Title>
-                    <BorderlessButton onPress={onPress2}>
-                        <Icon source={source2} />
-                    </BorderlessButton >
+                    <BorderlessButton onPress={() => setFocused(!focused)}>
+                        <Like
+                            source={source2}
+                            style={
+                                focused
+                                    ? { tintColor: theme.colors.icon_red }
+                                    : null
+                            }
+                        />
+                    </BorderlessButton>
                 </>
             )}
         </Container>
