@@ -13,7 +13,16 @@ import {
     ImageWrapper,
 } from './styles';
 
-export function FoodCard() {
+interface Props {
+    description: string;
+    foodType: {};
+    id: number;
+    photo_url: string;
+    price: string;
+    name: string;
+}
+
+export function FoodCard({name} : Props) {
     return (
         <Container>
             <ImageWrapper>
@@ -31,7 +40,7 @@ export function FoodCard() {
                         ellipsizeMode="tail"
                         numberOfLines={1}
                     >
-                        Camarão com fritas
+                        {name}
                     </Title>
                 </View>
                 <View
