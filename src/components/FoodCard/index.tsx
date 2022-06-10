@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import {
     Container,
@@ -9,7 +10,6 @@ import {
     Price,
     Footer,
     Wrapper,
-    DescriptionWrapper,
     ImageWrapper,
 } from './styles';
 
@@ -21,27 +21,46 @@ export function FoodCard() {
             </ImageWrapper>
 
             <Wrapper>
-                <Title
-                    ellipsizeMode="tail"
-                    numberOfLines={1}
+                <View
+                    style={{
+                        width: '100%',
+                        height: '25%',
+                    }}
                 >
-                    Camarão com fritas
-                </Title>
-
-                <Description
-                    ellipsizeMode="tail"
-                    numberOfLines={3}
+                    <Title
+                        ellipsizeMode="tail"
+                        numberOfLines={1}
+                    >
+                        Camarão com fritas
+                    </Title>
+                </View>
+                <View
+                    style={{
+                        width: '100%',
+                        height: '50%',
+                    }}
                 >
-                    Um prato de camarão com fritas é uma ótima opção para pedir
-                    quando se está com a família.
-                </Description>
-
-                <Footer>
-                    <Price>R$ 29,90</Price>
-                    <AddButton>
-                        <Title>Adicionar</Title>
-                    </AddButton>
-                </Footer>
+                    <Description
+                        ellipsizeMode="tail"
+                        numberOfLines={3}
+                    >
+                        Um prato de camarão com fritas é uma ótima opção para
+                        pedir quando se está com a família.
+                    </Description>
+                </View>
+                <View
+                    style={{
+                        width: '100%',
+                        height: '30%',
+                    }}
+                >
+                    <Footer>
+                        <Price>R$ 29,90</Price>
+                        <AddButton>
+                            <Title>Adicionar</Title>
+                        </AddButton>
+                    </Footer>
+                </View>
             </Wrapper>
         </Container>
     );

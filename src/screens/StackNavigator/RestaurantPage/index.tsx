@@ -51,8 +51,9 @@ export function RestaurantPage({ navigation, route }: any) {
     }, [])
 
     useEffect(() => {
-        console.log(data.content)
-        console.log(data.content[0].foodType)
+        !!data &&
+            console.log(data?.content);
+        //console.log(data?.content[0]?.foodType)
      }, [data])
 
     return (
