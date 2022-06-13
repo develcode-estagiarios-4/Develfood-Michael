@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ImageSourcePropType, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import {
     Container,
@@ -14,19 +14,21 @@ import {
 } from './styles';
 
 interface Props {
-    description: string;
-    foodType: {};
-    id: number;
-    photo_url: string;
+    foodType?: {
+        id: number;
+        name: string;
+    };
+    id?: number;
+    photo_url: ImageSourcePropType;
     price: string;
     name: string;
 }
 
-export function FoodCard({name} : Props) {
+export function FoodCard({name, price, photo_url} : Props) {
     return (
         <Container>
             <ImageWrapper>
-                <FoodImage source={require('@assets/icons/tasty.jpg')} />
+                <FoodImage source={photo_url} />
             </ImageWrapper>
 
             <Wrapper>
@@ -64,7 +66,7 @@ export function FoodCard({name} : Props) {
                     }}
                 >
                     <Footer>
-                        <Price>R$ 29,90</Price>
+                        <Price>{price}</Price>
                         <AddButton>
                             <Title>Adicionar</Title>
                         </AddButton>

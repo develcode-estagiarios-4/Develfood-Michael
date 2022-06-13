@@ -1,21 +1,25 @@
+import { Dimensions } from 'react-native';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
+const window = Dimensions.get('window');
+
 export const Container = styled.View.attrs({
-    elevation: 8,
+    elevation: 4,
 })`
-    width: 100%;
-    height: ${RFPercentage(17)}px;
+    width: ${window.width - 40}px;
+    height: ${RFPercentage(15)}px;
     flex-direction: row;
     background-color: ${({ theme }) => theme.colors.background};
     border-radius: 15px;
     align-items: center;
+    margin-bottom: ${RFValue(12)}px;
 `;
 
 export const Wrapper = styled.View`
     width: 65%;
     height: ${RFValue(85)}px;
-    padding-right: ${RFValue(15)}px;
+    padding-right: ${RFValue(18)}px;
     justify-content: center;
 `;
 

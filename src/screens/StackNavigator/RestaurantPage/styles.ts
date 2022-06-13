@@ -1,10 +1,15 @@
-import { RFValue } from "react-native-responsive-fontsize";
-import styled from "styled-components/native";
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+import styled from 'styled-components/native';
 
 export const Container = styled.View`
     flex: 1;
     background-color: ${({ theme }) => theme.colors.background};
-    padding: 0 ${RFValue(15)}px;
+`;
+
+export const RestaurantImage = styled.Image`
+    width: 60;
+    height: 60;
+    border-radius: 50;
 `;
 
 export const RestaurantWrapper = styled.View`
@@ -12,7 +17,8 @@ export const RestaurantWrapper = styled.View`
     justify-content: space-between;
     align-items: center;
     //background-color: red;
-    padding: ${RFValue(30)}px 0;
+    padding-bottom: ${RFValue(25)}px;
+    padding-top: ${RFValue(18)}px;
 `;
 
 export const TitleWrapper = styled.View`
@@ -28,7 +34,7 @@ export const Separator = styled.View`
 `;
 
 export const Title = styled.Text`
-    font-size: ${({ theme }) => theme.sizes.extraLarge};
+    font-size: ${({ theme }) => theme.sizes.very_large};
     font-family: ${({ theme }) => theme.fonts.secondaryReg};
     color: ${({ theme }) => theme.colors.text_dark};
 `;
@@ -43,3 +49,8 @@ export const PlatesWrapper = styled.View`
     padding: ${RFValue(15)}px 0;
 `;
 
+export const LoadWrapper = styled.View`
+    
+    height: ${RFValue(100)}px;
+  
+`;

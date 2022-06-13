@@ -39,6 +39,7 @@ export default {
         less_than_medium: RFValue(13),
         medium: RFValue(14),
         large: RFValue(16),
+        very_large: RFValue(18),
         extraLarge: RFValue(20),
         hiperMegaExtraLarge: RFValue(24),
         huge: RFValue(26),
