@@ -15,12 +15,19 @@ import {
 import { Input } from '@components/Input';
 import { FoodCard } from '@components/FoodCard';
 import { FocusAwareStatusBar } from '@components/FocusStatusBar';
-import { RFValue } from 'react-native-responsive-fontsize';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import { useFetch } from '@services/useFetch';
 import { AuthContext } from '@context/auth';
 import theme from '@styles/theme';
 import { EmptyFoodCardList } from '@components/EmptyFoodCardList';
 import { useDebouncedCallback } from 'use-debounce';
+import Animated, {
+    useAnimatedScrollHandler,
+    useSharedValue,
+    useAnimatedStyle,
+    interpolate,
+    Extrapolate,
+} from 'react-native-reanimated';
 
 interface Food {
     description: string;
@@ -61,6 +68,23 @@ export function RestaurantPage({ navigation, route }: any) {
         handleOnChangeText(text);
     }, 1500);
 
+    const scrollY = useSharedValue(0);
+
+    const scrollHandler = useAnimatedScrollHandler((event: any) => {
+        scrollY.value = event.contentOffset.y;
+    });
+
+     const headerSeparatorStyle = useAnimatedStyle(() => {
+         return {
+             opacity: interpolate(
+                 scrollY.value,
+                 [5, 30],
+                 [0, 1],
+                 Extrapolate.CLAMP
+             ),
+         };
+     });
+
     function onSuccess(data: FoodList) {
         !!data.content && setFoods([...foods, ...data.content]);
     }
@@ -92,7 +116,7 @@ export function RestaurantPage({ navigation, route }: any) {
     // }, [data]);
 
     return (
-        <>
+        <View style={{ backgroundColor: 'white' }}>
             <FocusAwareStatusBar
                 backgroundColor={'white'}
                 barStyle={'dark-content'}
@@ -101,10 +125,22 @@ export function RestaurantPage({ navigation, route }: any) {
                 source={require('@assets/icons/back.png')}
                 source2={require('@assets/icons/emptyHeart.png')}
                 goBack={() => navigation.pop()}
+                title={`${name}`}
             />
-
-            <FlatList
-                style={{ backgroundColor: 'white' }}
+            <Animated.View
+                style={[
+                    {
+                        width: '100%',
+                        height: 2,
+                        backgroundColor: theme.colors.divider,
+                    },
+                    headerSeparatorStyle,
+                ]}
+            />
+            <Animated.FlatList
+                onScroll={scrollHandler}
+                scrollEventThrottle={16}
+                //style={{ backgroundColor: 'white' }}
                 data={foods}
                 keyExtractor={(item) => item?.id}
                 contentContainerStyle={{
@@ -168,11 +204,14 @@ export function RestaurantPage({ navigation, route }: any) {
                 }
                 ListEmptyComponent={
                     !loading ? (
-                        <EmptyFoodCardList title="Nenhum prato encontrado" />
+                        <>
+                            <EmptyFoodCardList title="Nenhum prato encontrado" />
+                            <EmptyFoodCardList title="Nenhum prato encontrado" />
+                            <EmptyFoodCardList title="Nenhum prato encontrado" />
+                        </>
                     ) : null
                 }
-                onScroll={() => {}}
             />
-        </>
+        </View>
     );
 }
