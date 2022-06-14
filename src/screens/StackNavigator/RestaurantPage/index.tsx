@@ -128,46 +128,9 @@ export function RestaurantPage({ navigation, route }: any) {
         setLoading(false);
     }
 
-    function returnBase64() {
-        image.forEach((link) => {
-            const { data, error, fetchData } = useFetch<Base64>(`${link}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-        });
-
-    }
-
     useEffect(() => {
         loadRestaurants();
     }, [filter]);
-
-    useEffect(() => {
-        const urlArray: string[] = [];
-        !!data && data.forEach((food: Food) => {
-            urlArray.push(food.photo_url)
-        })
-        setImage(urlArray)
-    }, [data]);
-
-     useEffect(() => {
-        console.log(image)
-     }, [image]);
-
-//     useEffect(() => {
-//         image.forEach((link) => {
-//           const { data, error, fetchData } = useFetch<Base64>(
-//               `${link}`,
-//               {
-//                   headers: {
-//                       Authorization: `Bearer ${token}`,
-//                   },
-//               }
-//           );
-//       })
-      
-//   }, [image]);
 
     return (
         <>
@@ -234,11 +197,7 @@ export function RestaurantPage({ navigation, route }: any) {
                         <FoodCard
                             name={item.description}
                             price={item.price}
-                            source={
-                                item.photo_url
-                                    ? { uri: item.photo_url }
-                                    : require('@assets/icons/defaultRestaurant.png')
-                            }
+                            link={item.photo_url}
                         />
                     )}
                     ListFooterComponent={

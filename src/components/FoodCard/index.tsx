@@ -1,6 +1,7 @@
-import React from 'react';
+import { useFetch } from '@services/useFetch';
+import React, { useContext, useEffect } from 'react';
 import { ImageSourcePropType, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { AuthContext } from '@context/auth';
 import {
     Container,
     FoodImage,
@@ -19,16 +20,39 @@ interface Props {
         name: string;
     };
     id?: number;
-    source: ImageSourcePropType;
+    link: any;
     price: string;
     name: string;
 }
 
-export function FoodCard({name, price, source} : Props) {
+export function FoodCard({ name, price, link }: Props) {
+
+    const {token} = useContext(AuthContext);
+
+    const photo = link.slice(33);
+
+    const { data, loading, error, fetchData } = useFetch(photo, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    async function loadRestaurants() {
+        
+        await fetchData();
+       
+    }
+
+
+    useEffect(() => { 
+        !!photo && loadRestaurants();
+        console.log('useeffect do foodcard');
+    }, [photo]);
+
     return (
         <Container>
             <ImageWrapper>
-                <FoodImage source={source} />
+                <FoodImage source={{ uri: data?.code }} />
             </ImageWrapper>
 
             <Wrapper>
@@ -66,7 +90,7 @@ export function FoodCard({name, price, source} : Props) {
                     }}
                 >
                     <Footer>
-                        <Price>R$ {price.toString().replace('.',',')}</Price>
+                        <Price>R$ {price.toString().replace('.', ',')}</Price>
                         <AddButton>
                             <Title>Adicionar</Title>
                         </AddButton>
