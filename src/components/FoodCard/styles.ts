@@ -14,6 +14,7 @@ export const Container = styled.View.attrs({
     border-radius: 15px;
     align-items: center;
     margin-bottom: ${RFValue(12)}px;
+    align-self: center;
 `;
 
 export const Wrapper = styled.View`

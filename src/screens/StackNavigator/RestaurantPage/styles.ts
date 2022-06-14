@@ -50,7 +50,7 @@ export const PlatesWrapper = styled.View`
 `;
 
 export const LoadWrapper = styled.View`
-    
-    height: ${RFValue(100)}px;
-  
+    height: ${RFPercentage(50)}px;
+    align-items: center;
+    justify-content: center;
 `;

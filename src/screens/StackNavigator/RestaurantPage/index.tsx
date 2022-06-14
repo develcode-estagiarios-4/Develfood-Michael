@@ -36,6 +36,11 @@ import Animated, {
     withTiming,
 } from 'react-native-reanimated';
 
+interface Base64 {
+    id: number;
+    code: string;
+}
+
 interface Food {
     description: string;
     foodType: {
@@ -48,21 +53,18 @@ interface Food {
     restaurantName: string;
 }
 
-interface FoodList {
-    content: Food[];
-    totalPages: number;
-}
-
 export function RestaurantPage({ navigation, route }: any) {
     const { id, name, photo } = route.params;
     const { token } = useContext(AuthContext);
 
     const [foods, setFoods] = useState<Food[]>([]);
-    const [filter, setFilter] = useState('hamburguer');
+    const [filter, setFilter] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [image, setImage] = useState<string[]>([]);
 
     //plate/search?name=ham&restaurantid=1
 
-    const { data, loading, error, fetchData } = useFetch<FoodList>(
+    const { data, error, fetchData } = useFetch<Food[]>(
         `/plate/search?name=${filter}&restaurantid=${id}`,
         {
             headers: {
@@ -76,6 +78,7 @@ export function RestaurantPage({ navigation, route }: any) {
     }, 1500);
 
     const scrollY = useSharedValue(0);
+    const opacity = useSharedValue(0);
 
     const scrollHandler = useAnimatedScrollHandler((event: any) => {
         scrollY.value = event.contentOffset.y;
@@ -94,43 +97,77 @@ export function RestaurantPage({ navigation, route }: any) {
 
     const headerTitle = useAnimatedStyle(() => {
         return {
-            fontSize: theme.sizes.medium,
-            color: theme.colors.text_dark,
-            fontFamily: theme.fonts.primaryReg,
             opacity: interpolate(
                 scrollY.value,
-                [45, 60],
+                [40, 100],
                 [0, 1],
                 Extrapolate.CLAMP
             ),
         };
     });
 
-    function onSuccess(data: FoodList) {
-        !!data.content && setFoods([...foods, ...data.content]);
+    function onSuccess(data: Food[]) {
+        !!data && setFoods([...foods, ...data]);
     }
 
     async function loadRestaurants() {
+        setLoading(true);
         await fetchData(onSuccess);
+        setLoading(false);
     }
 
     function handleOnChangeText(value: string) {
+        setLoading(true);
         if (value.length > 1) {
             setFoods([]);
             setFilter(value);
-        } else if (value.length <= 1) {
+        } else {
             setFoods([]);
             setFilter('');
         }
+        setLoading(false);
+    }
+
+    function returnBase64() {
+        image.forEach((link) => {
+            const { data, error, fetchData } = useFetch<Base64>(`${link}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+        });
+
     }
 
     useEffect(() => {
         loadRestaurants();
     }, [filter]);
 
-    // useEffect(() => {
-    //     !!data.content && console.log(data.content[0].foodType);
-    // }, [data]);
+    useEffect(() => {
+        const urlArray: string[] = [];
+        !!data && data.forEach((food: Food) => {
+            urlArray.push(food.photo_url)
+        })
+        setImage(urlArray)
+    }, [data]);
+
+     useEffect(() => {
+        console.log(image)
+     }, [image]);
+
+//     useEffect(() => {
+//         image.forEach((link) => {
+//           const { data, error, fetchData } = useFetch<Base64>(
+//               `${link}`,
+//               {
+//                   headers: {
+//                       Authorization: `Bearer ${token}`,
+//                   },
+//               }
+//           );
+//       })
+      
+//   }, [image]);
 
     return (
         <>
@@ -143,9 +180,9 @@ export function RestaurantPage({ navigation, route }: any) {
                 source2={require('@assets/icons/emptyHeart.png')}
                 goBack={() => navigation.pop()}
                 title={`${name}`}
-                style={headerTitle}
+                style={[styles.header, headerTitle]}
             />
-            <View style={{ backgroundColor: 'white' }}>
+            <View style={{ backgroundColor: 'white', flex: 1 }}>
                 <Animated.View
                     style={[styles.separator, headerSeparatorStyle]}
                 />
@@ -158,7 +195,6 @@ export function RestaurantPage({ navigation, route }: any) {
                         backgroundColor: theme.colors.background,
                         paddingHorizontal: RFValue(15),
                         //alignItems: 'center',
-                        //justifyContent: 'center',
                     }}
                     ListHeaderComponent={
                         <>
@@ -197,31 +233,29 @@ export function RestaurantPage({ navigation, route }: any) {
                     renderItem={({ item }) => (
                         <FoodCard
                             name={item.description}
-                            price={`R$ ${item.price}`}
-                            photo_url={
+                            price={item.price}
+                            source={
                                 item.photo_url
-                                    ? item.photo_url
+                                    ? { uri: item.photo_url }
                                     : require('@assets/icons/defaultRestaurant.png')
                             }
                         />
                     )}
                     ListFooterComponent={
-                        <LoadWrapper>
-                            {!!loading && (
+                        loading ? (
+                            <LoadWrapper>
                                 <ActivityIndicator
                                     size={50}
                                     color={theme.colors.background_red}
                                 />
-                            )}
-                        </LoadWrapper>
+                            </LoadWrapper>
+                        ) : (
+                            <View style={{ height: 30 }}></View>
+                        )
                     }
                     ListEmptyComponent={
                         !loading ? (
-                            <>
-                                <EmptyFoodCardList title="Nenhum prato encontrado" />
-                                <EmptyFoodCardList title="Nenhum prato encontrado" />
-                                <EmptyFoodCardList title="Nenhum prato encontrado" />
-                            </>
+                            <EmptyFoodCardList title="Nenhum prato encontrado" />
                         ) : null
                     }
                 />
@@ -235,5 +269,11 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 1,
         backgroundColor: theme.colors.divider,
+    },
+    header: {
+        fontSize: theme.sizes.medium,
+        color: theme.colors.text_dark,
+        fontFamily: theme.fonts.primaryReg,
+        opacity: 0,
     },
 });

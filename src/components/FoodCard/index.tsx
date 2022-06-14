@@ -19,16 +19,16 @@ interface Props {
         name: string;
     };
     id?: number;
-    photo_url: ImageSourcePropType;
+    source: ImageSourcePropType;
     price: string;
     name: string;
 }
 
-export function FoodCard({name, price, photo_url} : Props) {
+export function FoodCard({name, price, source} : Props) {
     return (
         <Container>
             <ImageWrapper>
-                <FoodImage source={photo_url} />
+                <FoodImage source={source} />
             </ImageWrapper>
 
             <Wrapper>
@@ -66,7 +66,7 @@ export function FoodCard({name, price, photo_url} : Props) {
                     }}
                 >
                     <Footer>
-                        <Price>{price}</Price>
+                        <Price>R$ {price.toString().replace('.',',')}</Price>
                         <AddButton>
                             <Title>Adicionar</Title>
                         </AddButton>

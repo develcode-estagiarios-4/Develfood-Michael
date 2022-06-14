@@ -6,7 +6,7 @@ export function useFetch<TResponse = unknown>(
     url: string,
     options?: AxiosRequestConfig
 ) {
-    const [data, setData] = useState({} as TResponse);
+    const [data, setData] = useState();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<AxiosError<any, any> | any>(null);
 
@@ -16,6 +16,7 @@ export function useFetch<TResponse = unknown>(
             const response = await api.get(url, options);
             response.data && onSuccess && onSuccess(response.data);
             setData(response.data);
+            console.log(data)
         } catch (e) {
             console.log(e);
             setError(e);
