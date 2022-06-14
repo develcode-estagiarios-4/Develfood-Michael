@@ -17,15 +17,10 @@ import {
     Button,
     Dimensions,
     Image,
+    StatusBar,
     Text,
 } from 'react-native';
 import { AuthContext } from '../../../context/auth';
-import {
-    StackActions,
-    useFocusEffect,
-    useNavigation,
-} from '@react-navigation/native';
-import { FocusAwareStatusBar } from '@components/FocusStatusBar';
 import { HeaderHome } from '@components/HeaderHome';
 import { Restaurants } from '@components/Restaurant';
 import { Categoria } from '@components/Categorias';
@@ -100,7 +95,7 @@ export function Home({ navigation, route }: any) {
 
     return (
         <>
-            <FocusAwareStatusBar
+            <StatusBar
                 barStyle={'light-content'}
                 backgroundColor={'#C20C18'}
             />

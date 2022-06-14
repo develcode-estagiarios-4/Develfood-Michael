@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ImageProps, ImageSourcePropType, View } from 'react-native';
+import { ImageProps, ImageSourcePropType, StyleProp, TextStyle, View } from 'react-native';
 import {
     BorderlessButton,
     BorderlessButtonProps,
@@ -9,10 +9,11 @@ import {
     Container,
     Icon,
     Like,
-    MapContainer,
-    Title,
+    Button,
     UselessView,
 } from './styles';
+import Animated from 'react-native-reanimated';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 interface Props extends BorderlessButtonProps {
     source: ImageSourcePropType;
@@ -20,6 +21,7 @@ interface Props extends BorderlessButtonProps {
     title?: string;
     like?: () => void;
     goBack?: () => void;
+    style?: TextStyle;
 }
 
 export function Header({
@@ -28,6 +30,7 @@ export function Header({
     goBack,
     like,
     title,
+    style,
     ...rest
 }: Props) {
     const [focused, setFocused] = useState(false);
@@ -36,10 +39,10 @@ export function Header({
         <Container>
             {!source2 && (
                 <>
-                    <BorderlessButton onPress={goBack}>
+                    <Button onPress={goBack}>
                         <Icon source={source} />
-                    </BorderlessButton>
-                    <Title>{title}</Title>
+                    </Button>
+                    <Animated.Text style={style}>{title}</Animated.Text>
 
                     <UselessView />
                 </>
@@ -47,11 +50,11 @@ export function Header({
 
             {!!source2 && (
                 <>
-                    <BorderlessButton onPress={goBack}>
+                    <Button onPress={goBack}>
                         <Icon source={source} />
-                    </BorderlessButton>
-                    <Title>{title}</Title>
-                    <BorderlessButton onPress={() => setFocused(!focused)}>
+                    </Button>
+                    <Animated.Text style={style}>{title}</Animated.Text>
+                    <Button onPress={() => setFocused(!focused)}>
                         <Like
                             source={source2}
                             style={
@@ -60,7 +63,7 @@ export function Header({
                                     : null
                             }
                         />
-                    </BorderlessButton>
+                    </Button>
                 </>
             )}
         </Container>

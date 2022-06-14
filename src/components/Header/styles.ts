@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../styles/theme';
+import { BorderlessButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
     background-color: ${(props) => props.theme.colors.background};
@@ -22,18 +23,23 @@ export const MapContainer = styled.View`
 `;
 
 export const Icon = styled.Image.attrs({
-    resizeMode: 'contain',
+    
     tintColor: theme.colors.icon_dark,
 })`
-    width: ${RFValue(30)}px;
-    height: ${RFValue(30)}px;
+    width: 100%;
+    height: 100%;
 `;
 
 export const Like = styled.Image.attrs({
     resizeMode: 'contain',
 })`
-    width: ${RFValue(22)}px;
-    height: ${RFValue(22)}px;
+    width: 100%;
+    height: 100%;
+`;
+
+export const Button = styled(BorderlessButton)`
+    width: ${RFValue(30)}px;
+    height: ${RFValue(30)}px;
 `;
 
 export const Title = styled.Text`

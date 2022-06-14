@@ -1,5 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Text, View } from 'react-native';
+import {
+    ActivityIndicator,
+    FlatList,
+    StyleSheet,
+    Text,
+    View,
+} from 'react-native';
 import { Header } from '@components/Header';
 import {
     Container,
@@ -27,6 +33,7 @@ import Animated, {
     useAnimatedStyle,
     interpolate,
     Extrapolate,
+    withTiming,
 } from 'react-native-reanimated';
 
 interface Food {
@@ -74,16 +81,30 @@ export function RestaurantPage({ navigation, route }: any) {
         scrollY.value = event.contentOffset.y;
     });
 
-     const headerSeparatorStyle = useAnimatedStyle(() => {
-         return {
-             opacity: interpolate(
-                 scrollY.value,
-                 [5, 30],
-                 [0, 1],
-                 Extrapolate.CLAMP
-             ),
-         };
-     });
+    const headerSeparatorStyle = useAnimatedStyle(() => {
+        return {
+            opacity: interpolate(
+                scrollY.value,
+                [5, 50],
+                [0, 1],
+                Extrapolate.CLAMP
+            ),
+        };
+    });
+
+    const headerTitle = useAnimatedStyle(() => {
+        return {
+            fontSize: theme.sizes.medium,
+            color: theme.colors.text_dark,
+            fontFamily: theme.fonts.primaryReg,
+            opacity: interpolate(
+                scrollY.value,
+                [45, 60],
+                [0, 1],
+                Extrapolate.CLAMP
+            ),
+        };
+    });
 
     function onSuccess(data: FoodList) {
         !!data.content && setFoods([...foods, ...data.content]);
@@ -107,111 +128,112 @@ export function RestaurantPage({ navigation, route }: any) {
         loadRestaurants();
     }, [filter]);
 
-    useEffect(() => {
-        console.log(error);
-    }, [error]);
-
     // useEffect(() => {
     //     !!data.content && console.log(data.content[0].foodType);
     // }, [data]);
 
     return (
-        <View style={{ backgroundColor: 'white' }}>
+        <>
             <FocusAwareStatusBar
                 backgroundColor={'white'}
-                barStyle={'dark-content'}
+                barStyle={'light-content'}
             />
             <Header
                 source={require('@assets/icons/back.png')}
                 source2={require('@assets/icons/emptyHeart.png')}
                 goBack={() => navigation.pop()}
                 title={`${name}`}
+                style={headerTitle}
             />
-            <Animated.View
-                style={[
-                    {
-                        width: '100%',
-                        height: 2,
-                        backgroundColor: theme.colors.divider,
-                    },
-                    headerSeparatorStyle,
-                ]}
-            />
-            <Animated.FlatList
-                onScroll={scrollHandler}
-                scrollEventThrottle={16}
-                //style={{ backgroundColor: 'white' }}
-                data={foods}
-                keyExtractor={(item) => item?.id}
-                contentContainerStyle={{
-                    backgroundColor: theme.colors.background,
-                    paddingHorizontal: RFValue(15),
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-                ListHeaderComponent={
-                    <>
-                        <RestaurantWrapper>
-                            <TitleWrapper>
-                                <Title>{name}</Title>
-                                <SubtitleCategory>Fast Food</SubtitleCategory>
-                            </TitleWrapper>
-
-                            <RestaurantImage
-                                source={
-                                    photo
-                                        ? {
-                                              uri: `${photo}`,
-                                          }
-                                        : require('@assets/icons/defaultRestaurant.png')
-                                }
-                            />
-                        </RestaurantWrapper>
-                        <Separator />
-                        <PlatesWrapper>
-                            <Title>Pratos</Title>
-                        </PlatesWrapper>
-
-                        <View style={{ marginBottom: RFValue(15) }}>
-                            <Input
-                                source={require('@assets/icons/lupa.png')}
-                                placeholder={`Buscar em ${name}`}
-                                onChangeText={(text) => debounced(text)}
-                            />
-                        </View>
-                    </>
-                }
-                renderItem={({ item }) => (
-                    <FoodCard
-                        name={item.description}
-                        price={`R$ ${item.price}`}
-                        photo_url={
-                            item.photo_url
-                                ? item.photo_url
-                                : require('@assets/icons/defaultRestaurant.png')
-                        }
-                    />
-                )}
-                ListFooterComponent={
-                    <LoadWrapper>
-                        {!!loading && (
-                            <ActivityIndicator
-                                size={50}
-                                color={theme.colors.background_red}
-                            />
-                        )}
-                    </LoadWrapper>
-                }
-                ListEmptyComponent={
-                    !loading ? (
+            <View style={{ backgroundColor: 'white' }}>
+                <Animated.View
+                    style={[styles.separator, headerSeparatorStyle]}
+                />
+                <Animated.FlatList
+                    onScroll={scrollHandler}
+                    scrollEventThrottle={16}
+                    data={foods}
+                    keyExtractor={(item) => item?.id}
+                    contentContainerStyle={{
+                        backgroundColor: theme.colors.background,
+                        paddingHorizontal: RFValue(15),
+                        //alignItems: 'center',
+                        //justifyContent: 'center',
+                    }}
+                    ListHeaderComponent={
                         <>
-                            <EmptyFoodCardList title="Nenhum prato encontrado" />
-                            <EmptyFoodCardList title="Nenhum prato encontrado" />
-                            <EmptyFoodCardList title="Nenhum prato encontrado" />
+                            <RestaurantWrapper>
+                                <TitleWrapper>
+                                    <Title>{name}</Title>
+                                    <SubtitleCategory>
+                                        Fast Food
+                                    </SubtitleCategory>
+                                </TitleWrapper>
+
+                                <RestaurantImage
+                                    source={
+                                        photo
+                                            ? {
+                                                  uri: `${photo}`,
+                                              }
+                                            : require('@assets/icons/defaultRestaurant.png')
+                                    }
+                                />
+                            </RestaurantWrapper>
+                            <Separator />
+                            <PlatesWrapper>
+                                <Title>Pratos</Title>
+                            </PlatesWrapper>
+
+                            <View style={{ marginBottom: RFValue(15) }}>
+                                <Input
+                                    source={require('@assets/icons/lupa.png')}
+                                    placeholder={`Buscar em ${name}`}
+                                    onChangeText={(text) => debounced(text)}
+                                />
+                            </View>
                         </>
-                    ) : null
-                }
-            />
-        </View>
+                    }
+                    renderItem={({ item }) => (
+                        <FoodCard
+                            name={item.description}
+                            price={`R$ ${item.price}`}
+                            photo_url={
+                                item.photo_url
+                                    ? item.photo_url
+                                    : require('@assets/icons/defaultRestaurant.png')
+                            }
+                        />
+                    )}
+                    ListFooterComponent={
+                        <LoadWrapper>
+                            {!!loading && (
+                                <ActivityIndicator
+                                    size={50}
+                                    color={theme.colors.background_red}
+                                />
+                            )}
+                        </LoadWrapper>
+                    }
+                    ListEmptyComponent={
+                        !loading ? (
+                            <>
+                                <EmptyFoodCardList title="Nenhum prato encontrado" />
+                                <EmptyFoodCardList title="Nenhum prato encontrado" />
+                                <EmptyFoodCardList title="Nenhum prato encontrado" />
+                            </>
+                        ) : null
+                    }
+                />
+            </View>
+        </>
     );
 }
+
+const styles = StyleSheet.create({
+    separator: {
+        width: '100%',
+        height: 1,
+        backgroundColor: theme.colors.divider,
+    },
+});

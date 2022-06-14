@@ -2,7 +2,7 @@ import React from 'react';
 import { Image } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { Container, Title } from './styles';
-import Animated, { BaseAnimationBuilder, EntryExitAnimationFunction, FadeIn, FadeInDown, Keyframe } from 'react-native-reanimated';
+import Animated, { FadeInDown  } from 'react-native-reanimated';
 
 interface Props {
     title: string;
