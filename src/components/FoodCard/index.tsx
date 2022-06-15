@@ -23,11 +23,6 @@ import theme from '@styles/theme';
 import Animated, {
     FadeInLeft,
     FadeInRight,
-    RollInRight,
-    SlideInUp,
-    ZoomIn,
-    ZoomOut,
-    FadeIn,
 } from 'react-native-reanimated';
 
 interface Props {
@@ -72,15 +67,17 @@ export function FoodCard({ name, price, link, description }: Props) {
             entering={FadeInRight}
         >
             <ImageWrapper>
-                <Animated.Image
-                    source={
-                        !!data
-                            ? { uri: data?.code }
-                            : require('@assets/icons/defaultRestaurant.png')
-                    }
-                    style={styles.image}
-                    entering={FadeInLeft.delay(400)}
-                />
+                {!loading && (
+                    <Animated.Image
+                        source={
+                            !!data
+                                ? { uri: data?.code }
+                                : require('@assets/icons/defaultRestaurant.png')
+                        }
+                        style={styles.image}
+                        entering={FadeInLeft}
+                    />
+                )}
                 <Animated.View style={styles.imageBackView}></Animated.View>
             </ImageWrapper>
 
@@ -133,7 +130,7 @@ const window = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
-        width: window.width - RFValue(40),
+        width: window.width - RFValue(30),
         height: RFPercentage(15),
         flexDirection: 'row',
         backgroundColor: theme.colors.background,

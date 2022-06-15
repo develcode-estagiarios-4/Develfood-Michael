@@ -7,9 +7,15 @@ export const Container = styled.View`
 `;
 
 export const RestaurantImage = styled.Image`
-    width: 60;
-    height: 60;
+    width: 70;
+    height: 70;
     border-radius: 50;
+`;
+
+export const ImageWrapper = styled.View`
+    width: 70;
+    height: 70;
+    background-color: red;
 `;
 
 export const RestaurantWrapper = styled.View`

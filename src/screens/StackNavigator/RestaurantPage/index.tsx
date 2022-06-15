@@ -5,6 +5,7 @@ import {
     StyleSheet,
     Text,
     View,
+    Image,
 } from 'react-native';
 import { Header } from '@components/Header';
 import {
@@ -17,6 +18,7 @@ import {
     PlatesWrapper,
     RestaurantImage,
     LoadWrapper,
+    ImageWrapper,
 } from './styles';
 import { Input } from '@components/Input';
 import { FoodCard } from '@components/FoodCard';
@@ -34,23 +36,28 @@ import Animated, {
     interpolate,
     Extrapolate,
     withTiming,
+    FadeIn,
+    FadeInLeft,
+    FadeInRight,
 } from 'react-native-reanimated';
 
 interface Food {
     description: string;
     name: string;
-    foodType: {
-        id: number;
-        name: string;
-    };
+    foodType: string;
     id: number;
     photo_url: string;
     price: string;
     restaurantName: string;
 }
 
+interface Image {
+    code: string;
+    id: number;
+}
+
 export function RestaurantPage({ navigation, route }: any) {
-    const { id, name, photo } = route.params;
+    const { id, name, photo_url, food_types } = route.params;
     const { token } = useContext(AuthContext);
 
     const [foods, setFoods] = useState<Food[]>([]);
@@ -65,6 +72,18 @@ export function RestaurantPage({ navigation, route }: any) {
             },
         }
     );
+    //console.log(photo_url + 'oi bacana')
+
+    const {
+        data: dataImage,
+        error: errorImage,
+        loading: loadingImage,
+        fetchData: fetchImage,
+    } = useFetch<Image>(`${photo_url}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
 
     const debounced = useDebouncedCallback((text) => {
         handleOnChangeText(text);
@@ -103,10 +122,16 @@ export function RestaurantPage({ navigation, route }: any) {
         !!data && setFoods([...foods, ...data]);
     }
 
-    async function loadRestaurants() {
+    async function loadFoods() {
         setLoading(true);
         await fetchData(onSuccess);
         setLoading(false);
+    }
+
+    async function loadRestaurantImage() {
+        console.log('oi');
+        await fetchImage();
+        console.log('tchau');
     }
 
     function handleOnChangeText(value: string) {
@@ -122,7 +147,8 @@ export function RestaurantPage({ navigation, route }: any) {
     }
 
     useEffect(() => {
-        loadRestaurants();
+        loadFoods();
+        loadRestaurantImage();
     }, [filter]);
 
     return (
@@ -150,7 +176,6 @@ export function RestaurantPage({ navigation, route }: any) {
                     contentContainerStyle={{
                         backgroundColor: theme.colors.background,
                         paddingHorizontal: RFValue(15),
-                        //alignItems: 'center',
                     }}
                     ListHeaderComponent={
                         <>
@@ -158,19 +183,26 @@ export function RestaurantPage({ navigation, route }: any) {
                                 <TitleWrapper>
                                     <Title>{name}</Title>
                                     <SubtitleCategory>
-                                        Fast Food
+                                        {food_types.charAt(0).toUpperCase() +
+                                            food_types.slice(1).toLowerCase()}
                                     </SubtitleCategory>
                                 </TitleWrapper>
 
-                                <RestaurantImage
-                                    source={
-                                        photo
-                                            ? {
-                                                  uri: `${photo}`,
-                                              }
-                                            : require('@assets/icons/defaultRestaurant.png')
-                                    }
-                                />
+                                <ImageWrapper>
+                                    {!loadingImage && (
+                                        <Animated.Image
+                                            style={styles.imageUp}
+                                            entering={FadeInRight}
+                                            source={{
+                                                uri: `${dataImage?.code}`,
+                                            }}
+                                        />
+                                    )}
+                                    <Image
+                                        style={styles.imageDown}
+                                        source={require('@assets/icons/defaultRestaurant.png')}
+                                    />
+                                </ImageWrapper>
                             </RestaurantWrapper>
                             <Separator />
                             <PlatesWrapper>
@@ -228,5 +260,18 @@ const styles = StyleSheet.create({
         color: theme.colors.text_dark,
         fontFamily: theme.fonts.primaryReg,
         opacity: 0,
+    },
+    imageUp: {
+        width: 70,
+        height: 70,
+        borderRadius: 50,
+    },
+    imageDown: {
+        width: 70,
+        height: 70,
+        borderRadius: 50,
+        backgroundColor: '#DDD',
+        position: 'absolute',
+        zIndex: -1,
     },
 });
