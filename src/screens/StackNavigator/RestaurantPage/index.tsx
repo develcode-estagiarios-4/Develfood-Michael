@@ -134,7 +134,7 @@ export function RestaurantPage({ navigation, route }: any) {
         <>
             <FocusAwareStatusBar
                 backgroundColor={'white'}
-                barStyle={'light-content'}
+                barStyle={'dark-content'}
             />
             <Header
                 source={require('@assets/icons/back.png')}
