@@ -17,11 +17,10 @@ import {
     Button,
     Dimensions,
     Image,
+    StatusBar,
     Text,
 } from 'react-native';
 import { AuthContext } from '../../../context/auth';
-import { StackActions, useFocusEffect } from '@react-navigation/native';
-import { FocusAwareStatusBar } from '@components/FocusStatusBar';
 import { HeaderHome } from '@components/HeaderHome';
 import { Restaurants } from '@components/Restaurant';
 import { Categoria } from '@components/Categorias';
@@ -66,12 +65,9 @@ export function Home({ navigation }: any) {
         { headers: { Authorization: `Bearer ${token}` } }
     );
 
-    const debounced = useDebouncedCallback(
-        (text) => {
-            handleOnChangeText(text);
-        },
-        1500
-    );
+    const debounced = useDebouncedCallback((text) => {
+        handleOnChangeText(text);
+    }, 1500);
 
     function onSuccess(data: RestaurantList) {
         !!data.content && setRestaurants([...restaurants, ...data.content]);
@@ -81,14 +77,10 @@ export function Home({ navigation }: any) {
         await fetchData(onSuccess);
     }
 
-    async function handleLoadOnEnd() {
-        if (data.totalPages !== filter.page) {
+    function handleOnEndReached() {
+        if (data?.totalPages !== filter.page) {
             setFilter({ ...filter, page: filter.page + 1 });
         }
-    }
-
-    function handleOnEndReached() {
-        handleLoadOnEnd();
     }
 
     function handleOnChangeText(value: string) {
@@ -103,15 +95,11 @@ export function Home({ navigation }: any) {
 
     useEffect(() => {
         loadRestaurants();
-    }, []);
-
-    useEffect(() => {
-        loadRestaurants();
     }, [filter]);
 
     return (
         <>
-            <FocusAwareStatusBar
+            <StatusBar
                 barStyle={'light-content'}
                 backgroundColor={'#C20C18'}
             />
@@ -183,6 +171,13 @@ export function Home({ navigation }: any) {
                     )}
                     renderItem={({ item }) => (
                         <Restaurants
+                            onPress={() => {
+                                navigation.navigate('Restaurant', {
+                                    id: item.id,
+                                    name: item.name,
+                                    photo: item.photo_url
+                                });
+                            }}
                             name={item.name}
                             link={item.photo_url}
                             id={item.id}

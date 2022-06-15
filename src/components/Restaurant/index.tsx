@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ImageProps } from 'react-native';
+import { ImageProps, TouchableOpacityProps } from 'react-native';
 import theme from '@styles/theme';
 import {
     Container,
@@ -18,7 +18,7 @@ import {
 import { AuthContext } from '@context/auth';
 import { useFetch } from '@services/useFetch';
 
-interface RestaurantProps {
+interface RestaurantProps extends TouchableOpacityProps{
     name: string;
     category: string;
     rating?: number;
@@ -31,7 +31,7 @@ interface Response {
     code: string;
 }
 
-export function Restaurants({ name, id, category, link }: RestaurantProps) {
+export function Restaurants({ name, id, category, link, ...rest }: RestaurantProps) {
     const endpoint = link.slice(33);
 
     const { token } = useContext(AuthContext);
@@ -68,15 +68,15 @@ export function Restaurants({ name, id, category, link }: RestaurantProps) {
     }, [dataRating]);
 
     function rating() {
-        if (dataRating.toString() === '[object Object]') {
+        if (dataRating?.toString() === '[object Object]') {
             return '-';
         } else {
-            return dataRating.toString();
+            return dataRating?.toString();
         }
     }
 
     return (
-        <Container>
+        <Container {...rest}>
             <LikeWrapper>
                 <Button onPress={() => setFocused(!focused)}>
                     <Like
@@ -92,7 +92,7 @@ export function Restaurants({ name, id, category, link }: RestaurantProps) {
 
             <RestaurantImage
                 source={
-                    data.code
+                    data?.code
                         ? { uri: data?.code }
                         : require('@assets/icons/defaultRestaurant.png')
                 }

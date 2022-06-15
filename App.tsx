@@ -7,7 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Keyboard, LogBox, StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components';
 import theme from './src/styles/theme';
-import { Login } from '@screens/StackNavigator/Login';
+import { Login } from '@screens/StackNavigator/SignIn/Login';
 import RNBootSplash from 'react-native-bootsplash';
 import FlashMessage from 'react-native-flash-message';
 import { AuthProvider } from './src/context/auth';

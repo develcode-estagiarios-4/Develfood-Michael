@@ -61,8 +61,8 @@ export function Cadastro1({ route }: any) {
         >
             <Container>
                 <Header
-                    source={require('@assets/icons/back-arrow.png')}
-                    onPress={() => {
+                    source={require('@assets/icons/back.png')}
+                    goBack={() => {
                         navigation.goBack();
                     }}
                     title={'Cadastro'}
