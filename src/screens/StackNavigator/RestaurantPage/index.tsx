@@ -36,11 +36,6 @@ import Animated, {
     withTiming,
 } from 'react-native-reanimated';
 
-interface Base64 {
-    id: number;
-    code: string;
-}
-
 interface Food {
     description: string;
     name: string;

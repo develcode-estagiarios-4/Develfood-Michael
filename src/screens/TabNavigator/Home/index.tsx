@@ -29,14 +29,20 @@ import theme from '../../../styles/theme';
 import { Input } from '@components/Input';
 import { useDebouncedCallback } from 'use-debounce';
 
+interface FoodTypes {
+    id: number;
+    name: string;
+}
+
 interface Restaurant {
     id: number;
     name: string;
-    photo: string;
+    photo_url: string | null;
+    food_types: FoodTypes[] | null;
 }
 
 interface RestaurantList {
-    content?: Restaurant[];
+    content: Restaurant[];
     number: number;
     totalPages: number;
     first: boolean;
@@ -45,14 +51,12 @@ interface RestaurantList {
 const CardMargins =
     (Dimensions.get('screen').width - RFValue(280)) / RFValue(3.2);
 
-export function Home({ navigation, route }: any) {
+export function Home({ navigation }: any) {
     const [filter, setFilter] = useState({
         input: '',
         page: 0,
     });
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
-
-    //const navigation = useNavigation();
 
     const { token } = useContext(AuthContext);
 
@@ -74,7 +78,7 @@ export function Home({ navigation, route }: any) {
     }
 
     function handleOnEndReached() {
-        if (data.totalPages !== filter.page) {
+        if (data?.totalPages !== filter.page) {
             setFilter({ ...filter, page: filter.page + 1 });
         }
     }
@@ -171,18 +175,23 @@ export function Home({ navigation, route }: any) {
                                 navigation.navigate('Restaurant', {
                                     id: item.id,
                                     name: item.name,
-                                    photo: item.photo
+                                    photo: item.photo_url
                                 });
-                                //navigation.setOptions({ tabBarVisible: false });
                             }}
                             name={item.name}
-                            source={
-                                item.photo
-                                    ? {
-                                          uri: `${item.photo}`,
-                                      }
-                                    : require('@assets/icons/defaultRestaurant.png')
+                            link={item.photo_url}
+                            id={item.id}
+                            category={
+                                item.food_types.length > 0
+                                    ? item.food_types[0].name
+                                          .charAt(0)
+                                          .toUpperCase() +
+                                      item.food_types[0].name
+                                          .slice(1)
+                                          .toLowerCase()
+                                    : 'Sem categoria'
                             }
+                            
                         />
                     )}
                     onEndReached={() => {

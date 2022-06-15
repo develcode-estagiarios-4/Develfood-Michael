@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ImageProps, TouchableOpacityProps } from 'react-native';
-import { RectButtonProps } from 'react-native-gesture-handler';
 import theme from '@styles/theme';
 import {
     Container,
@@ -16,35 +15,99 @@ import {
     Button,
     LikeWrapper,
 } from './styles';
+import { AuthContext } from '@context/auth';
+import { useFetch } from '@services/useFetch';
 
-interface ListRestaurantProps extends TouchableOpacityProps{
+interface RestaurantProps extends TouchableOpacityProps{
     name: string;
-    source: ImageProps['source'];
+    category: string;
+    rating?: number;
+    link: string;
+    id: number;
 }
 
-export function Restaurants({ name, source, ...rest }: ListRestaurantProps) {
+interface Response {
+    id: number;
+    code: string;
+}
 
-     const [focused, setFocused] = useState(false);
+export function Restaurants({ name, id, category, link, ...rest }: RestaurantProps) {
+    const endpoint = link.slice(33);
+
+    const { token } = useContext(AuthContext);
+
+    const { data, loading, error, fetchData } = useFetch<Response>(endpoint, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const {
+        data: dataRating,
+        loading: loadingRating,
+        error: errorRating,
+        fetchData: fetchRating,
+    } = useFetch<number>(`/restaurantEvaluation/${id}/grade`, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const [focused, setFocused] = useState(false);
+
+    async function loadData() {
+        await fetchData();
+    }
+
+    useEffect(() => {
+        !!endpoint && loadData();
+    }, [endpoint]);
+
+    useEffect(() => {
+        !!id && fetchRating();
+    }, [id]);
+
+    useEffect(() => {
+        !!dataRating && console.log(dataRating);
+    }, [dataRating]);
+
+    function rating() {
+        console.log(dataRating?.toString());
+        if (dataRating?.toString() === undefined) {
+            return '-';
+        } else {
+            return dataRating?.toString();
+        }
+    }
 
     return (
         <Container {...rest}>
             <LikeWrapper>
                 <Button onPress={() => setFocused(!focused)}>
-                    <Like source={require('@assets/icons/emptyHeart.png')} style={focused ? {tintColor: theme.colors.icon_red} : null}/>
+                    <Like
+                        source={require('@assets/icons/emptyHeart.png')}
+                        style={
+                            focused
+                                ? { tintColor: theme.colors.icon_red }
+                                : null
+                        }
+                    />
                 </Button>
             </LikeWrapper>
 
-            <RestaurantImage source={source} />
+            <RestaurantImage
+                source={
+                    data?.code
+                        ? { uri: data?.code }
+                        : require('@assets/icons/defaultRestaurant.png')
+                }
+            />
 
             <Content>
                 <Title>{name}</Title>
 
                 <Description>
-                    <SubTitle>Pizza</SubTitle>
+                    <SubTitle>{category}</SubTitle>
 
                     <AvaliationWrapper>
                         <Star source={require('@assets/icons/star.png')} />
-                        <Avaliation>{Math.ceil(Math.random() * 5)}</Avaliation>
+                        <Avaliation>{rating()}</Avaliation>
                     </AvaliationWrapper>
                 </Description>
             </Content>

@@ -12,12 +12,15 @@ export const Container = styled.TouchableOpacity.attrs({
     border-radius: ${RFValue(15)}px;
 `;
 
-export const LikeWrapper = styled.View`
+export const LikeWrapper = styled.View.attrs({
+    elevation: 4,
+    shadowColor: '#666',
+})`
     position: absolute;
     z-index: 1;
     background-color: ${({ theme }) => theme.colors.background};
     border-width: 1px;
-    border-color: ${({ theme }) => theme.colors.icon_gray};
+    border-color: ${({ theme }) => theme.colors.divider};
     border-top-right-radius: 15px;
     border-bottom-left-radius: 15px;
     width: ${RFValue(40)}px;
@@ -96,7 +99,7 @@ export const Avaliation = styled.Text`
     font-family: ${({ theme }) => theme.fonts.secondaryMed};
     font-size: ${RFValue(12)}px;
     color: ${({ theme }) => theme.colors.icon_red};
-    margin-left: ${RFValue(5)}px;
+    margin-left: ${RFValue(3)}px;
 `;
 
 export const Star = styled.Image.attrs({
