@@ -18,29 +18,34 @@ import {
 import { AuthContext } from '@context/auth';
 import { useFetch } from '@services/useFetch';
 
-interface ListRestaurantProps {
+interface RestaurantProps {
     name: string;
     category: string;
     rating?: number;
     link: string;
+    id: number;
 }
 
 interface Response {
+    id: number;
     code: string;
-    if: number;
 }
 
-export function Restaurants({
-    name,
-    rating,
-    category,
-    link,
-}: ListRestaurantProps) {
+export function Restaurants({ name, id, category, link }: RestaurantProps) {
     const endpoint = link.slice(33);
 
     const { token } = useContext(AuthContext);
 
     const { data, loading, error, fetchData } = useFetch<Response>(endpoint, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const {
+        data: dataRating,
+        loading: loadingRating,
+        error: errorRating,
+        fetchData: fetchRating,
+    } = useFetch<number>(`/restaurantEvaluation/${id}/grade`, {
         headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -53,6 +58,22 @@ export function Restaurants({
     useEffect(() => {
         !!endpoint && loadData();
     }, [endpoint]);
+
+    useEffect(() => {
+        !!id && fetchRating();
+    }, [id]);
+
+    useEffect(() => {
+        !!dataRating && console.log(dataRating);
+    }, [dataRating]);
+
+    function rating() {
+        if (dataRating.toString() === '[object Object]') {
+            return '-';
+        } else {
+            return dataRating.toString();
+        }
+    }
 
     return (
         <Container>
@@ -85,7 +106,7 @@ export function Restaurants({
 
                     <AvaliationWrapper>
                         <Star source={require('@assets/icons/star.png')} />
-                        <Avaliation>{Math.ceil(Math.random() * 5)}</Avaliation>
+                        <Avaliation>{rating()}</Avaliation>
                     </AvaliationWrapper>
                 </Description>
             </Content>

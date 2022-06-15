@@ -94,7 +94,7 @@ export const Avaliation = styled.Text`
     font-family: ${({ theme }) => theme.fonts.secondaryMed};
     font-size: ${RFValue(12)}px;
     color: ${({ theme }) => theme.colors.icon_red};
-    margin-left: ${RFValue(5)}px;
+    margin-left: ${RFValue(3)}px;
 `;
 
 export const Star = styled.Image.attrs({

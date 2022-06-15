@@ -185,6 +185,7 @@ export function Home({ navigation }: any) {
                         <Restaurants
                             name={item.name}
                             link={item.photo_url}
+                            id={item.id}
                             category={
                                 item.food_types.length > 0
                                     ? item.food_types[0].name
