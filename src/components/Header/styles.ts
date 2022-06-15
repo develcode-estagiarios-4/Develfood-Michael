@@ -33,13 +33,15 @@ export const Icon = styled.Image.attrs({
 export const Like = styled.Image.attrs({
     resizeMode: 'contain',
 })`
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
+    align-self: center;
 `;
 
 export const Button = styled(BorderlessButton)`
     width: ${RFValue(30)}px;
     height: ${RFValue(30)}px;
+    justify-content: center;
 `;
 
 export const Title = styled.Text`

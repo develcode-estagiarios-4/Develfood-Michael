@@ -23,11 +23,6 @@ import theme from '@styles/theme';
 import Animated, {
     FadeInLeft,
     FadeInRight,
-    RollInRight,
-    SlideInUp,
-    ZoomIn,
-    ZoomOut,
-    FadeIn,
 } from 'react-native-reanimated';
 
 interface Props {
@@ -135,7 +130,7 @@ const window = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
-        width: window.width - RFValue(40),
+        width: window.width - RFValue(30),
         height: RFPercentage(15),
         flexDirection: 'row',
         backgroundColor: theme.colors.background,

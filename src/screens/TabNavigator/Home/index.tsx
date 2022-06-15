@@ -37,7 +37,7 @@ interface FoodTypes {
 interface Restaurant {
     id: number;
     name: string;
-    photo_url: string | null;
+    photo_url: string;
     food_types: FoodTypes[] | null;
 }
 
@@ -175,7 +175,8 @@ export function Home({ navigation }: any) {
                                 navigation.navigate('Restaurant', {
                                     id: item.id,
                                     name: item.name,
-                                    photo: item.photo_url
+                                    photo_url: item.photo_url,
+                                    food_types: item.food_types.length > 0 ? item.food_types[0].name : 'Sem categoria',
                                 });
                             }}
                             name={item.name}
