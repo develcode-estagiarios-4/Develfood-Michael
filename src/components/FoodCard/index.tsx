@@ -29,25 +29,24 @@ export function FoodCard({ name, price, link }: Props) {
 
     const {token} = useContext(AuthContext);
 
-    const photo = link.slice(33);
+    const endpoint = link.slice(33);
 
-    const { data, loading, error, fetchData } = useFetch(photo, {
+    const { data, loading, error, fetchData } = useFetch(endpoint, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     });
 
-    async function loadRestaurants() {
+    async function loadImage() {
         
         await fetchData();
        
     }
 
 
-    useEffect(() => { 
-        !!photo && loadRestaurants();
-        console.log('useeffect do foodcard');
-    }, [photo]);
+    useEffect(() => {
+        !!endpoint && loadImage();
+    }, [endpoint]);
 
     return (
         <Container>

@@ -16,7 +16,6 @@ export function useFetch<TResponse = unknown>(
             const response = await api.get(url, options);
             response.data && onSuccess && onSuccess(response.data);
             setData(response.data);
-            console.log(response.data)
         } catch (e) {
             console.log(e);
             setError(e);
