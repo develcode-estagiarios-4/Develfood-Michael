@@ -60,9 +60,6 @@ export function RestaurantPage({ navigation, route }: any) {
     const [foods, setFoods] = useState<Food[]>([]);
     const [filter, setFilter] = useState('');
     const [loading, setLoading] = useState(false);
-    const [image, setImage] = useState<string[]>([]);
-
-    //plate/search?name=ham&restaurantid=1
 
     const { data, error, fetchData } = useFetch<Food[]>(
         `/plate/search?name=${filter}&restaurantid=${id}`,
@@ -82,6 +79,11 @@ export function RestaurantPage({ navigation, route }: any) {
 
     const scrollHandler = useAnimatedScrollHandler((event: any) => {
         scrollY.value = event.contentOffset.y;
+        if (scrollY.value >= 45) {
+            opacity.value = withTiming(1, { duration: 500 });
+        } else {
+            opacity.value = withTiming(0, { duration: 500 });
+        }
     });
 
     const headerSeparatorStyle = useAnimatedStyle(() => {
@@ -97,12 +99,7 @@ export function RestaurantPage({ navigation, route }: any) {
 
     const headerTitle = useAnimatedStyle(() => {
         return {
-            opacity: interpolate(
-                scrollY.value,
-                [40, 100],
-                [0, 1],
-                Extrapolate.CLAMP
-            ),
+            opacity: opacity.value,
         };
     });
 

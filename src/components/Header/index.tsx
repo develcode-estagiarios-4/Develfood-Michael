@@ -11,6 +11,7 @@ import {
     Like,
     Button,
     UselessView,
+    Title,
 } from './styles';
 import Animated from 'react-native-reanimated';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -42,7 +43,7 @@ export function Header({
                     <Button onPress={goBack}>
                         <Icon source={source} />
                     </Button>
-                    <Animated.Text style={style}>{title}</Animated.Text>
+                    <Title>{title}</Title>
 
                     <UselessView />
                 </>

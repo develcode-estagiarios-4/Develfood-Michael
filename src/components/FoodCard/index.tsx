@@ -1,6 +1,11 @@
 import { useFetch } from '@services/useFetch';
 import React, { useContext, useEffect } from 'react';
-import { ImageSourcePropType, View } from 'react-native';
+import {
+    Dimensions,
+    ImageSourcePropType,
+    StyleSheet,
+    View,
+} from 'react-native';
 import { AuthContext } from '@context/auth';
 import {
     Container,
@@ -13,6 +18,17 @@ import {
     Wrapper,
     ImageWrapper,
 } from './styles';
+import { RFValue, RFPercentage } from 'react-native-responsive-fontsize';
+import theme from '@styles/theme';
+import Animated, {
+    FadeInLeft,
+    FadeInRight,
+    RollInRight,
+    SlideInUp,
+    ZoomIn,
+    ZoomOut,
+    FadeIn,
+} from 'react-native-reanimated';
 
 interface Props {
     foodType?: {
@@ -20,38 +36,51 @@ interface Props {
         name: string;
     };
     id?: number;
-    link: any;
+    link: string;
     price: string;
     name: string;
 }
 
-export function FoodCard({ name, price, link }: Props) {
+interface Response {
+    id: number;
+    code: string;
+}
 
-    const {token} = useContext(AuthContext);
+export function FoodCard({ name, price, link }: Props) {
+    const { token } = useContext(AuthContext);
 
     const endpoint = link.slice(33);
 
-    const { data, loading, error, fetchData } = useFetch(endpoint, {
+    const { data, loading, error, fetchData } = useFetch<Response>(endpoint, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     });
 
     async function loadImage() {
-        
         await fetchData();
-       
     }
-
 
     useEffect(() => {
         !!endpoint && loadImage();
     }, [endpoint]);
 
     return (
-        <Container>
+        <Animated.View
+            style={styles.container}
+            entering={FadeInRight}
+        >
             <ImageWrapper>
-                <FoodImage source={{ uri: data?.code }} />
+                <Animated.Image
+                    source={
+                        !!data
+                            ? { uri: data?.code }
+                            : require('@assets/icons/defaultRestaurant.png')
+                    }
+                    style={styles.image}
+                    entering={FadeInLeft.delay(400)}
+                />
+                <Animated.View style={styles.imageBackView}></Animated.View>
             </ImageWrapper>
 
             <Wrapper>
@@ -96,6 +125,35 @@ export function FoodCard({ name, price, link }: Props) {
                     </Footer>
                 </View>
             </Wrapper>
-        </Container>
+        </Animated.View>
     );
 }
+
+const window = Dimensions.get('window');
+
+const styles = StyleSheet.create({
+    container: {
+        width: window.width - RFValue(40),
+        height: RFPercentage(15),
+        flexDirection: 'row',
+        backgroundColor: theme.colors.background,
+        borderRadius: 15,
+        alignItems: 'center',
+        marginBottom: RFValue(12),
+        alignSelf: 'center',
+        elevation: 6,
+    },
+    image: {
+        width: RFValue(85),
+        height: RFValue(85),
+        borderRadius: 15,
+        zIndex: 1,
+    },
+    imageBackView: {
+        width: RFValue(85),
+        height: RFValue(85),
+        borderRadius: 15,
+        backgroundColor: '#DDD',
+        position: 'absolute',
+    },
+});

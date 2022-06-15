@@ -6,7 +6,7 @@ export function useFetch<TResponse = unknown>(
     url: string,
     options?: AxiosRequestConfig
 ) {
-    const [data, setData] = useState();
+    const [data, setData] = useState<TResponse>();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<AxiosError<any, any> | any>(null);
 

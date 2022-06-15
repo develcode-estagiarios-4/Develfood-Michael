@@ -7,7 +7,7 @@ const window = Dimensions.get('window');
 export const Container = styled.View.attrs({
     elevation: 4,
 })`
-    width: ${window.width - 40}px;
+    width: ${window.width - RFValue(40)}px;
     height: ${RFPercentage(15)}px;
     flex-direction: row;
     background-color: ${({ theme }) => theme.colors.background};
