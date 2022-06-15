@@ -43,6 +43,7 @@ interface Base64 {
 
 interface Food {
     description: string;
+    name: string;
     foodType: {
         id: number;
         name: string;
@@ -192,9 +193,10 @@ export function RestaurantPage({ navigation, route }: any) {
                     }
                     renderItem={({ item }) => (
                         <FoodCard
-                            name={item.description}
+                            name={item.name}
                             price={item.price}
                             link={item.photo_url}
+                            description={item.description}
                         />
                     )}
                     ListFooterComponent={

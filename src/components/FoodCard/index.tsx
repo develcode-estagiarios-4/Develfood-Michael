@@ -39,6 +39,7 @@ interface Props {
     link: string;
     price: string;
     name: string;
+    description: string;
 }
 
 interface Response {
@@ -46,7 +47,7 @@ interface Response {
     code: string;
 }
 
-export function FoodCard({ name, price, link }: Props) {
+export function FoodCard({ name, price, link, description }: Props) {
     const { token } = useContext(AuthContext);
 
     const endpoint = link.slice(33);
@@ -107,8 +108,7 @@ export function FoodCard({ name, price, link }: Props) {
                         ellipsizeMode="tail"
                         numberOfLines={3}
                     >
-                        Um prato de camarão com fritas é uma ótima opção para
-                        pedir quando se está com a família.
+                        {description}
                     </Description>
                 </View>
                 <View
