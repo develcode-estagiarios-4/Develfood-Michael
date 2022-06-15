@@ -6,9 +6,8 @@ import { TabBar } from '@components/TabBar';
 import { Profile } from '@screens/TabNavigator/Profile';
 import { Historic } from '@screens/TabNavigator/Historic';
 
-export function TabScreenRoutes() {
+export function TabScreenRoutes({navigation}: any) {
     const { Navigator, Screen } = createBottomTabNavigator();
-
     return (
         <>
             <Navigator screenOptions={{ headerShown: false }}>

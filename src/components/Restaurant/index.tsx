@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ImageProps } from 'react-native';
+import { ImageProps, TouchableOpacityProps } from 'react-native';
+import { RectButtonProps } from 'react-native-gesture-handler';
 import theme from '@styles/theme';
 import {
     Container,
@@ -16,17 +17,17 @@ import {
     LikeWrapper,
 } from './styles';
 
-interface ListRestaurantProps {
+interface ListRestaurantProps extends TouchableOpacityProps{
     name: string;
     source: ImageProps['source'];
 }
 
-export function Restaurants({ name, source }: ListRestaurantProps) {
+export function Restaurants({ name, source, ...rest }: ListRestaurantProps) {
 
      const [focused, setFocused] = useState(false);
 
     return (
-        <Container>
+        <Container {...rest}>
             <LikeWrapper>
                 <Button onPress={() => setFocused(!focused)}>
                     <Like source={require('@assets/icons/emptyHeart.png')} style={focused ? {tintColor: theme.colors.icon_red} : null}/>

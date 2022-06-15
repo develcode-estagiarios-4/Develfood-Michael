@@ -113,12 +113,11 @@ export function Cadastro3({ route }: any) {
             onPress={Keyboard.dismiss}
         >
             <Header
-                source={require('@assets/icons/back-arrow.png')}
-                onPress={() => {
+                source={require('@assets/icons/back.png')}
+                goBack={() => {
                     navigation.goBack();
                 }}
                 title={'Cadastro'}
-                
             />
             <Container>
                 <StepsDoneImage

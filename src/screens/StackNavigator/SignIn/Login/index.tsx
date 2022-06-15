@@ -24,7 +24,7 @@ import {
     LogoWrapper,
 } from './styles';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { AuthContext } from '../../../context/auth';
+import { AuthContext } from '../../../../context/auth';
 
 export function Login({ navigation }: any) {
     const [isClicked, setIsClicked] = useState(false);
@@ -43,6 +43,7 @@ export function Login({ navigation }: any) {
         control,
         handleSubmit,
         getValues, // pega os valores do input
+        setValue,
         formState: { errors },
         reset,
     } = useForm({
@@ -52,6 +53,11 @@ export function Login({ navigation }: any) {
     function handleChangeShowPasswordButton() {
         setIsClicked(!isClicked);
     }
+
+    useEffect(() => {
+        setValue('email', 'exemplo@email.com')
+        setValue('password', '123456');
+    }, [])
 
     function handleLogin() {
         const values = getValues();

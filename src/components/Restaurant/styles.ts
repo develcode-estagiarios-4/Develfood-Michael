@@ -1,9 +1,10 @@
+import { RectButton } from 'react-native-gesture-handler';
 import { BorderlessButton } from 'react-native-gesture-handler';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
-export const Container = styled.View.attrs({
-    elevation: 7,
+export const Container = styled.TouchableOpacity.attrs({
+    activeOpacity: 1,
 })`
     width: ${RFValue(140)}px;
     height: ${RFValue(165)}px;
@@ -26,7 +27,9 @@ export const LikeWrapper = styled.View`
     right: 0;
 `;
 
-export const Button = styled(BorderlessButton).attrs({})`
+export const Button = styled.TouchableOpacity.attrs({
+    activeOpacity: 0.8,
+})`
     width: ${RFValue(25)}px;
     height: ${RFValue(25)}px;
 `;
@@ -47,7 +50,9 @@ export const RestaurantImage = styled.Image.attrs({
     border-radius: ${RFValue(15)}px;
 `;
 
-export const Content = styled.View`
+export const Content = styled.View.attrs({
+    elevation: 6
+})`
     width: 100%;
     padding-left: ${RFValue(12)}px;
     height: ${RFValue(60)}px;

@@ -17,11 +17,10 @@ import {
     Button,
     Dimensions,
     Image,
+    StatusBar,
     Text,
 } from 'react-native';
 import { AuthContext } from '../../../context/auth';
-import { StackActions, useFocusEffect } from '@react-navigation/native';
-import { FocusAwareStatusBar } from '@components/FocusStatusBar';
 import { HeaderHome } from '@components/HeaderHome';
 import { Restaurants } from '@components/Restaurant';
 import { Categoria } from '@components/Categorias';
@@ -46,12 +45,14 @@ interface RestaurantList {
 const CardMargins =
     (Dimensions.get('screen').width - RFValue(280)) / RFValue(3.2);
 
-export function Home({ navigation }: any) {
+export function Home({ navigation, route }: any) {
     const [filter, setFilter] = useState({
         input: '',
         page: 0,
     });
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+
+    //const navigation = useNavigation();
 
     const { token } = useContext(AuthContext);
 
@@ -60,12 +61,9 @@ export function Home({ navigation }: any) {
         { headers: { Authorization: `Bearer ${token}` } }
     );
 
-    const debounced = useDebouncedCallback(
-        (text) => {
-            handleOnChangeText(text);
-        },
-        1500
-    );
+    const debounced = useDebouncedCallback((text) => {
+        handleOnChangeText(text);
+    }, 1500);
 
     function onSuccess(data: RestaurantList) {
         !!data.content && setRestaurants([...restaurants, ...data.content]);
@@ -75,14 +73,10 @@ export function Home({ navigation }: any) {
         await fetchData(onSuccess);
     }
 
-    async function handleLoadOnEnd() {
+    function handleOnEndReached() {
         if (data.totalPages !== filter.page) {
             setFilter({ ...filter, page: filter.page + 1 });
         }
-    }
-
-    function handleOnEndReached() {
-        handleLoadOnEnd();
     }
 
     function handleOnChangeText(value: string) {
@@ -97,15 +91,11 @@ export function Home({ navigation }: any) {
 
     useEffect(() => {
         loadRestaurants();
-    }, []);
-
-    useEffect(() => {
-        loadRestaurants();
     }, [filter]);
 
     return (
         <>
-            <FocusAwareStatusBar
+            <StatusBar
                 barStyle={'light-content'}
                 backgroundColor={'#C20C18'}
             />
@@ -177,6 +167,14 @@ export function Home({ navigation }: any) {
                     )}
                     renderItem={({ item }) => (
                         <Restaurants
+                            onPress={() => {
+                                navigation.navigate('Restaurant', {
+                                    id: item.id,
+                                    name: item.name,
+                                    photo: item.photo
+                                });
+                                //navigation.setOptions({ tabBarVisible: false });
+                            }}
                             name={item.name}
                             source={
                                 item.photo
