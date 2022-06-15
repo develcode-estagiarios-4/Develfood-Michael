@@ -82,7 +82,7 @@ export function RestaurantPage({ navigation, route }: any) {
         scrollY.value = event.contentOffset.y;
         if (scrollY.value >= 45) {
             opacity.value = withTiming(1, { duration: 500 });
-        } else {
+        } else if (scrollY.value <= 35) {
             opacity.value = withTiming(0, { duration: 500 });
         }
     });
