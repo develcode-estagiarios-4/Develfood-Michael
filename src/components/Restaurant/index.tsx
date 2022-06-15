@@ -68,7 +68,8 @@ export function Restaurants({ name, id, category, link, ...rest }: RestaurantPro
     }, [dataRating]);
 
     function rating() {
-        if (dataRating?.toString() === '[object Object]') {
+        console.log(dataRating?.toString());
+        if (dataRating?.toString() === undefined) {
             return '-';
         } else {
             return dataRating?.toString();
