@@ -129,9 +129,7 @@ export function RestaurantPage({ navigation, route }: any) {
     }
 
     async function loadRestaurantImage() {
-        console.log('oi');
         await fetchImage();
-        console.log('tchau');
     }
 
     function handleOnChangeText(value: string) {
@@ -175,7 +173,7 @@ export function RestaurantPage({ navigation, route }: any) {
                     keyExtractor={(item) => item?.id}
                     contentContainerStyle={{
                         backgroundColor: theme.colors.background,
-                        paddingHorizontal: RFValue(15),
+                        paddingHorizontal: RFValue(16),
                     }}
                     ListHeaderComponent={
                         <>
@@ -262,13 +260,13 @@ const styles = StyleSheet.create({
         opacity: 0,
     },
     imageUp: {
-        width: 70,
-        height: 70,
+        width: RFValue(70),
+        height: RFValue(70),
         borderRadius: 50,
     },
     imageDown: {
-        width: 70,
-        height: 70,
+        width: RFValue(80),
+        height: RFValue(80),
         borderRadius: 50,
         backgroundColor: '#DDD',
         position: 'absolute',

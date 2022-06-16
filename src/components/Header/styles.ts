@@ -9,7 +9,7 @@ export const Container = styled.View`
     justify-content: space-between;
     height: ${RFValue(50)}px;
     align-items: center;
-    padding: ${RFValue(15)}px;
+    padding: ${RFValue(12)}px;
 `;
 
 export const UselessView = styled.View`
@@ -42,6 +42,7 @@ export const Button = styled(BorderlessButton)`
     width: ${RFValue(30)}px;
     height: ${RFValue(30)}px;
     justify-content: center;
+    //background-color: red;
 `;
 
 export const Title = styled.Text`

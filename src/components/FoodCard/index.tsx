@@ -131,7 +131,7 @@ const window = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
         width: window.width - RFValue(30),
-        height: RFPercentage(15),
+        height: RFPercentage(16),
         flexDirection: 'row',
         backgroundColor: theme.colors.background,
         borderRadius: 15,
