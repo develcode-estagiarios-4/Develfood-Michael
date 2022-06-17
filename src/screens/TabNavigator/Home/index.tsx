@@ -13,12 +13,8 @@ import {
 } from './styles';
 import {
     ActivityIndicator,
-    Alert,
-    Button,
     Dimensions,
-    Image,
     StatusBar,
-    Text,
 } from 'react-native';
 import { AuthContext } from '../../../context/auth';
 import { HeaderHome } from '@components/HeaderHome';
@@ -38,7 +34,7 @@ interface Restaurant {
     id: number;
     name: string;
     photo_url: string;
-    food_types: FoodTypes[] | null;
+    food_types: FoodTypes[];
 }
 
 interface RestaurantList {
@@ -93,7 +89,7 @@ export function Home({ navigation }: any) {
         }
     }
 
-    const renderItem = ({ item }) => (
+    const renderItem = ({ item }: {item: Restaurant}) => (
         <Restaurants
             onPress={() => {
                 navigation.navigate('Restaurant', {

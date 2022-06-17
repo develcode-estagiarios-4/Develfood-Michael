@@ -143,7 +143,7 @@ export function RestaurantPage({ navigation, route }: any) {
         setLoading(false);
     }
 
-    const renderItem = ({ item }) => (
+    const renderItem = ({ item }: {item: Food}) => (
         <FoodCard
             name={item.name}
             price={item.price}
