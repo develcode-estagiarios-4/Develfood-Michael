@@ -143,6 +143,15 @@ export function RestaurantPage({ navigation, route }: any) {
         setLoading(false);
     }
 
+    const renderItem = ({ item }) => (
+        <FoodCard
+            name={item.name}
+            price={item.price}
+            link={item.photo_url}
+            description={item.description}
+        />
+    );
+
     useEffect(() => {
         loadFoods();
         loadRestaurantImage();
@@ -215,14 +224,7 @@ export function RestaurantPage({ navigation, route }: any) {
                             </View>
                         </>
                     }
-                    renderItem={({ item }) => (
-                        <FoodCard
-                            name={item.name}
-                            price={item.price}
-                            link={item.photo_url}
-                            description={item.description}
-                        />
-                    )}
+                    renderItem={renderItem}
                     ListFooterComponent={
                         loading ? (
                             <LoadWrapper>

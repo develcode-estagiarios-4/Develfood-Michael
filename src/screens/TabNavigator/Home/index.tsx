@@ -93,6 +93,31 @@ export function Home({ navigation }: any) {
         }
     }
 
+    const renderItem = ({ item }) => (
+        <Restaurants
+            onPress={() => {
+                navigation.navigate('Restaurant', {
+                    id: item.id,
+                    name: item.name,
+                    photo_url: item.photo_url,
+                    food_types:
+                        item.food_types.length > 0
+                            ? item.food_types[0].name
+                            : 'Sem categoria',
+                });
+            }}
+            name={item.name}
+            link={item.photo_url}
+            id={item.id}
+            category={
+                item.food_types.length > 0
+                    ? item.food_types[0].name.charAt(0).toUpperCase() +
+                      item.food_types[0].name.slice(1).toLowerCase()
+                    : 'Sem categoria'
+            }
+        />
+    );
+
     useEffect(() => {
         loadRestaurants();
     }, [filter]);
@@ -169,32 +194,7 @@ export function Home({ navigation }: any) {
                             )}
                         </View>
                     )}
-                    renderItem={({ item }) => (
-                        <Restaurants
-                            onPress={() => {
-                                navigation.navigate('Restaurant', {
-                                    id: item.id,
-                                    name: item.name,
-                                    photo_url: item.photo_url,
-                                    food_types: item.food_types.length > 0 ? item.food_types[0].name : 'Sem categoria',
-                                });
-                            }}
-                            name={item.name}
-                            link={item.photo_url}
-                            id={item.id}
-                            category={
-                                item.food_types.length > 0
-                                    ? item.food_types[0].name
-                                          .charAt(0)
-                                          .toUpperCase() +
-                                      item.food_types[0].name
-                                          .slice(1)
-                                          .toLowerCase()
-                                    : 'Sem categoria'
-                            }
-                            
-                        />
-                    )}
+                    renderItem={renderItem}
                     onEndReached={() => {
                         handleOnEndReached();
                     }}
