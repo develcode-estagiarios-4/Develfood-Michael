@@ -98,7 +98,7 @@ export function FoodCard({ name, price, link, description }: Props) {
                 <View
                     style={{
                         width: '100%',
-                        height: '50%',
+                        height: '53%',
                     }}
                 >
                     <Description
@@ -111,7 +111,7 @@ export function FoodCard({ name, price, link, description }: Props) {
                 <View
                     style={{
                         width: '100%',
-                        height: '30%',
+                        height: '35%',
                     }}
                 >
                     <Footer>
@@ -131,7 +131,7 @@ const window = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
         width: window.width - RFValue(30),
-        height: RFPercentage(16),
+        height: window.height * 0.15,
         flexDirection: 'row',
         backgroundColor: theme.colors.background,
         borderRadius: 15,

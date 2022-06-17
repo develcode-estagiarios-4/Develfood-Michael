@@ -30,7 +30,7 @@ export const TitleWrapper = styled.View`
 `;
 
 export const Separator = styled.View`
-    width: ${RFPercentage(50)};
+    width: 100%;
     height: 1px;
     background-color: ${({ theme }) => theme.colors.divider};
     border: 1px solid ${({ theme }) => theme.colors.divider};

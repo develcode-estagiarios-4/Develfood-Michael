@@ -8,7 +8,7 @@ export const Container = styled.View.attrs({
     elevation: 4,
 })`
     width: ${window.width - RFValue(40)}px;
-    height: ${RFPercentage(15)}px;
+    height: ${window.height * 0.15};
     flex-direction: row;
     background-color: ${({ theme }) => theme.colors.background};
     border-radius: 15px;
@@ -47,7 +47,7 @@ export const Description = styled.Text`
     text-align: justify;
     font-family: ${({ theme }) => theme.fonts.primaryReg};
     color: ${({ theme }) => theme.colors.text_gray};
-    font-size: ${RFValue(11)}px;
+    font-size: ${RFValue(10.5)}px;
 `;
 
 export const Footer = styled.View`
