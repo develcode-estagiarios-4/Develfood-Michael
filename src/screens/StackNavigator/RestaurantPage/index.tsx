@@ -266,8 +266,8 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     imageDown: {
-        width: RFValue(80),
-        height: RFValue(80),
+        width: RFValue(70),
+        height: RFValue(70),
         borderRadius: 50,
         backgroundColor: '#DDD',
         position: 'absolute',
