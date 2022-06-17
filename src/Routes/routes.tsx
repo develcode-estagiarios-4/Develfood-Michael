@@ -5,6 +5,9 @@ import { Favorites } from '@screens/TabNavigator/Favorites';
 import { TabBar } from '@components/TabBar';
 import { Profile } from '@screens/TabNavigator/Profile';
 import { Historic } from '@screens/TabNavigator/Historic';
+import { Image, StyleSheet } from 'react-native';
+import { RFValue } from 'react-native-responsive-fontsize';
+import theme from '../styles/theme';
 
 export function TabScreenRoutes({navigation}: any) {
     const { Navigator, Screen } = createBottomTabNavigator();
@@ -14,6 +17,14 @@ export function TabScreenRoutes({navigation}: any) {
                 <Screen
                     name="Inicio"
                     component={Home}
+                    options={{
+                        tabBarLabel: 'Inicio',
+                        tabBarIcon: ({ color, size, focused }) => (
+                            <Image source={require('@assets/icons/home.png')} style={[styles.home, {
+                                tintColor: focused ? theme.colors.icon_red : theme.colors.icon_gray,
+                            }]}/>
+                        )
+                    }}
                 />
                 <Screen
                     name="Favoritos"
@@ -28,7 +39,13 @@ export function TabScreenRoutes({navigation}: any) {
                     component={Profile}
                 />
             </Navigator>
-            <TabBar />
         </>
     );
 }
+
+const styles = StyleSheet.create({
+    home: {
+        width: RFValue(28),
+        height: RFValue(28),
+    }
+})
