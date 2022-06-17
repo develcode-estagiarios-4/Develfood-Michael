@@ -25,8 +25,8 @@ import { FoodCard } from '@components/FoodCard';
 import { FocusAwareStatusBar } from '@components/FocusStatusBar';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import { useFetch } from '@services/useFetch';
-import { AuthContext } from '@context/auth';
-import theme from '@styles/theme';
+import { AuthContext } from '../../../context/auth';
+import theme from '../../../styles/theme';
 import { EmptyFoodCardList } from '@components/EmptyFoodCardList';
 import { useDebouncedCallback } from 'use-debounce';
 import Animated, {
@@ -178,7 +178,7 @@ export function RestaurantPage({ navigation, route }: any) {
                     onScroll={scrollHandler}
                     scrollEventThrottle={16}
                     data={foods}
-                    keyExtractor={(item) => item?.id}
+                    keyExtractor={(item) => item?.id.toString()}
                     contentContainerStyle={{
                         backgroundColor: theme.colors.background,
                         paddingHorizontal: RFValue(16),

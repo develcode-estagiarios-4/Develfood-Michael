@@ -17,7 +17,7 @@ export function useFetch<TResponse = unknown>(
             response.data && onSuccess && onSuccess(response.data);
             setData(response.data);
         } catch (e) {
-            console.log(e);
+           //console.log(e);
             setError(e);
         } finally {
             setLoading(false);

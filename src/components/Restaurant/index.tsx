@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ImageProps, StyleSheet, TouchableOpacityProps } from 'react-native';
-import theme from '@styles/theme';
+import theme from '../../styles/theme';
 import {
     Container,
     RestaurantImage,
@@ -15,17 +15,18 @@ import {
     Button,
     LikeWrapper,
 } from './styles';
-import { AuthContext } from '@context/auth';
+import { AuthContext } from '../../context/auth';
 import { useFetch } from '@services/useFetch';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Animated, { FadeIn } from 'react-native-reanimated';
 
-interface RestaurantProps extends TouchableOpacityProps {
+interface RestaurantProps {
     name: string;
     category: string;
     rating?: number;
     link: string;
     id: number;
+    onPress: () => void;
 }
 
 interface Response {
@@ -38,7 +39,7 @@ export function Restaurants({
     id,
     category,
     link,
-    ...rest
+    onPress,
 }: RestaurantProps) {
     const endpoint = link.slice(33);
 
@@ -80,7 +81,7 @@ export function Restaurants({
     }
 
     return (
-        <Container {...rest}>
+        <Container onPress={onPress}>
             <LikeWrapper>
                 <Button onPress={() => setFocused(!focused)}>
                     <Like

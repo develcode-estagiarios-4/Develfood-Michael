@@ -24,24 +24,23 @@ import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../../styles/theme';
 import { Input } from '@components/Input';
 import { useDebouncedCallback } from 'use-debounce';
+import { FlatList } from 'react-native-gesture-handler';
 
 interface FoodTypes {
     id: number;
     name: string;
 }
 
-interface Restaurant {
+type Restaurant = {
     id: number;
     name: string;
     photo_url: string;
     food_types: FoodTypes[];
 }
 
-interface RestaurantList {
+type RestaurantList = {
     content: Restaurant[];
-    number: number;
     totalPages: number;
-    first: boolean;
 }
 
 const CardMargins =
@@ -66,7 +65,7 @@ export function Home({ navigation }: any) {
     }, 1500);
 
     function onSuccess(data: RestaurantList) {
-        !!data.content && setRestaurants([...restaurants, ...data.content]);
+        !!data.content && restaurants.push(...data.content);
     }
 
     async function loadRestaurants() {
@@ -118,6 +117,10 @@ export function Home({ navigation }: any) {
         loadRestaurants();
     }, [filter]);
 
+     useEffect(() => {
+         console.log(data);
+     }, [data]);
+
     return (
         <>
             <StatusBar
@@ -125,10 +128,10 @@ export function Home({ navigation }: any) {
                 backgroundColor={'#C20C18'}
             />
             <Container>
-                <RestaurantList
+                <FlatList
                     data={restaurants}
                     numColumns={2}
-                    keyExtractor={(item) => item?.id}
+                    keyExtractor={(item) => item.id.toString()}
                     columnWrapperStyle={{
                         justifyContent: 'space-between',
                         paddingHorizontal: RFValue(CardMargins),
