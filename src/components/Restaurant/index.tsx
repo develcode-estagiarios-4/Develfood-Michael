@@ -41,6 +41,7 @@ export function Restaurants({
     link,
     onPress,
 }: RestaurantProps) {
+    const logoRest = require('@assets/icons/defaultRestaurant.png');
     const endpoint = link.slice(33);
 
     const { token } = useContext(AuthContext);
@@ -99,11 +100,7 @@ export function Restaurants({
                 <Animated.Image
                     entering={FadeIn.delay(100).duration(700)}
                     style={styles.restImage}
-                    source={
-                        data?.code
-                            ? { uri: data?.code }
-                            : require('@assets/icons/defaultRestaurant.png')
-                    }
+                    source={data?.code ? { uri: data?.code } : logoRest}
                 />
             )}
 

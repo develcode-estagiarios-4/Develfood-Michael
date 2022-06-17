@@ -117,10 +117,6 @@ export function Home({ navigation }: any) {
         loadRestaurants();
     }, [filter]);
 
-     useEffect(() => {
-         console.log(data);
-     }, [data]);
-
     return (
         <>
             <StatusBar
