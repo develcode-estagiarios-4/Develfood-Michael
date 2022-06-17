@@ -51,7 +51,7 @@ interface Food {
     restaurantName: string;
 }
 
-interface Image {
+interface ImageResponse {
     code: string;
     id: number;
 }
@@ -72,14 +72,13 @@ export function RestaurantPage({ navigation, route }: any) {
             },
         }
     );
-    //console.log(photo_url + 'oi bacana')
 
     const {
         data: dataImage,
         error: errorImage,
         loading: loadingImage,
         fetchData: fetchImage,
-    } = useFetch<Image>(`${photo_url}`, {
+    } = useFetch<ImageResponse>(`${photo_url}`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
