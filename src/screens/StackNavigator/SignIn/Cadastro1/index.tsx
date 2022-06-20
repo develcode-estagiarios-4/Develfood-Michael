@@ -100,6 +100,7 @@ export function Cadastro1({ route }: any) {
                                     errors.password && errors.password.message
                                 }
                                 secureTextEntry={!hidePassword}
+                                autoCapitalize="none"
                                 source={require('@assets/icons/lock.png')}
                                 placeholder={'senha'}
                                 source2={
@@ -134,6 +135,7 @@ export function Cadastro1({ route }: any) {
                                     errors.confirmPassword.message
                                 }
                                 secureTextEntry={!hideConfirmPassword}
+                                autoCapitalize="none"
                                 source={require('@assets/icons/lock.png')}
                                 placeholder={'confirmar senha'}
                                 source2={

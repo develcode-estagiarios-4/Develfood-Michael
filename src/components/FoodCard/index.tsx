@@ -57,6 +57,12 @@ export function FoodCard({ name, price, link, description }: Props) {
         await fetchData();
     }
 
+    function priceFormatter() {
+        const priceWZeros = parseFloat(price).toFixed(2);
+        const priceFormatted = priceWZeros.toString().replace('.', ',');
+        return priceFormatted;
+    }
+
     useEffect(() => {
         !!endpoint && loadImage();
     }, [endpoint]);
@@ -115,7 +121,7 @@ export function FoodCard({ name, price, link, description }: Props) {
                     }}
                 >
                     <Footer>
-                        <Price>R$ {price.toString().replace('.', ',')}</Price>
+                        <Price>R$ {priceFormatter()}</Price>
                         <AddButton>
                             <Title>Adicionar</Title>
                         </AddButton>

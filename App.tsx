@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     GestureHandlerRootView,
     TouchableWithoutFeedback,
 } from 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import { Keyboard, LogBox, StatusBar } from 'react-native';
+import { Keyboard, LogBox } from 'react-native';
 import { ThemeProvider } from 'styled-components';
 import theme from './src/styles/theme';
 import { Login } from '@screens/StackNavigator/SignIn/Login';
@@ -17,7 +17,7 @@ LogBox.ignoreLogs(["exported from 'deprecated-react-native-prop-types'."]);
 
 export default function App() {
     RNBootSplash.hide({ fade: true });
-
+ 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <ThemeProvider theme={theme}>

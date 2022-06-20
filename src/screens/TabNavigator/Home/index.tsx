@@ -11,11 +11,7 @@ import {
     TitleWrapper,
     View,
 } from './styles';
-import {
-    ActivityIndicator,
-    Dimensions,
-    StatusBar,
-} from 'react-native';
+import { ActivityIndicator, Dimensions, StatusBar } from 'react-native';
 import { AuthContext } from '../../../context/auth';
 import { HeaderHome } from '@components/HeaderHome';
 import { Restaurants } from '@components/Restaurant';
@@ -25,6 +21,7 @@ import theme from '../../../styles/theme';
 import { Input } from '@components/Input';
 import { useDebouncedCallback } from 'use-debounce';
 import { FlatList } from 'react-native-gesture-handler';
+import { EmptyFoodCardList } from '@components/EmptyFoodCardList';
 
 interface FoodTypes {
     id: number;
@@ -36,12 +33,12 @@ type Restaurant = {
     name: string;
     photo_url: string;
     food_types: FoodTypes[];
-}
+};
 
 type RestaurantList = {
     content: Restaurant[];
     totalPages: number;
-}
+};
 
 const CardMargins =
     (Dimensions.get('screen').width - RFValue(280)) / RFValue(3.2);
@@ -88,7 +85,44 @@ export function Home({ navigation }: any) {
         }
     }
 
-    const renderItem = ({ item }: {item: Restaurant}) => (
+    const listHeaderComponent = () => (
+        <>
+            <HeaderHome
+                source={require('@assets/icons/pinMap.png')}
+                title={'rua Arcy da Nobrega 667, Panazollo'}
+            />
+            <BannerWrapper>
+                <Banner source={require('@assets/icons/banner.png')} />
+                <Banner source={require('@assets/icons/banner.png')} />
+            </BannerWrapper>
+
+            <Content>
+                <TitleWrapper>
+                    <Title>Categoria</Title>
+                </TitleWrapper>
+                <Categories>
+                    <Categoria title="Pizza" />
+                    <Categoria title="Brasileira" />
+                    <Categoria title="Doces" />
+                    <Categoria title="Pastelaria" />
+                    <Categoria title="Mercado" />
+                    <Categoria title="Japonês" />
+                </Categories>
+                <View>
+                    <Input
+                        name={'baka'}
+                        source={require('@assets/icons/lupa.png')}
+                        placeholder="Buscar restaurantes"
+                        onChangeText={(text) => {
+                            debounced(text);
+                        }}
+                    />
+                </View>
+            </Content>
+        </>
+    );
+
+    const renderItem = ({ item }: { item: Restaurant }) => (
         <Restaurants
             onPress={() => {
                 navigation.navigate('Restaurant', {
@@ -113,6 +147,26 @@ export function Home({ navigation }: any) {
         />
     );
 
+    const listFooterComponent = () => ( <View
+                            style={{
+                                width: '100%',
+                                height: RFPercentage(10),
+                                justifyContent: 'center',
+                            }}
+                        >
+                            {loading && (
+                                <ActivityIndicator
+                                    size={40}
+                                    color={theme.colors.background_red}
+                                />
+                            )}
+                        </View>)
+
+    const listEmptyComponent = () => {
+        if (!loading) return <EmptyFoodCardList title="Nenhum restaurante encontrado" />;
+        else return null
+    };
+
     useEffect(() => {
         loadRestaurants();
     }, [filter]);
@@ -133,63 +187,10 @@ export function Home({ navigation }: any) {
                         paddingHorizontal: RFValue(CardMargins),
                         paddingBottom: 15,
                     }}
-                    ListHeaderComponent={
-                        <>
-                            <HeaderHome
-                                source={require('@assets/icons/pinMap.png')}
-                                title={'rua Arcy da Nobrega 667, Panazollo'}
-                            />
-                            <BannerWrapper>
-                                <Banner
-                                    source={require('@assets/icons/banner.png')}
-                                />
-                                <Banner
-                                    source={require('@assets/icons/banner.png')}
-                                />
-                            </BannerWrapper>
-
-                            <Content>
-                                <TitleWrapper>
-                                    <Title>Categoria</Title>
-                                </TitleWrapper>
-                                <Categories>
-                                    <Categoria title="Pizza" />
-                                    <Categoria title="Brasileira" />
-                                    <Categoria title="Doces" />
-                                    <Categoria title="Pastelaria" />
-                                    <Categoria title="Mercado" />
-                                    <Categoria title="Japonês" />
-                                </Categories>
-                                <View>
-                                    <Input
-                                        name={'baka'}
-                                        source={require('@assets/icons/lupa.png')}
-                                        placeholder="Buscar restaurantes"
-                                        onChangeText={(text) => {
-                                            debounced(text);
-                                        }}
-                                    />
-                                </View>
-                            </Content>
-                        </>
-                    }
-                    ListFooterComponent={() => (
-                        <View
-                            style={{
-                                width: '100%',
-                                height: RFPercentage(20),
-                                justifyContent: 'center',
-                            }}
-                        >
-                            {loading && (
-                                <ActivityIndicator
-                                    size={50}
-                                    color={theme.colors.background_red}
-                                />
-                            )}
-                        </View>
-                    )}
+                    ListHeaderComponent={listHeaderComponent}
+                    ListFooterComponent={listFooterComponent}
                     renderItem={renderItem}
+                    ListEmptyComponent={listEmptyComponent}
                     onEndReached={() => {
                         handleOnEndReached();
                     }}

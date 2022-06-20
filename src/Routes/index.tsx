@@ -12,16 +12,15 @@ export function SignInRoutes() {
     const { Navigator, Screen } = createNativeStackNavigator();
 
     useEffect(() => { 
-        StatusBar.setBarStyle('dark-content', true);
+        StatusBar.setBackgroundColor('white');
+        StatusBar.setBarStyle('dark-content');
     }, []);
 
     return (
         <>
             <StatusBar
+                backgroundColor="white"
                 barStyle="dark-content"
-                backgroundColor={'white'}
-                //animated={true}
-                //showHideTransition="slide"
             />
             <Navigator
                 initialRouteName="Login"
