@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ImageProps, TouchableOpacityProps } from 'react-native';
-import theme from '@styles/theme';
+import { ImageProps, StyleSheet, TouchableOpacityProps } from 'react-native';
+import theme from '../../styles/theme';
 import {
     Container,
     RestaurantImage,
@@ -15,15 +15,18 @@ import {
     Button,
     LikeWrapper,
 } from './styles';
-import { AuthContext } from '@context/auth';
+import { AuthContext } from '../../context/auth';
 import { useFetch } from '@services/useFetch';
+import { RFValue } from 'react-native-responsive-fontsize';
+import Animated, { FadeIn } from 'react-native-reanimated';
 
-interface RestaurantProps extends TouchableOpacityProps{
+interface RestaurantProps {
     name: string;
     category: string;
     rating?: number;
     link: string;
     id: number;
+    onPress: () => void;
 }
 
 interface Response {
@@ -31,7 +34,14 @@ interface Response {
     code: string;
 }
 
-export function Restaurants({ name, id, category, link, ...rest }: RestaurantProps) {
+export function Restaurants({
+    name,
+    id,
+    category,
+    link,
+    onPress,
+}: RestaurantProps) {
+    const logoRest = require('@assets/icons/defaultRestaurant.png');
     const endpoint = link.slice(33);
 
     const { token } = useContext(AuthContext);
@@ -63,12 +73,7 @@ export function Restaurants({ name, id, category, link, ...rest }: RestaurantPro
         !!id && fetchRating();
     }, [id]);
 
-    useEffect(() => {
-        !!dataRating && console.log(dataRating);
-    }, [dataRating]);
-
     function rating() {
-        console.log(dataRating?.toString());
         if (dataRating?.toString() === undefined) {
             return '-';
         } else {
@@ -77,7 +82,7 @@ export function Restaurants({ name, id, category, link, ...rest }: RestaurantPro
     }
 
     return (
-        <Container {...rest}>
+        <Container onPress={onPress}>
             <LikeWrapper>
                 <Button onPress={() => setFocused(!focused)}>
                     <Like
@@ -91,13 +96,13 @@ export function Restaurants({ name, id, category, link, ...rest }: RestaurantPro
                 </Button>
             </LikeWrapper>
 
-            <RestaurantImage
-                source={
-                    data?.code
-                        ? { uri: data?.code }
-                        : require('@assets/icons/defaultRestaurant.png')
-                }
-            />
+            {!loading && (
+                <Animated.Image
+                    entering={FadeIn.delay(100).duration(700)}
+                    style={styles.restImage}
+                    source={data?.code ? { uri: data?.code } : logoRest}
+                />
+            )}
 
             <Content>
                 <Title>{name}</Title>
@@ -114,3 +119,13 @@ export function Restaurants({ name, id, category, link, ...rest }: RestaurantPro
         </Container>
     );
 }
+
+const styles = StyleSheet.create({
+    restImage: {
+        width: '100%',
+        height: undefined,
+        aspectRatio: 1,
+        borderRadius: RFValue(15),
+        resizeMode: 'cover',
+    },
+});

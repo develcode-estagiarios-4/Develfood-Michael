@@ -4,7 +4,7 @@ import {
     BorderlessButton,
     BorderlessButtonProps,
 } from 'react-native-gesture-handler';
-import theme from '@styles/theme';
+import theme from '../../styles/theme';
 import {
     Container,
     Icon,
@@ -14,7 +14,6 @@ import {
     Title,
 } from './styles';
 import Animated from 'react-native-reanimated';
-import { RFValue } from 'react-native-responsive-fontsize';
 
 interface Props extends BorderlessButtonProps {
     source: ImageSourcePropType;
@@ -22,7 +21,7 @@ interface Props extends BorderlessButtonProps {
     title?: string;
     like?: () => void;
     goBack?: () => void;
-    style?: TextStyle;
+    style?: StyleProp<TextStyle>;
 }
 
 export function Header({

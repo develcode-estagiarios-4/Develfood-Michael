@@ -25,8 +25,8 @@ import { FoodCard } from '@components/FoodCard';
 import { FocusAwareStatusBar } from '@components/FocusStatusBar';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import { useFetch } from '@services/useFetch';
-import { AuthContext } from '@context/auth';
-import theme from '@styles/theme';
+import { AuthContext } from '../../../context/auth';
+import theme from '../../../styles/theme';
 import { EmptyFoodCardList } from '@components/EmptyFoodCardList';
 import { useDebouncedCallback } from 'use-debounce';
 import Animated, {
@@ -51,7 +51,7 @@ interface Food {
     restaurantName: string;
 }
 
-interface Image {
+interface ImageResponse {
     code: string;
     id: number;
 }
@@ -72,14 +72,13 @@ export function RestaurantPage({ navigation, route }: any) {
             },
         }
     );
-    //console.log(photo_url + 'oi bacana')
 
     const {
         data: dataImage,
         error: errorImage,
         loading: loadingImage,
         fetchData: fetchImage,
-    } = useFetch<Image>(`${photo_url}`, {
+    } = useFetch<ImageResponse>(`${photo_url}`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -129,9 +128,7 @@ export function RestaurantPage({ navigation, route }: any) {
     }
 
     async function loadRestaurantImage() {
-        console.log('oi');
         await fetchImage();
-        console.log('tchau');
     }
 
     function handleOnChangeText(value: string) {
@@ -145,6 +142,15 @@ export function RestaurantPage({ navigation, route }: any) {
         }
         setLoading(false);
     }
+
+    const renderItem = ({ item }: {item: Food}) => (
+        <FoodCard
+            name={item.name}
+            price={item.price}
+            link={item.photo_url}
+            description={item.description}
+        />
+    );
 
     useEffect(() => {
         loadFoods();
@@ -172,10 +178,10 @@ export function RestaurantPage({ navigation, route }: any) {
                     onScroll={scrollHandler}
                     scrollEventThrottle={16}
                     data={foods}
-                    keyExtractor={(item) => item?.id}
+                    keyExtractor={(item) => item?.id.toString()}
                     contentContainerStyle={{
                         backgroundColor: theme.colors.background,
-                        paddingHorizontal: RFValue(15),
+                        paddingHorizontal: RFValue(16),
                     }}
                     ListHeaderComponent={
                         <>
@@ -218,14 +224,7 @@ export function RestaurantPage({ navigation, route }: any) {
                             </View>
                         </>
                     }
-                    renderItem={({ item }) => (
-                        <FoodCard
-                            name={item.name}
-                            price={item.price}
-                            link={item.photo_url}
-                            description={item.description}
-                        />
-                    )}
+                    renderItem={renderItem}
                     ListFooterComponent={
                         loading ? (
                             <LoadWrapper>
@@ -262,13 +261,13 @@ const styles = StyleSheet.create({
         opacity: 0,
     },
     imageUp: {
-        width: 70,
-        height: 70,
+        width: RFValue(70),
+        height: RFValue(70),
         borderRadius: 50,
     },
     imageDown: {
-        width: 70,
-        height: 70,
+        width: RFValue(70),
+        height: RFValue(70),
         borderRadius: 50,
         backgroundColor: '#DDD',
         position: 'absolute',

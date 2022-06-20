@@ -1,5 +1,3 @@
-import { RectButton } from 'react-native-gesture-handler';
-import { BorderlessButton } from 'react-native-gesture-handler';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
@@ -51,6 +49,8 @@ export const RestaurantImage = styled.Image.attrs({
     height: undefined;
     aspect-ratio: 1;
     border-radius: ${RFValue(15)}px;
+    position: absolute;
+    z-index: -1;
 `;
 
 export const Content = styled.View.attrs({

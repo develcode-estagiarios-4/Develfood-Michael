@@ -8,7 +8,7 @@ export const Container = styled.View.attrs({
     elevation: 4,
 })`
     width: ${window.width - RFValue(40)}px;
-    height: ${RFPercentage(15)}px;
+    height: ${window.height * 0.15};
     flex-direction: row;
     background-color: ${({ theme }) => theme.colors.background};
     border-radius: 15px;
@@ -40,14 +40,14 @@ export const FoodImage = styled.Image.attrs({ resizeMode: 'cover' })`
 export const Title = styled.Text.attrs({})`
     font-family: ${({ theme }) => theme.fonts.primaryMed};
     color: ${({ theme }) => theme.colors.text_red};
-    font-size: ${RFValue(14)}px;
+    font-size: ${({ theme }) => theme.sizes.medium};
 `;
 
 export const Description = styled.Text`
     text-align: justify;
     font-family: ${({ theme }) => theme.fonts.primaryReg};
     color: ${({ theme }) => theme.colors.text_gray};
-    font-size: ${RFValue(10)}px;
+    font-size: ${RFValue(10.5)}px;
 `;
 
 export const Footer = styled.View`
@@ -60,7 +60,7 @@ export const Footer = styled.View`
 export const Price = styled.Text`
     font-family: ${({ theme }) => theme.fonts.primaryMed};
     color: ${({ theme }) => theme.colors.text_dark};
-    font-size: ${({ theme }) => theme.sizes.small};
+    font-size: ${({ theme }) => theme.sizes.medium};
 `;
 
 export const AddButton = styled.TouchableOpacity``;

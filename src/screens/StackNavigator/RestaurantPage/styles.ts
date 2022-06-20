@@ -7,22 +7,20 @@ export const Container = styled.View`
 `;
 
 export const RestaurantImage = styled.Image`
-    width: 70;
-    height: 70;
-    border-radius: 50;
+    width: ${RFValue(80)}px;
+    height: ${RFValue(80)}px;
+    border-radius: 50px;
 `;
 
 export const ImageWrapper = styled.View`
-    width: 70;
-    height: 70;
-    background-color: red;
+    width: ${RFValue(70)}px;
+    height: ${RFValue(70)}px;
 `;
 
 export const RestaurantWrapper = styled.View`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    //background-color: red;
     padding-bottom: ${RFValue(25)}px;
     padding-top: ${RFValue(18)}px;
 `;
@@ -32,7 +30,7 @@ export const TitleWrapper = styled.View`
 `;
 
 export const Separator = styled.View`
-    width: ${RFPercentage(50)};
+    width: 100%;
     height: 1px;
     background-color: ${({ theme }) => theme.colors.divider};
     border: 1px solid ${({ theme }) => theme.colors.divider};

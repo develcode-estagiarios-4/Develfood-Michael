@@ -13,12 +13,8 @@ import {
 } from './styles';
 import {
     ActivityIndicator,
-    Alert,
-    Button,
     Dimensions,
-    Image,
     StatusBar,
-    Text,
 } from 'react-native';
 import { AuthContext } from '../../../context/auth';
 import { HeaderHome } from '@components/HeaderHome';
@@ -28,24 +24,23 @@ import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../../styles/theme';
 import { Input } from '@components/Input';
 import { useDebouncedCallback } from 'use-debounce';
+import { FlatList } from 'react-native-gesture-handler';
 
 interface FoodTypes {
     id: number;
     name: string;
 }
 
-interface Restaurant {
+type Restaurant = {
     id: number;
     name: string;
     photo_url: string;
-    food_types: FoodTypes[] | null;
+    food_types: FoodTypes[];
 }
 
-interface RestaurantList {
+type RestaurantList = {
     content: Restaurant[];
-    number: number;
     totalPages: number;
-    first: boolean;
 }
 
 const CardMargins =
@@ -70,7 +65,7 @@ export function Home({ navigation }: any) {
     }, 1500);
 
     function onSuccess(data: RestaurantList) {
-        !!data.content && setRestaurants([...restaurants, ...data.content]);
+        !!data.content && restaurants.push(...data.content);
     }
 
     async function loadRestaurants() {
@@ -93,6 +88,31 @@ export function Home({ navigation }: any) {
         }
     }
 
+    const renderItem = ({ item }: {item: Restaurant}) => (
+        <Restaurants
+            onPress={() => {
+                navigation.navigate('Restaurant', {
+                    id: item.id,
+                    name: item.name,
+                    photo_url: item.photo_url,
+                    food_types:
+                        item.food_types.length > 0
+                            ? item.food_types[0].name
+                            : 'Sem categoria',
+                });
+            }}
+            name={item.name}
+            link={item.photo_url}
+            id={item.id}
+            category={
+                item.food_types.length > 0
+                    ? item.food_types[0].name.charAt(0).toUpperCase() +
+                      item.food_types[0].name.slice(1).toLowerCase()
+                    : 'Sem categoria'
+            }
+        />
+    );
+
     useEffect(() => {
         loadRestaurants();
     }, [filter]);
@@ -104,10 +124,10 @@ export function Home({ navigation }: any) {
                 backgroundColor={'#C20C18'}
             />
             <Container>
-                <RestaurantList
+                <FlatList
                     data={restaurants}
                     numColumns={2}
-                    keyExtractor={(item) => item?.id}
+                    keyExtractor={(item) => item.id.toString()}
                     columnWrapperStyle={{
                         justifyContent: 'space-between',
                         paddingHorizontal: RFValue(CardMargins),
@@ -169,32 +189,7 @@ export function Home({ navigation }: any) {
                             )}
                         </View>
                     )}
-                    renderItem={({ item }) => (
-                        <Restaurants
-                            onPress={() => {
-                                navigation.navigate('Restaurant', {
-                                    id: item.id,
-                                    name: item.name,
-                                    photo_url: item.photo_url,
-                                    food_types: item.food_types.length > 0 ? item.food_types[0].name : 'Sem categoria',
-                                });
-                            }}
-                            name={item.name}
-                            link={item.photo_url}
-                            id={item.id}
-                            category={
-                                item.food_types.length > 0
-                                    ? item.food_types[0].name
-                                          .charAt(0)
-                                          .toUpperCase() +
-                                      item.food_types[0].name
-                                          .slice(1)
-                                          .toLowerCase()
-                                    : 'Sem categoria'
-                            }
-                            
-                        />
-                    )}
+                    renderItem={renderItem}
                     onEndReached={() => {
                         handleOnEndReached();
                     }}
