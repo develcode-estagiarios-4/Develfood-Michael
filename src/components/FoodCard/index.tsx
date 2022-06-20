@@ -78,7 +78,7 @@ export function FoodCard({ name, price, link, description }: Props) {
                         source={
                             !!data
                                 ? { uri: data?.code }
-                                : require('@assets/icons/defaultRestaurant.png')
+                                : theme.images.default
                         }
                         style={styles.image}
                         entering={FadeInLeft}

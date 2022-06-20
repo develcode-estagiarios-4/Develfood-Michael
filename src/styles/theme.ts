@@ -6,6 +6,7 @@ export default {
         background_red: '#C20C18',
 
         header: '#C20C18',
+        headerSecondary: '#FFFFFF',
         button: '#C20C18',
         card: '#F0F0F5',
         input: '#BFBABA',
@@ -52,4 +53,8 @@ export default {
         historic: require('@assets/icons/historic.png'),
         profile: require('@assets/icons/profile.png'),
     },
+
+    images: {
+        default: require('@assets/icons/defaultRestaurant.png'),
+    }
 };

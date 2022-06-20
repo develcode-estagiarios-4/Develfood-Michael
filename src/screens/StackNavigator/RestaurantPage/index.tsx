@@ -209,7 +209,7 @@ export function RestaurantPage({ navigation, route }: any) {
                                     )}
                                     <Image
                                         style={styles.imageDown}
-                                        source={require('@assets/icons/defaultRestaurant.png')}
+                                        source={theme.images.default}
                                     />
                                 </ImageWrapper>
                             </RestaurantWrapper>

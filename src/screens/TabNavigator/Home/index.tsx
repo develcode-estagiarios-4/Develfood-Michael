@@ -111,22 +111,28 @@ export function Home({ navigation }: any) {
         />
     );
 
-    const listFooterComponent = () => (
-        data?.totalElements != 0 && <View
-            style={{
-                width: '100%',
-                height: RFPercentage(10),
-                justifyContent: 'center',
-            }}
-        >
-            {loading && (
-                <ActivityIndicator
-                    size={40}
-                    color={theme.colors.background_red}
-                />
-            )}
-        </View>
-    );
+    const listFooterComponent = () => {
+        if (data?.totalElements != 0) {
+            return (
+                <View
+                    style={{
+                        width: '100%',
+                        height: RFPercentage(10),
+                        justifyContent: 'center',
+                    }}
+                >
+                    {loading && (
+                        <ActivityIndicator
+                            size={40}
+                            color={theme.colors.background_red}
+                        />
+                    )}
+                </View>
+            );
+        } else {
+            return null;
+        }
+    };
 
     const listEmptyComponent = () => {
         if (data?.totalElements === 0 && !loading) {

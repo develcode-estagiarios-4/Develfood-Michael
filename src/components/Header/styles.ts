@@ -4,7 +4,7 @@ import theme from '../../styles/theme';
 import { BorderlessButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
-    background-color: ${(props) => props.theme.colors.background};
+    background-color: ${(props) => props.theme.colors.headerSecondary};
     flex-direction: row;
     justify-content: space-between;
     height: ${RFValue(50)}px;

@@ -41,7 +41,7 @@ export function Restaurants({
     link,
     onPress,
 }: RestaurantProps) {
-    const logoRest = require('@assets/icons/defaultRestaurant.png');
+    const logoRest = theme.images.default;
     const endpoint = link.slice(33);
 
     const { token } = useContext(AuthContext);
