@@ -2,6 +2,11 @@ import { RFValue } from "react-native-responsive-fontsize";
 
 export default {
     colors: {
+        primary: '#C20C18',
+        gray: '#BFBABA',
+        lightGray: '#DDDDDD',
+        white: '#FFFFFF',
+
         background: '#FFFFFF',
         background_red: '#C20C18',
 
@@ -56,5 +61,9 @@ export default {
 
     images: {
         default: require('@assets/icons/defaultRestaurant.png'),
-    }
+        home: require('@assets/icons/home.png'),
+        orders: require('@assets/icons/historic.png'),
+        profile: require('@assets/icons/profile.png'),
+        favorites: require('@assets/icons/heart.png'),
+    },
 };
