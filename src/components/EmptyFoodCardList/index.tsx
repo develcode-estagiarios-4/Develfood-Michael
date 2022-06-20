@@ -16,7 +16,7 @@ export function EmptyFoodCardList({title} : Props) {
                 source={require('@assets/icons/notFound.png')}
                 style={{
                     width: '100%',
-                    height: RFValue(200),
+                    height: RFValue(210),
                 }}
             />
             <Title>{title}</Title>

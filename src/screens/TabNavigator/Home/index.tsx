@@ -38,6 +38,7 @@ type Restaurant = {
 type RestaurantList = {
     content: Restaurant[];
     totalPages: number;
+    totalElements: number;
 };
 
 const CardMargins =
@@ -111,7 +112,7 @@ export function Home({ navigation }: any) {
     );
 
     const listFooterComponent = () => (
-        <View
+        data?.totalElements != 0 && <View
             style={{
                 width: '100%',
                 height: RFPercentage(10),
@@ -128,9 +129,11 @@ export function Home({ navigation }: any) {
     );
 
     const listEmptyComponent = () => {
-        if (!loading) {
+        if (data?.totalElements === 0 && !loading) {
             return <EmptyFoodCardList title="Nenhum restaurante encontrado" />;
-        } else { return null}
+        } else {
+            return null;
+        }
     };
 
     useEffect(() => {
