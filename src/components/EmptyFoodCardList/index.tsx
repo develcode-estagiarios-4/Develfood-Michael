@@ -15,8 +15,8 @@ export function EmptyFoodCardList({title} : Props) {
                 entering={FadeInDown}
                 source={require('@assets/icons/notFound.png')}
                 style={{
-                    width: RFValue(294),
-                    height: RFValue(294),
+                    width: '100%',
+                    height: RFValue(200),
                 }}
             />
             <Title>{title}</Title>

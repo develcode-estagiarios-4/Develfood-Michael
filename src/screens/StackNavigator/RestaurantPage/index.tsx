@@ -154,8 +154,11 @@ export function RestaurantPage({ navigation, route }: any) {
 
     useEffect(() => {
         loadFoods();
-        loadRestaurantImage();
     }, [filter]);
+
+    useEffect(() => {
+         loadRestaurantImage();
+     }, []);
 
     return (
         <>
