@@ -1,5 +1,9 @@
+import { Dimensions } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 export const Container = styled.View`
     flex: 1;
@@ -18,14 +22,14 @@ export const BannerWrapper = styled.ScrollView.attrs({
 
 export const Banner = styled.Image`
     margin-right: ${RFValue(8)}px;
-    width: ${RFValue(310)}px;
+    width: width * 0.8;
     height: ${RFValue(135)}px;
     border-radius: 10px;
 `;
 
 
 export const Content = styled.View`
-    margin-top: ${RFValue(175)}px;
+    margin-top: ${RFValue(165)}px;
 `;
 
 export const View = styled.View`
