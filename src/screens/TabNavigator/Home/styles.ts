@@ -22,7 +22,7 @@ export const BannerWrapper = styled.ScrollView.attrs({
 
 export const Banner = styled.Image`
     margin-right: ${RFValue(8)}px;
-    width: width * 0.8;
+    width: ${width * 0.9};
     height: ${RFValue(135)}px;
     border-radius: 10px;
 `;
