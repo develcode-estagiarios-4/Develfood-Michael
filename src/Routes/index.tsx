@@ -6,7 +6,6 @@ import { Cadastro3 } from '@screens/StackNavigator/SignIn/Cadastro3';
 import { Login } from '@screens/StackNavigator/SignIn/Login';
 import { SignUpSuccess } from '@screens/StackNavigator/SignIn/SignUpSuccess';
 import { StatusBar } from 'react-native';
-// import { SignInSuccess } from '@screens/StackNavigator/SignInSuccess';
 
 export function SignInRoutes() {
     const { Navigator, Screen } = createNativeStackNavigator();

@@ -22,6 +22,7 @@ import { Input } from '@components/Input';
 import { useDebouncedCallback } from 'use-debounce';
 import { FlatList } from 'react-native-gesture-handler';
 import { EmptyFoodCardList } from '@components/EmptyFoodCardList';
+import { useScrollToTop } from '@react-navigation/native';
 
 interface FoodTypes {
     id: number;
@@ -142,6 +143,10 @@ export function Home({ navigation }: any) {
         }
     };
 
+    const ref = React.useRef(null);
+
+    useScrollToTop(ref);
+
     useEffect(() => {
         loadRestaurants();
     }, [filter]);
@@ -154,6 +159,7 @@ export function Home({ navigation }: any) {
             />
             <Container>
                 <FlatList
+                    ref={ref}
                     data={restaurants}
                     numColumns={2}
                     keyExtractor={(item) => item.id.toString()}
