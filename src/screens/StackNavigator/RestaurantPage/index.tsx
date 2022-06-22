@@ -143,12 +143,14 @@ export function RestaurantPage({ navigation, route }: any) {
         setLoading(false);
     }
 
-    const renderItem = ({ item }: {item: Food}) => (
+    const renderItem = ({ item }: { item: Food }) => (
         <FoodCard
             name={item.name}
             price={item.price}
             link={item.photo_url}
             description={item.description}
+            id={item.id}
+            restaurant={id}
         />
     );
 
@@ -157,8 +159,8 @@ export function RestaurantPage({ navigation, route }: any) {
     }, [filter]);
 
     useEffect(() => {
-         loadRestaurantImage();
-     }, []);
+        loadRestaurantImage();
+    }, []);
 
     return (
         <>

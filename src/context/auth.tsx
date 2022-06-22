@@ -1,7 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
+import { useFetch } from '@services/useFetch';
 import { usePost } from '@services/usePost';
-import { AxiosError } from 'axios';
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import React, {
+    createContext,
+    ReactNode,
+    useCallback,
+    useEffect,
+    useState,
+} from 'react';
 import { MessageType } from 'react-native-flash-message';
 
 interface Photo {
@@ -28,6 +34,7 @@ interface AuthContextData {
     }: SignUpProps): void;
     token: string;
     loading: boolean;
+    userId: number;
 }
 
 interface AuthProviderProps {
@@ -66,10 +73,15 @@ interface SignUpProps {
     nickname: string;
 }
 
+interface UserInfo {
+    id: number;
+}
+
 export const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
     const [request, setRequest] = useState({} as RequestProps);
+    const [id, setId] = useState(0);
 
     const navigation = useNavigation();
 
@@ -78,7 +90,16 @@ function AuthProvider({ children }: AuthProviderProps) {
         request.body
     );
 
-    function createUserSuccess(data: any) { 
+    const { data: userInfo, fetchData: getUserData } = useFetch<UserInfo>(
+        '/auth',
+        {
+            headers: {
+                Authorization: `Bearer ${data.token}`,
+            },
+        }
+    );
+
+    function createUserSuccess(data: any) {
         data.password && navigation.navigate('SignUpSuccess' as never);
     }
 
@@ -148,6 +169,18 @@ function AuthProvider({ children }: AuthProviderProps) {
         });
     }
 
+    useEffect(() => {
+        !!data.token && getUserData();
+    }, [data]);
+
+    useEffect(() => {
+        !!userInfo?.id && setId(userInfo.id);
+    }, [userInfo]);
+
+    // useEffect(() => {
+    //     id > 0 && console.log(id);
+    // }, [id]);
+
     return (
         <AuthContext.Provider
             value={{
@@ -155,6 +188,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 signUp,
                 token: data.token,
                 loading,
+                userId: id,
             }}
         >
             {children}

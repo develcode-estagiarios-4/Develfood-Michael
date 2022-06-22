@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useFetch } from '@services/useFetch';
 import {
     Banner,
@@ -54,7 +54,7 @@ export function Home({ navigation }: any) {
 
     const { token } = useContext(AuthContext);
 
-    const { data, loading, error, fetchData } = useFetch<RestaurantList>(
+    const { data, loading, fetchData } = useFetch<RestaurantList>(
         `/restaurant/filter?name=${filter.input}&page=${filter.page}&quantity=10`,
         { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -144,7 +144,6 @@ export function Home({ navigation }: any) {
     };
 
     const ref = React.useRef(null);
-
     useScrollToTop(ref);
 
     useEffect(() => {

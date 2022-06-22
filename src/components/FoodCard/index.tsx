@@ -20,21 +20,20 @@ import {
 } from './styles';
 import { RFValue, RFPercentage } from 'react-native-responsive-fontsize';
 import theme from '@styles/theme';
-import Animated, {
-    FadeInLeft,
-    FadeInRight,
-} from 'react-native-reanimated';
+import Animated, { FadeInLeft, FadeInRight } from 'react-native-reanimated';
+import { CartContext } from '@context/cart';
 
 interface Props {
     foodType?: {
         id: number;
         name: string;
     };
-    id?: number;
+    id: number;
     link: string;
     price: string;
     name: string;
     description: string;
+    restaurant: number;
 }
 
 interface Response {
@@ -42,12 +41,20 @@ interface Response {
     code: string;
 }
 
-export function FoodCard({ name, price, link, description }: Props) {
+export function FoodCard({
+    name,
+    price,
+    link,
+    description,
+    id,
+    restaurant,
+}: Props) {
     const { token } = useContext(AuthContext);
+    const { addItem, removeItem } = useContext(CartContext);
 
     const endpoint = link.slice(33);
 
-    const { data, loading, error, fetchData } = useFetch<Response>(endpoint, {
+    const { data, loading, fetchData } = useFetch<Response>(endpoint, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -63,6 +70,10 @@ export function FoodCard({ name, price, link, description }: Props) {
         return priceFormatted;
     }
 
+    function addToCart() {
+        addItem({ id: id, price: price, restaurant: restaurant, count: 1 });
+    }
+
     useEffect(() => {
         !!endpoint && loadImage();
     }, [endpoint]);
@@ -76,9 +87,7 @@ export function FoodCard({ name, price, link, description }: Props) {
                 {!loading && (
                     <Animated.Image
                         source={
-                            !!data
-                                ? { uri: data?.code }
-                                : theme.images.default
+                            data ? { uri: data?.code } : theme.images.default
                         }
                         style={styles.image}
                         entering={FadeInLeft}
@@ -122,7 +131,7 @@ export function FoodCard({ name, price, link, description }: Props) {
                 >
                     <Footer>
                         <Price>R$ {priceFormatter()}</Price>
-                        <AddButton>
+                        <AddButton onPress={addToCart}>
                             <Title>Adicionar</Title>
                         </AddButton>
                     </Footer>
