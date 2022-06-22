@@ -14,6 +14,7 @@ import { AuthContext } from './auth';
 interface CartContextData {
     addItem: (item: CartItem) => void;
     removeItem: (item: CartItem) => void;
+    cartItems: CartItem[];
 }
 
 interface Order {
@@ -59,7 +60,9 @@ function CartProvider({ children }: CartProviderProps) {
 
     function addItem(item: CartItem) {
         const itemFound = cartItems.find((cartItem) => cartItem.id === item.id);
-        const fromOtherRestaurant = cartItems.find((cartItem) => cartItem.restaurant !== item.restaurant);
+        const fromOtherRestaurant = cartItems.find(
+            (cartItem) => cartItem.restaurant !== item.restaurant
+        );
 
         if (!fromOtherRestaurant)
             if (!itemFound) {
@@ -69,18 +72,28 @@ function CartProvider({ children }: CartProviderProps) {
                 itemFound.count += item.count;
                 itemFound.price = item.price * itemFound.count;
                 console.log(cartItems);
-            } else Alert.alert('Você não pode adicionar itens de restaurantes diferentes');
+            }
+        else
+            Alert.alert(
+                'Você não pode adicionar itens de restaurantes diferentes'
+            );
     }
 
     function removeItem(item: CartItem) {
         const itemFound = cartItems.find((cartItem) => cartItem.id === item.id);
+        const index = cartItems.indexOf(item);
+
         if (itemFound) {
-            itemFound.count -= 1;
+            itemFound.count < 2
+                ? cartItems.splice(index, 1)
+                : (itemFound.count -= 1);
+
+            console.log(cartItems);
         }
     }
 
     return (
-        <CartContext.Provider value={{ addItem, removeItem }}>
+        <CartContext.Provider value={{ addItem, removeItem, cartItems }}>
             {children}
         </CartContext.Provider>
     );

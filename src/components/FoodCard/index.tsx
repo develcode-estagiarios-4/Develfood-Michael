@@ -50,7 +50,7 @@ export function FoodCard({
     restaurant,
 }: Props) {
     const { token } = useContext(AuthContext);
-    const { addItem, removeItem } = useContext(CartContext);
+    const { addItem, removeItem, cartItems } = useContext(CartContext);
 
     const endpoint = link.slice(33);
 
@@ -74,9 +74,17 @@ export function FoodCard({
         addItem({ id: id, price: price, restaurant: restaurant, count: 1 });
     }
 
+    function removeFromCart() {
+        removeItem({ id: id, price: price, restaurant: restaurant, count: 1 });
+    }
+
     useEffect(() => {
         !!endpoint && loadImage();
     }, [endpoint]);
+
+    useEffect(() => {
+        console.log(cartItems);
+    }, []);
 
     return (
         <Animated.View
@@ -131,9 +139,20 @@ export function FoodCard({
                 >
                     <Footer>
                         <Price>R$ {priceFormatter()}</Price>
-                        <AddButton onPress={addToCart}>
-                            <Title>Adicionar</Title>
-                        </AddButton>
+                        {cartItems === [] ? (
+                            <AddButton onPress={addToCart}>
+                                <Title>Adicionar</Title>
+                            </AddButton>
+                        ) : (
+                            <>
+                                <AddButton onPress={addToCart}>
+                                    <Title>+</Title>
+                                </AddButton>
+                                <AddButton onPress={removeFromCart}>
+                                    <Title>-</Title>
+                                </AddButton>
+                            </>
+                        )}
                     </Footer>
                 </View>
             </Wrapper>
