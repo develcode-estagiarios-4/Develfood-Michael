@@ -37,7 +37,7 @@ interface Props {
     };
     id: number;
     link: string;
-    price: string;
+    price: number;
     name: string;
     description: string;
     restaurant: number;
@@ -63,8 +63,12 @@ export function FoodCard({
     const { fontScale } = useWindowDimensions();
     const endpoint = link.slice(33);
     const itemCount = cartItems.find((item) => item?.id === id)?.count;
-    const [handleInterval, setHandleInterval] = useState(false);
-
+    const priceFormatted = price.toLocaleString('pt-BR', {
+        maximumFractionDigits: 2,
+        style: 'currency',
+        currency: 'BRL'
+    })
+    console.log(price)
     const { data, loading, fetchData } = useFetch<Response>(endpoint, {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -73,12 +77,6 @@ export function FoodCard({
 
     async function loadImage() {
         await fetchData();
-    }
-
-    function priceFormatter() {
-        const priceWZeros = parseFloat(price).toFixed(2);
-        const priceFormatted = priceWZeros.toString().replace('.', ',');
-        return priceFormatted;
     }
 
     function addToCart() {
@@ -141,7 +139,7 @@ export function FoodCard({
                 </View>
 
                 <Footer>
-                    <Price>R$ {priceFormatter()}</Price>
+                    <Price>{priceFormatted}</Price>
 
                     {itemCount ? (
                         <CounterWrapper>

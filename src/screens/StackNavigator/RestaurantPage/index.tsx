@@ -47,7 +47,7 @@ interface Food {
     foodType: string;
     id: number;
     photo_url: string;
-    price: string;
+    price: number;
     restaurantName: string;
 }
 

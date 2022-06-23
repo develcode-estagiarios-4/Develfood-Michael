@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Price, Rect, Title, Icon } from './styles';
+import { Container, Price, Rect, Title, Icon, PriceWrapper } from './styles';
 
 interface Props {
     price: string;
@@ -12,7 +12,9 @@ export function FluctuatingCartButton({ price }: Props) {
             <Rect>
                 <Icon source={basket} />
                 <Title>Ver carrinho</Title>
-                <Price>{price}</Price>
+                <PriceWrapper>
+                    <Price>{price}</Price>
+                </PriceWrapper>
             </Rect>
         </Container>
     );

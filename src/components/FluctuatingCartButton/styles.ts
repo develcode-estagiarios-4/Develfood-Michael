@@ -7,16 +7,17 @@ const window = Dimensions.get('window');
 
 export const Container = styled.View`
     position: absolute;
-    width: ${window.width}px;
+    width: ${window.width - RFValue(30)}px;
     z-index: 1;
     bottom: ${RFValue(45)}px;
-    padding: ${RFValue(15)}px;
+    margin: ${RFValue(15)}px;
 `;
 
 export const Title = styled.Text`
     font-family: ${({ theme }) => theme.fonts.primaryMed};
     font-size: ${({ theme }) => theme.sizes.medium}px;
     color: ${({ theme }) => theme.colors.text_white};
+    position: absolute;
 `;
 
 export const Rect = styled(RectButton)`
@@ -26,13 +27,19 @@ export const Rect = styled(RectButton)`
     border-radius: 10px;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 ${RFValue(15)}px;
+    justify-content: center;
 `;
 
 export const Icon = styled.Image.attrs({ resizeMode: 'contain' })`
     width: ${RFValue(20)}px;
     height: ${RFValue(20)}px;
+    position: absolute;
+    left: 15px;
+`;
+
+export const PriceWrapper = styled.View`
+    position: absolute;
+    right: 15;
 `;
 
 export const Price = styled.Text`
