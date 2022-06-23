@@ -1,3 +1,4 @@
+import { FluctuatingCartButton } from '@components/FluctuatingCartButton';
 import { useNavigation } from '@react-navigation/native';
 import { usePost } from '@services/usePost';
 import React, {
@@ -60,6 +61,11 @@ function CartProvider({ children }: CartProviderProps) {
     const [order, setOrder] = useState<Order>({} as Order);
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [totalAmount, setTotalAmount] = useState({ quantity: 0, price: 0 });
+    const price = totalAmount.price.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+        style: 'currency',
+        currency: 'BRL',
+    });
 
     function addItem(item: CartItem) {
         const itemFound = cartItems.find((cartItem) => cartItem.id === item.id);
@@ -126,6 +132,7 @@ function CartProvider({ children }: CartProviderProps) {
             }}
         >
             {children}
+            {totalAmount.price !== 0 && <FluctuatingCartButton price={price} />}
         </CartContext.Provider>
     );
 }

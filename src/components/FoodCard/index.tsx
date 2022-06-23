@@ -5,6 +5,7 @@ import {
     ImageSourcePropType,
     StyleSheet,
     Text,
+    useWindowDimensions,
     View,
 } from 'react-native';
 import { AuthContext } from '@context/auth';
@@ -17,8 +18,12 @@ import {
     Footer,
     Wrapper,
     CounterWrapper,
+    NumberWrapper,
     ImageWrapper,
     TrashIcon,
+    PlusMinusWrapper,
+    PlusButton,
+    MinusButton,
 } from './styles';
 import { RFValue, RFPercentage } from 'react-native-responsive-fontsize';
 import theme from '@styles/theme';
@@ -55,8 +60,10 @@ export function FoodCard({
     const { addItem, removeItem, cartItems, totalAmount } =
         useContext(CartContext);
 
+    const { fontScale } = useWindowDimensions();
     const endpoint = link.slice(33);
     const itemCount = cartItems.find((item) => item?.id === id)?.count;
+    const [handleInterval, setHandleInterval] = useState(false);
 
     const { data, loading, fetchData } = useFetch<Response>(endpoint, {
         headers: {
@@ -127,60 +134,46 @@ export function FoodCard({
                     <Description
                         ellipsizeMode="tail"
                         numberOfLines={3}
+                        style={{ fontSize: 11 / fontScale }}
                     >
                         {description}
                     </Description>
                 </View>
-                <View
-                    style={{
-                        width: '100%',
-                        height: '35%',
-                    }}
-                >
-                    <Footer>
-                        <Price>R$ {priceFormatter()}</Price>
 
-                        {itemCount > 1 ? (
-                            <>
-                                <AddButton onPress={removeFromCart}>
-                                    <Title>-</Title>
-                                </AddButton>
+                <Footer>
+                    <Price>R$ {priceFormatter()}</Price>
 
-                                <CounterWrapper>
-                                    <Counter>{itemCount}</Counter>
-                                </CounterWrapper>
-                                <AddButton onPress={addToCart}>
-                                    <Title>+</Title>
-                                </AddButton>
-                            </>
-                        ) : itemCount === 1 ? (
-                            <>
-                                <AddButton onPress={removeFromCart}>
+                    {itemCount ? (
+                        <CounterWrapper>
+                            <AddButton onPress={removeFromCart}>
+                                {itemCount === 1 ? (
                                     <TrashIcon
                                         source={require('@assets/icons/trash.png')}
                                     />
-                                </AddButton>
+                                ) : (
+                                    <PlusMinusWrapper>
+                                        <MinusButton>-</MinusButton>
+                                    </PlusMinusWrapper>
+                                )}
+                            </AddButton>
 
-                                <CounterWrapper>
-                                    <Counter>
-                                        {
-                                            cartItems.find(
-                                                (item) => item?.id === id
-                                            )?.count
-                                        }
-                                    </Counter>
-                                </CounterWrapper>
-                                <AddButton onPress={addToCart}>
-                                    <Title>+</Title>
-                                </AddButton>
-                            </>
-                        ) : (
+                            <NumberWrapper>
+                                <Counter>{itemCount}</Counter>
+                            </NumberWrapper>
+                            <AddButton onPress={addToCart}>
+                                <PlusMinusWrapper>
+                                    <PlusButton>+</PlusButton>
+                                </PlusMinusWrapper>
+                            </AddButton>
+                        </CounterWrapper>
+                    ) : (
+                        <CounterWrapper>
                             <AddButton onPress={addToCart}>
                                 <Title>Adicionar</Title>
                             </AddButton>
-                        )}
-                    </Footer>
-                </View>
+                        </CounterWrapper>
+                    )}
+                </Footer>
             </Wrapper>
         </Animated.View>
     );
