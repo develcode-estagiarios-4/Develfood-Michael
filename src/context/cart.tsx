@@ -7,13 +7,14 @@ import React, {
     useEffect,
     useState,
 } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Text } from 'react-native';
 import { string } from 'yup';
 import { AuthContext } from './auth';
 
 interface CartContextData {
     addItem: (item: CartItem) => void;
     removeItem: (item: CartItem) => void;
+    itemQuantityTracker: (item: CartItem) => number;
     cartItems: CartItem[];
 }
 
@@ -75,25 +76,36 @@ function CartProvider({ children }: CartProviderProps) {
             }
         else
             Alert.alert(
+                'Restaurantes diferentes',
                 'Você não pode adicionar itens de restaurantes diferentes'
             );
     }
 
     function removeItem(item: CartItem) {
         const itemFound = cartItems.find((cartItem) => cartItem.id === item.id);
-        const index = cartItems.indexOf(item);
 
         if (itemFound) {
             itemFound.count < 2
-                ? cartItems.splice(index, 1)
+                ? cartItems.splice(cartItems.indexOf(itemFound), 1)
                 : (itemFound.count -= 1);
 
             console.log(cartItems);
         }
     }
 
+    function itemQuantityTracker(item: CartItem) {
+        const itemFound = cartItems.find((cartItem) => cartItem.id === item.id);
+
+        if (itemFound) {
+            return itemFound.count;
+        } else return 0;
+    }
+    
+
     return (
-        <CartContext.Provider value={{ addItem, removeItem, cartItems }}>
+        <CartContext.Provider
+            value={{ addItem, removeItem, itemQuantityTracker, cartItems }}
+        >
             {children}
         </CartContext.Provider>
     );

@@ -1,9 +1,10 @@
 import { useFetch } from '@services/useFetch';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     Dimensions,
     ImageSourcePropType,
     StyleSheet,
+    Text,
     View,
 } from 'react-native';
 import { AuthContext } from '@context/auth';
@@ -49,8 +50,11 @@ export function FoodCard({
     id,
     restaurant,
 }: Props) {
+    const [itemQuantity, setItemQuantity] = useState(0);
+
     const { token } = useContext(AuthContext);
-    const { addItem, removeItem, cartItems } = useContext(CartContext);
+    const { addItem, removeItem, cartItems, itemQuantityTracker } =
+        useContext(CartContext);
 
     const endpoint = link.slice(33);
 
@@ -85,6 +89,10 @@ export function FoodCard({
     useEffect(() => {
         console.log(cartItems);
     }, []);
+
+    useEffect(() => {
+        setItemQuantity(itemQuantityTracker({ id: id }));
+    }, [cartItems]);
 
     return (
         <Animated.View
@@ -139,20 +147,18 @@ export function FoodCard({
                 >
                     <Footer>
                         <Price>R$ {priceFormatter()}</Price>
-                        {cartItems === [] ? (
+
+                        <>
                             <AddButton onPress={addToCart}>
-                                <Title>Adicionar</Title>
+                                <Title>+</Title>
                             </AddButton>
-                        ) : (
-                            <>
-                                <AddButton onPress={addToCart}>
-                                    <Title>+</Title>
-                                </AddButton>
-                                <AddButton onPress={removeFromCart}>
-                                    <Title>-</Title>
-                                </AddButton>
-                            </>
-                        )}
+                            <Text>
+                                {itemQuantity > 0 && itemQuantity.toString()}
+                            </Text>
+                            <AddButton onPress={removeFromCart}>
+                                <Title>-</Title>
+                            </AddButton>
+                        </>
                     </Footer>
                 </View>
             </Wrapper>
