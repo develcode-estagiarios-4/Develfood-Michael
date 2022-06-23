@@ -9,15 +9,16 @@ import {
 } from 'react-native';
 import { AuthContext } from '@context/auth';
 import {
-    Container,
-    FoodImage,
+    Counter,
     Title,
     Description,
     AddButton,
     Price,
     Footer,
     Wrapper,
+    CounterWrapper,
     ImageWrapper,
+    TrashIcon,
 } from './styles';
 import { RFValue, RFPercentage } from 'react-native-responsive-fontsize';
 import theme from '@styles/theme';
@@ -50,13 +51,12 @@ export function FoodCard({
     id,
     restaurant,
 }: Props) {
-    const [itemQuantity, setItemQuantity] = useState(0);
-
     const { token } = useContext(AuthContext);
-    const { addItem, removeItem, cartItems, itemQuantityTracker } =
+    const { addItem, removeItem, cartItems, totalAmount } =
         useContext(CartContext);
 
     const endpoint = link.slice(33);
+    const itemCount = cartItems.find((item) => item?.id === id)?.count;
 
     const { data, loading, fetchData } = useFetch<Response>(endpoint, {
         headers: {
@@ -85,14 +85,6 @@ export function FoodCard({
     useEffect(() => {
         !!endpoint && loadImage();
     }, [endpoint]);
-
-    useEffect(() => {
-        console.log(cartItems);
-    }, []);
-
-    useEffect(() => {
-        setItemQuantity(itemQuantityTracker({ id: id }));
-    }, [cartItems]);
 
     return (
         <Animated.View
@@ -148,17 +140,45 @@ export function FoodCard({
                     <Footer>
                         <Price>R$ {priceFormatter()}</Price>
 
-                        <>
+                        {itemCount > 1 ? (
+                            <>
+                                <AddButton onPress={removeFromCart}>
+                                    <Title>-</Title>
+                                </AddButton>
+
+                                <CounterWrapper>
+                                    <Counter>{itemCount}</Counter>
+                                </CounterWrapper>
+                                <AddButton onPress={addToCart}>
+                                    <Title>+</Title>
+                                </AddButton>
+                            </>
+                        ) : itemCount === 1 ? (
+                            <>
+                                <AddButton onPress={removeFromCart}>
+                                    <TrashIcon
+                                        source={require('@assets/icons/trash.png')}
+                                    />
+                                </AddButton>
+
+                                <CounterWrapper>
+                                    <Counter>
+                                        {
+                                            cartItems.find(
+                                                (item) => item?.id === id
+                                            )?.count
+                                        }
+                                    </Counter>
+                                </CounterWrapper>
+                                <AddButton onPress={addToCart}>
+                                    <Title>+</Title>
+                                </AddButton>
+                            </>
+                        ) : (
                             <AddButton onPress={addToCart}>
-                                <Title>+</Title>
+                                <Title>Adicionar</Title>
                             </AddButton>
-                            <Text>
-                                {itemQuantity > 0 && itemQuantity.toString()}
-                            </Text>
-                            <AddButton onPress={removeFromCart}>
-                                <Title>-</Title>
-                            </AddButton>
-                        </>
+                        )}
                     </Footer>
                 </View>
             </Wrapper>

@@ -63,4 +63,24 @@ export const Price = styled.Text`
     font-size: ${({ theme }) => theme.sizes.medium};
 `;
 
+export const TrashIcon = styled.Image.attrs({resizeMode: 'contain'})`
+    width: ${RFValue(20)}px;
+    height: ${RFValue(20)}px;
+`;
+
+export const Counter = styled.Text`
+    font-family: ${({ theme }) => theme.fonts.primaryMed};
+    color: ${({ theme }) => theme.colors.text_white};
+    font-size: ${({ theme }) => theme.sizes.medium};
+    align-self: center;
+`;
+
+export const CounterWrapper = styled.View`
+    background-color: ${({ theme }) => theme.colors.background_red};
+    width: ${RFValue(30)}px;
+    height: ${RFValue(30)}px;
+    justify-content: center;
+    border-radius: 5px;
+`;
+
 export const AddButton = styled.TouchableOpacity``;
