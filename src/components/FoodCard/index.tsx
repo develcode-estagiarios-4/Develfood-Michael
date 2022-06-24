@@ -68,7 +68,7 @@ export function FoodCard({
         style: 'currency',
         currency: 'BRL'
     })
-    console.log(price)
+
     const { data, loading, fetchData } = useFetch<Response>(endpoint, {
         headers: {
             Authorization: `Bearer ${token}`,

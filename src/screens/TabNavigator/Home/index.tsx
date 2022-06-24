@@ -154,7 +154,7 @@ export function Home({ navigation }: any) {
     }, [filter]);
 
     useFocusEffect(() => {
-        setNewPosition(40);
+        setNewPosition(45);
     });
 
     return (

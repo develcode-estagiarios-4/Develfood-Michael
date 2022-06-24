@@ -8,7 +8,7 @@ import { CartContext } from '@context/cart';
 export function StackScreenRoutes({ navigation }: any) {
     const { Navigator, Screen } = createNativeStackNavigator();
 
-     const { totalAmount, price } =
+     const { totalAmount } =
          useContext(CartContext);
 
     return (
@@ -28,7 +28,7 @@ export function StackScreenRoutes({ navigation }: any) {
                     component={RestaurantPage}
                 />
             </Navigator>
-            {totalAmount.price !== 0 && <FluctuatingCartButton price={price} />}
+            {totalAmount.price !== 0 && <FluctuatingCartButton />}
         </>
     );
 }

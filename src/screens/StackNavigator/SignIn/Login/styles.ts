@@ -55,7 +55,7 @@ export const EsqueceuSenha = styled.TouchableOpacity.attrs({
 
 export const ForgotPasswordText = styled.Text`
     color: ${({ theme }) => theme.colors.text_red};
-    font-size: ${({ theme }) => theme.sizes.verySmall};
+    font-size: ${({ theme }) => theme.sizes.verySmall}px;
 `;
 
 export const LoginButton = styled(Button)`
@@ -64,12 +64,12 @@ export const LoginButton = styled(Button)`
 
 export const SignUpHere = styled.Text`
     color: ${({ theme }) => theme.colors.text_red};
-    font-size: ${({ theme }) => theme.sizes.verySmall};
+    font-size: ${({ theme }) => theme.sizes.verySmall}px;
 `;
 
 export const Text = styled.Text`
     color: ${({ theme }) => theme.colors.text_purple};
-    font-size: ${({ theme }) => theme.sizes.verySmall};
+    font-size: ${({ theme }) => theme.sizes.verySmall}px;
 `;
 
 export const CadastreSe = styled.View`

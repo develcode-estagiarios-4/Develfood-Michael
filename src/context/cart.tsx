@@ -1,21 +1,16 @@
-import React, {
-    createContext,
-    ReactNode,
-    useEffect,
-    useState,
-} from 'react';
+import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
-
 
 interface CartContextData {
     addItem: (item: CartItem) => void;
     removeItem: (item: CartItem) => void;
     deleteFromCart: (item: CartItem) => void;
+    cartCleanup: (item: CartItem) => void;
+    setNewPosition: (position: number) => void;
     cartItems: CartItem[];
     totalAmount: { quantity: number; price: number };
     position: number;
     price: string;
-    setNewPosition: (position: number) => void;
 }
 
 interface Order {
@@ -54,11 +49,10 @@ type CartItem = {
 export const CartContext = createContext({} as CartContextData);
 
 function CartProvider({ children }: CartProviderProps) {
-
     const [position, setPosition] = useState(10);
-    
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [totalAmount, setTotalAmount] = useState({ quantity: 0, price: 0 });
+
     const price = totalAmount.price.toLocaleString('pt-BR', {
         minimumFractionDigits: 2,
         style: 'currency',
@@ -89,7 +83,15 @@ function CartProvider({ children }: CartProviderProps) {
         } else
             Alert.alert(
                 'Restaurantes diferentes',
-                'Você não pode adicionar itens de restaurantes diferentes'
+                'Você não pode adicionar itens de restaurantes diferentes. Deseja limpar o carrinho e adicionar este item mesmo assim?',
+                [
+                    {
+                        text: 'Adicionar',
+                        onPress: () => {
+                            cartCleanup(item);
+                        },
+                    },
+                ]
             );
     }
 
@@ -111,7 +113,19 @@ function CartProvider({ children }: CartProviderProps) {
     function deleteFromCart(item: CartItem) {
         const itemFound = cartItems.find((cartItem) => cartItem.id === item.id);
 
-        itemFound && cartItems.splice(cartItems.indexOf(itemFound), 1);
+        if (itemFound) {
+            cartItems.splice(cartItems.indexOf(itemFound), 1);
+            setTotalAmount({
+                quantity: totalAmount.quantity - itemFound.count,
+                price: totalAmount.price - itemFound.price,
+            });
+            console.log(cartItems);
+        }
+    }
+
+    function cartCleanup(item: CartItem) {
+        cartItems.splice(0, cartItems.length, item);
+        setTotalAmount({ quantity: 1, price: item.price});
         console.log(cartItems);
     }
 
@@ -120,8 +134,12 @@ function CartProvider({ children }: CartProviderProps) {
     }
 
     useEffect(() => {
-        console.log('total: ', totalAmount);
+        console.log(totalAmount);
     }, [totalAmount]);
+
+    useEffect(() => {
+        console.log(cartItems.length);
+    }, [cartItems]);
 
     return (
         <CartContext.Provider
@@ -130,6 +148,7 @@ function CartProvider({ children }: CartProviderProps) {
                 removeItem,
                 deleteFromCart,
                 setNewPosition,
+                cartCleanup,
                 cartItems,
                 totalAmount,
                 position,

@@ -7,9 +7,9 @@ const window = Dimensions.get('window');
 
 export const Container = styled.View`
     position: absolute;
-    width: ${window.width - RFValue(30)}px;
+    width: ${window.width - RFValue(20)}px;
     z-index: 1;
-    margin: ${RFValue(15)}px;
+    margin: ${RFValue(10)}px;
 `;
 
 export const Title = styled.Text`
@@ -40,7 +40,7 @@ export const Icon = styled.Image.attrs({ resizeMode: 'contain' })`
 
 export const PriceWrapper = styled.View`
     position: absolute;
-    right: 15;
+    right: 15px;
 `;
 
 export const Price = styled.Text`

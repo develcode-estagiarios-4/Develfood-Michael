@@ -1,10 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {
-    ActivityIndicator,
-    StyleSheet,
-    View,
-    Image,
-} from 'react-native';
+import { ActivityIndicator, StyleSheet, View, Image } from 'react-native';
 import { Header } from '@components/Header';
 import {
     SubtitleCategory,
@@ -55,7 +50,7 @@ interface ImageResponse {
 export function RestaurantPage({ navigation, route }: any) {
     const { id, name, photo_url, food_types } = route.params;
     const { token } = useContext(AuthContext);
-    const {setNewPosition} = useContext(CartContext);
+    const { setNewPosition } = useContext(CartContext);
 
     const [foods, setFoods] = useState<Food[]>([]);
     const [filter, setFilter] = useState('');
@@ -159,8 +154,8 @@ export function RestaurantPage({ navigation, route }: any) {
     }, []);
 
     useFocusEffect(() => {
-        setNewPosition(0);
-    })
+        setNewPosition(5);
+    });
 
     return (
         <>
@@ -231,16 +226,7 @@ export function RestaurantPage({ navigation, route }: any) {
                     }
                     renderItem={renderItem}
                     ListFooterComponent={
-                        loading ? (
-                            <LoadWrapper>
-                                <ActivityIndicator
-                                    size={50}
-                                    color={theme.colors.background_red}
-                                />
-                            </LoadWrapper>
-                        ) : (
-                            <View style={{ height: 30 }}></View>
-                        )
+                        <View style={{ height: RFValue(60) }}></View>
                     }
                     ListEmptyComponent={
                         !loading ? (

@@ -1,17 +1,14 @@
 import React, { useContext } from 'react';
 import { Container, Price, Rect, Title, Icon, PriceWrapper } from './styles';
-
-interface Props {
-    price: string;
-}
 import basket from '../../assets/icons/basket.png';
 import { CartContext } from '@context/cart';
+import { RFValue } from 'react-native-responsive-fontsize';
 
-export function FluctuatingCartButton({ price }: Props) {
-    const {position} = useContext(CartContext);
+export function FluctuatingCartButton() {
+    const {position, price} = useContext(CartContext);
     
     return (
-        <Container style={{ bottom: position }}>
+        <Container style={{ bottom: RFValue(position) }}>
             <Rect>
                 <Icon source={basket} />
                 <Title>Ver carrinho</Title>
