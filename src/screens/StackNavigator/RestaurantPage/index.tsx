@@ -1,29 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {
     ActivityIndicator,
-    FlatList,
     StyleSheet,
-    Text,
     View,
     Image,
 } from 'react-native';
 import { Header } from '@components/Header';
 import {
-    Container,
     SubtitleCategory,
     Title,
     RestaurantWrapper,
     TitleWrapper,
     Separator,
     PlatesWrapper,
-    RestaurantImage,
     LoadWrapper,
     ImageWrapper,
 } from './styles';
 import { Input } from '@components/Input';
 import { FoodCard } from '@components/FoodCard';
 import { FocusAwareStatusBar } from '@components/FocusStatusBar';
-import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+import { RFValue } from 'react-native-responsive-fontsize';
 import { useFetch } from '@services/useFetch';
 import { AuthContext } from '../../../context/auth';
 import theme from '../../../styles/theme';
@@ -36,10 +32,10 @@ import Animated, {
     interpolate,
     Extrapolate,
     withTiming,
-    FadeIn,
-    FadeInLeft,
     FadeInRight,
 } from 'react-native-reanimated';
+import { useFocusEffect } from '@react-navigation/native';
+import { CartContext } from '@context/cart';
 
 interface Food {
     description: string;
@@ -59,12 +55,13 @@ interface ImageResponse {
 export function RestaurantPage({ navigation, route }: any) {
     const { id, name, photo_url, food_types } = route.params;
     const { token } = useContext(AuthContext);
+    const {setNewPosition} = useContext(CartContext);
 
     const [foods, setFoods] = useState<Food[]>([]);
     const [filter, setFilter] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const { data, error, fetchData } = useFetch<Food[]>(
+    const { fetchData } = useFetch<Food[]>(
         `/plate/search?name=${filter}&restaurantid=${id}`,
         {
             headers: {
@@ -75,7 +72,6 @@ export function RestaurantPage({ navigation, route }: any) {
 
     const {
         data: dataImage,
-        error: errorImage,
         loading: loadingImage,
         fetchData: fetchImage,
     } = useFetch<ImageResponse>(`${photo_url}`, {
@@ -161,6 +157,10 @@ export function RestaurantPage({ navigation, route }: any) {
     useEffect(() => {
         loadRestaurantImage();
     }, []);
+
+    useFocusEffect(() => {
+        setNewPosition(0);
+    })
 
     return (
         <>

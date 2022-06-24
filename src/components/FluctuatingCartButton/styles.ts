@@ -9,7 +9,6 @@ export const Container = styled.View`
     position: absolute;
     width: ${window.width - RFValue(30)}px;
     z-index: 1;
-    bottom: ${RFValue(45)}px;
     margin: ${RFValue(15)}px;
 `;
 
@@ -20,7 +19,9 @@ export const Title = styled.Text`
     position: absolute;
 `;
 
-export const Rect = styled(RectButton)`
+export const Rect = styled(RectButton).attrs({
+    elevation: 3,
+})`
     background-color: ${({ theme }) => theme.colors.button};
     width: 100%;
     height: ${RFValue(44)}px;

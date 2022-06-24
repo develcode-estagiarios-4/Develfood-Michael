@@ -95,6 +95,7 @@ export function FoodCard({
         <Animated.View
             style={styles.container}
             entering={FadeInRight}
+            
         >
             <ImageWrapper>
                 {!loading && (

@@ -1,16 +1,11 @@
-import { FluctuatingCartButton } from '@components/FluctuatingCartButton';
-import { useNavigation } from '@react-navigation/native';
-import { usePost } from '@services/usePost';
 import React, {
     createContext,
     ReactNode,
-    useContext,
     useEffect,
     useState,
 } from 'react';
-import { Alert, Text } from 'react-native';
-import { string } from 'yup';
-import { AuthContext } from './auth';
+import { Alert } from 'react-native';
+
 
 interface CartContextData {
     addItem: (item: CartItem) => void;
@@ -18,6 +13,9 @@ interface CartContextData {
     deleteFromCart: (item: CartItem) => void;
     cartItems: CartItem[];
     totalAmount: { quantity: number; price: number };
+    position: number;
+    price: string;
+    setNewPosition: (position: number) => void;
 }
 
 interface Order {
@@ -56,9 +54,9 @@ type CartItem = {
 export const CartContext = createContext({} as CartContextData);
 
 function CartProvider({ children }: CartProviderProps) {
-    const { token } = useContext(AuthContext);
 
-    const [order, setOrder] = useState<Order>({} as Order);
+    const [position, setPosition] = useState(10);
+    
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [totalAmount, setTotalAmount] = useState({ quantity: 0, price: 0 });
     const price = totalAmount.price.toLocaleString('pt-BR', {
@@ -117,6 +115,10 @@ function CartProvider({ children }: CartProviderProps) {
         console.log(cartItems);
     }
 
+    function setNewPosition(position: number) {
+        setPosition(position);
+    }
+
     useEffect(() => {
         console.log('total: ', totalAmount);
     }, [totalAmount]);
@@ -127,12 +129,14 @@ function CartProvider({ children }: CartProviderProps) {
                 addItem,
                 removeItem,
                 deleteFromCart,
+                setNewPosition,
                 cartItems,
                 totalAmount,
+                position,
+                price,
             }}
         >
             {children}
-            {totalAmount.price !== 0 && <FluctuatingCartButton price={price} />}
         </CartContext.Provider>
     );
 }

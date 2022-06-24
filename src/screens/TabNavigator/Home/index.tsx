@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useFetch } from '@services/useFetch';
 import {
     Banner,
@@ -22,7 +22,8 @@ import { Input } from '@components/Input';
 import { useDebouncedCallback } from 'use-debounce';
 import { FlatList } from 'react-native-gesture-handler';
 import { EmptyFoodCardList } from '@components/EmptyFoodCardList';
-import { useScrollToTop } from '@react-navigation/native';
+import { useFocusEffect, useScrollToTop } from '@react-navigation/native';
+import { CartContext } from '@context/cart';
 
 interface FoodTypes {
     id: number;
@@ -46,6 +47,8 @@ const CardMargins =
     (Dimensions.get('screen').width - RFValue(280)) / RFValue(3.2);
 
 export function Home({ navigation }: any) {
+    const { setNewPosition } = useContext(CartContext);
+
     const [filter, setFilter] = useState({
         input: '',
         page: 0,
@@ -149,6 +152,10 @@ export function Home({ navigation }: any) {
     useEffect(() => {
         loadRestaurants();
     }, [filter]);
+
+    useFocusEffect(() => {
+        setNewPosition(40);
+    });
 
     return (
         <>
