@@ -21,7 +21,8 @@ import {
     NumberWrapper,
     ImageWrapper,
     TrashIcon,
-    PlusMinusWrapper,
+    MinusWrapper,
+    PlusWrapper,
     PlusButton,
     MinusButton,
 } from './styles';
@@ -66,8 +67,8 @@ export function FoodCard({
     const priceFormatted = price.toLocaleString('pt-BR', {
         maximumFractionDigits: 2,
         style: 'currency',
-        currency: 'BRL'
-    })
+        currency: 'BRL',
+    });
 
     const { data, loading, fetchData } = useFetch<Response>(endpoint, {
         headers: {
@@ -95,7 +96,6 @@ export function FoodCard({
         <Animated.View
             style={styles.container}
             entering={FadeInRight}
-            
         >
             <ImageWrapper>
                 {!loading && (
@@ -150,9 +150,9 @@ export function FoodCard({
                                         source={require('@assets/icons/trash.png')}
                                     />
                                 ) : (
-                                    <PlusMinusWrapper>
+                                    <MinusWrapper>
                                         <MinusButton>-</MinusButton>
-                                    </PlusMinusWrapper>
+                                    </MinusWrapper>
                                 )}
                             </AddButton>
 
@@ -160,9 +160,9 @@ export function FoodCard({
                                 <Counter>{itemCount}</Counter>
                             </NumberWrapper>
                             <AddButton onPress={addToCart}>
-                                <PlusMinusWrapper>
+                                <PlusWrapper>
                                     <PlusButton>+</PlusButton>
-                                </PlusMinusWrapper>
+                                </PlusWrapper>
                             </AddButton>
                         </CounterWrapper>
                     ) : (

@@ -65,15 +65,16 @@ export const Price = styled.Text`
 
 export const CounterWrapper = styled.View`
     flex-direction: row;
-    width: 50%;
     height: 100%;
-    justify-content: space-around;
+    
+    justify-content: center;
     align-items: center;
 `;
 
 export const TrashIcon = styled.Image.attrs({ resizeMode: 'contain' })`
     width: ${RFValue(15)}px;
     height: ${RFValue(15)}px;
+    margin-right: 10;
 `;
 
 export const Counter = styled.Text`
@@ -103,10 +104,18 @@ export const PlusButton = styled.Text.attrs({})`
     position: absolute;
 `;
 
-export const PlusMinusWrapper = styled.View`
+export const PlusWrapper = styled.View`
     width: ${RFValue(15)}px;
     height: 100%;
     justify-content: center;
+    margin-left: 10;
+`;
+
+export const MinusWrapper = styled.View`
+    width: ${RFValue(15)}px;
+    height: 100%;
+    justify-content: center;
+    margin-right: 10;
 `;
 
 export const MinusButton = styled.Text.attrs({})`

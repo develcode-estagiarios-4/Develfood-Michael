@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+    SyntheticEvent,
+    useContext,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 import { useFetch } from '@services/useFetch';
 import {
     Banner,
@@ -11,7 +17,15 @@ import {
     TitleWrapper,
     View,
 } from './styles';
-import { ActivityIndicator, Dimensions, StatusBar } from 'react-native';
+import {
+    ActivityIndicator,
+    Animated,
+    Dimensions,
+    NativeScrollEvent,
+    NativeSyntheticEvent,
+    ScrollResponderEvent,
+    StatusBar,
+} from 'react-native';
 import { AuthContext } from '../../../context/auth';
 import { HeaderHome } from '@components/HeaderHome';
 import { Restaurants } from '@components/Restaurant';
@@ -20,7 +34,6 @@ import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../../styles/theme';
 import { Input } from '@components/Input';
 import { useDebouncedCallback } from 'use-debounce';
-import { FlatList } from 'react-native-gesture-handler';
 import { EmptyFoodCardList } from '@components/EmptyFoodCardList';
 import { useFocusEffect, useScrollToTop } from '@react-navigation/native';
 import { CartContext } from '@context/cart';
@@ -45,6 +58,8 @@ type RestaurantList = {
 
 const CardMargins =
     (Dimensions.get('screen').width - RFValue(280)) / RFValue(3.2);
+
+const headerHeight = RFValue(50);
 
 export function Home({ navigation }: any) {
     const { setNewPosition } = useContext(CartContext);
@@ -149,6 +164,63 @@ export function Home({ navigation }: any) {
     const ref = React.useRef(null);
     useScrollToTop(ref);
 
+    const scrollY = useRef(new Animated.Value(0));
+
+    const scrollHandler = Animated.event(
+        [
+            {
+                nativeEvent: {
+                    contentOffset: { y: scrollY.current },
+                },
+            },
+        ],
+        { useNativeDriver: true }
+    );
+
+    const scrollYClamped = Animated.diffClamp(scrollY.current, 0, headerHeight);
+
+    const translateY = scrollYClamped.interpolate({
+        inputRange: [0, headerHeight],
+        outputRange: [0, -headerHeight],
+    });
+
+    const translateYNumber = useRef();
+
+    translateY.addListener(({ value }) => {
+        translateYNumber.current = value;
+    });
+
+    function getCloser(value: any, checkOne: number, checkTwo: number) {
+        if (Math.abs(value - checkOne) < Math.abs(value - checkTwo))
+            return checkOne;
+        else return checkTwo;
+    }
+
+    const handleSnap = ({
+        nativeEvent,
+    }: NativeSyntheticEvent<NativeScrollEvent>) => {
+        const offsetY = nativeEvent.contentOffset.y;
+        if (
+            !(
+                translateYNumber.current === 0 ||
+                translateYNumber.current === -headerHeight
+            )
+        ) {
+            if (ref.current) {
+                ref.current.scrollToOffset({
+                    offset:
+                        getCloser(
+                            translateYNumber.current,
+                            -headerHeight,
+                            0
+                        ) === -headerHeight
+                            ? offsetY + headerHeight
+                            : offsetY - headerHeight,
+                });
+            }
+        }
+    };
+
     useEffect(() => {
         loadRestaurants();
     }, [filter]);
@@ -163,12 +235,22 @@ export function Home({ navigation }: any) {
                 barStyle={'light-content'}
                 backgroundColor={'#C20C18'}
             />
+            <HeaderHome
+                source={require('@assets/icons/pinMap.png')}
+                title={'rua Arcy da Nobrega 667, Panazollo'}
+                {...{ headerHeight }}
+                style={{ transform: [{ translateY }] }}
+            />
             <Container>
-                <FlatList
+                <Animated.FlatList
+                    onScroll={scrollHandler}
+                    onMomentumScrollEnd={handleSnap}
+                    scrollEventThrottle={16}
                     ref={ref}
                     data={restaurants}
                     numColumns={2}
                     keyExtractor={(item) => item.id.toString()}
+                    style={{ flex: 1 }}
                     columnWrapperStyle={{
                         justifyContent: 'space-between',
                         paddingHorizontal: RFValue(CardMargins),
@@ -176,10 +258,6 @@ export function Home({ navigation }: any) {
                     }}
                     ListHeaderComponent={
                         <>
-                            <HeaderHome
-                                source={require('@assets/icons/pinMap.png')}
-                                title={'rua Arcy da Nobrega 667, Panazollo'}
-                            />
                             <BannerWrapper>
                                 <Banner
                                     source={require('@assets/icons/banner.png')}

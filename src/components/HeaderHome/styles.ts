@@ -1,14 +1,18 @@
 import styled from 'styled-components/native';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../styles/theme';
+import { Animated } from 'react-native';
 
-export const Container = styled.View`
-    background-color: ${({theme}) => theme.colors.header};
+export const Container = styled(Animated.View)`
+    position: absolute;
+    background-color: ${({ theme }) => theme.colors.header};
     flex-direction: row;
     height: ${RFValue(50)}px;
+    width: 100%;
     align-items: center;
     padding: 10px;
     padding-top: 10px;
+    z-index: 1;
 `;
 
 export const ButtonContainer = styled.View`
@@ -32,7 +36,7 @@ export const Icon = styled.Image.attrs({
 `;
 
 export const Title = styled.Text`
-    font-size: ${({theme}) => theme.sizes.small}px;
+    font-size: ${({ theme }) => theme.sizes.small}px;
     color: ${(props) => props.theme.colors.text_white};
-    font-family: ${({ theme }) => theme.fonts.secondaryMed}
+    font-family: ${({ theme }) => theme.fonts.secondaryMed};
 `;

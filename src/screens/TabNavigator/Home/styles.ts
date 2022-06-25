@@ -15,7 +15,6 @@ export const BannerWrapper = styled.ScrollView.attrs({
     showsHorizontalScrollIndicator: false,
     contentContainerStyle: { paddingLeft: 12 },
 })`
-    flex: 1;
     position: absolute;
     top: ${RFValue(60)}px;
 `;
@@ -29,7 +28,8 @@ export const Banner = styled.Image`
 
 
 export const Content = styled.View`
-    margin-top: ${RFValue(165)}px;
+    margin-top: ${RFValue(210)}px;
+    
 `;
 
 export const View = styled.View`
@@ -48,6 +48,7 @@ export const Categories = styled.ScrollView.attrs({
 export const TitleWrapper = styled.View`
    padding: 0 20px;
    margin-bottom: 15px;
+   
 `;
 
 export const Title = styled.Text`

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View, Image } from 'react-native';
 import { Header } from '@components/Header';
 import {
@@ -149,7 +149,8 @@ export function RestaurantPage({ navigation, route }: any) {
         loadFoods();
     }, [filter]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
+        loadFoods();
         loadRestaurantImage();
     }, []);
 
@@ -231,7 +232,7 @@ export function RestaurantPage({ navigation, route }: any) {
                     ListEmptyComponent={
                         !loading ? (
                             <EmptyFoodCardList title="Nenhum prato encontrado" />
-                        ) : null
+                        ) : <ActivityIndicator color={theme.colors.primary} />
                     }
                 />
             </View>
