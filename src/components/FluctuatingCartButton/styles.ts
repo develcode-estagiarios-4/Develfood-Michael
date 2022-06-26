@@ -31,9 +31,33 @@ export const Rect = styled(RectButton).attrs({
     justify-content: center;
 `;
 
+export const BadgeWrapper = styled.View`
+    background-color: blueviolet;
+    
+`;
+
+export const Badge = styled.View`
+    background-color: white;
+    position: absolute;
+    left: ${RFValue(33)}px;
+    top: ${RFValue(4)}px;
+    width: ${RFValue(17)}px;
+    height: ${RFValue(17)}px;
+    border-radius: 25px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+`;
+
+export const BadgeNumber = styled.Text`
+    color: ${({ theme }) => theme.colors.text_red};
+    font-size: ${RFValue(10)}px;
+    font-family: ${({ theme }) => theme.fonts.primaryMed};
+`;
+
 export const Icon = styled.Image.attrs({ resizeMode: 'contain' })`
-    width: ${RFValue(20)}px;
-    height: ${RFValue(20)}px;
+    width: ${RFValue(25)}px;
+    height: ${RFValue(25)}px;
     position: absolute;
     left: 15px;
 `;
@@ -48,3 +72,4 @@ export const Price = styled.Text`
     font-size: ${({ theme }) => theme.sizes.medium}px;
     color: ${({ theme }) => theme.colors.text_white};
 `;
+

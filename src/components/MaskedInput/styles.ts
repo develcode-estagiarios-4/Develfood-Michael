@@ -43,5 +43,5 @@ export const ErrorWrapper = styled.View`
 export const Error = styled.Text`
     color: ${({ theme }) => theme.colors.text_red};
     font-family: ${({ theme }) => theme.fonts.secondaryMed};
-    font-size: ${({ theme }) => theme.sizes.small};
+    font-size: ${({ theme }) => theme.sizes.small}px;
 `;

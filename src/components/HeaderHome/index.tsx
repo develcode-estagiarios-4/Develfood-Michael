@@ -16,9 +16,10 @@ import theme from '@styles/theme';
 import { Container, Icon, Title } from './styles';
 import { AnimatedStyleProp } from 'react-native-reanimated';
 
-interface Props extends BorderlessButtonProps {
+interface Props {
     source: ImageSourcePropType;
     title: string;
+    style: Animated.WithAnimatedObject<ViewStyle>;
 }
 
 export function HeaderHome({ title, source, style, ...rest }: Props) {

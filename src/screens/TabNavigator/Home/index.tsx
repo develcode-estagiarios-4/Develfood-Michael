@@ -59,6 +59,8 @@ type RestaurantList = {
 const CardMargins =
     (Dimensions.get('screen').width - RFValue(280)) / RFValue(3.2);
 
+const dimensions = Dimensions.get('screen');
+
 const headerHeight = RFValue(50);
 
 export function Home({ navigation }: any) {
@@ -130,35 +132,27 @@ export function Home({ navigation }: any) {
         />
     );
 
-    const listFooterComponent = () => {
-        if (data?.totalElements != 0) {
-            return (
-                <View
-                    style={{
-                        width: '100%',
-                        height: RFPercentage(10),
-                        justifyContent: 'center',
-                    }}
-                >
-                    {loading && (
-                        <ActivityIndicator
-                            size={40}
-                            color={theme.colors.background_red}
-                        />
-                    )}
-                </View>
-            );
-        } else {
-            return null;
-        }
-    };
+    const listFooterComponent = () => (
+        <View
+            style={{
+                width: '100%',
+                height: RFPercentage(10),
+                justifyContent: 'center',
+            }}
+        >
+            {loading && (
+                <ActivityIndicator
+                    size={40}
+                    color={theme.colors.background_red}
+                />
+            )}
+        </View>
+    );
 
     const listEmptyComponent = () => {
-        if (data?.totalElements === 0 && !loading) {
+        if (!loading) {
             return <EmptyFoodCardList title="Nenhum restaurante encontrado" />;
-        } else {
-            return null;
-        }
+        } else return null;
     };
 
     const ref = React.useRef(null);
@@ -226,7 +220,7 @@ export function Home({ navigation }: any) {
     }, [filter]);
 
     useFocusEffect(() => {
-        setNewPosition(45);
+        setNewPosition(RFValue(-40));
     });
 
     return (
@@ -236,8 +230,8 @@ export function Home({ navigation }: any) {
                 backgroundColor={'#C20C18'}
             />
             <HeaderHome
-                source={require('@assets/icons/pinMap.png')}
-                title={'rua Arcy da Nobrega 667, Panazollo'}
+                source={require('@assets/icons/map.png')}
+                title={'Rua Arcy da Nobrega 667, Panazollo'}
                 {...{ headerHeight }}
                 style={{ transform: [{ translateY }] }}
             />

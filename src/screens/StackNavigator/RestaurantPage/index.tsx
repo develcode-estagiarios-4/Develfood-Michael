@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, View, Image } from 'react-native';
+import { ActivityIndicator, StyleSheet, View, Image, Dimensions } from 'react-native';
 import { Header } from '@components/Header';
 import {
     SubtitleCategory,
@@ -46,6 +46,8 @@ interface ImageResponse {
     code: string;
     id: number;
 }
+
+const dimension = Dimensions.get('screen')
 
 export function RestaurantPage({ navigation, route }: any) {
     const { id, name, photo_url, food_types } = route.params;
@@ -155,7 +157,7 @@ export function RestaurantPage({ navigation, route }: any) {
     }, []);
 
     useFocusEffect(() => {
-        setNewPosition(5);
+        setNewPosition(RFValue(0));
     });
 
     return (
@@ -196,15 +198,20 @@ export function RestaurantPage({ navigation, route }: any) {
                                 </TitleWrapper>
 
                                 <ImageWrapper>
-                                    {!loadingImage && (
-                                        <Animated.Image
-                                            style={styles.imageUp}
-                                            entering={FadeInRight}
-                                            source={{
-                                                uri: `${dataImage?.code}`,
-                                            }}
-                                        />
-                                    )}
+                                    {!loadingImage &&
+                                        dataImage?.code && (
+                                            <Animated.Image
+                                                style={styles.imageUp}
+                                                entering={FadeInRight}
+                                                source={
+                                                    dataImage?.code
+                                                        ? {
+                                                              uri: `${dataImage?.code}`,
+                                                          }
+                                                        : require('@assets/icons/defaultRestaurant.png')
+                                                }
+                                            />
+                                        )}
                                     <Image
                                         style={styles.imageDown}
                                         source={theme.images.default}
@@ -232,7 +239,13 @@ export function RestaurantPage({ navigation, route }: any) {
                     ListEmptyComponent={
                         !loading ? (
                             <EmptyFoodCardList title="Nenhum prato encontrado" />
-                        ) : <ActivityIndicator color={theme.colors.primary} />
+                        ) : (
+                            <ActivityIndicator
+                                style={{ marginTop: RFValue(120) }}
+                                color={theme.colors.primary}
+                                size={'large'}
+                            />
+                        )
                     }
                 />
             </View>

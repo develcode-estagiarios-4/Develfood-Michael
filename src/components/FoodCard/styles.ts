@@ -74,7 +74,7 @@ export const CounterWrapper = styled.View`
 export const TrashIcon = styled.Image.attrs({ resizeMode: 'contain' })`
     width: ${RFValue(15)}px;
     height: ${RFValue(15)}px;
-    margin-right: 10;
+    margin-right: 10px;
 `;
 
 export const Counter = styled.Text`
@@ -82,11 +82,11 @@ export const Counter = styled.Text`
     color: ${({ theme }) => theme.colors.text_white};
     font-size: ${({ theme }) => theme.sizes.medium}px;
     align-self: center;
+    padding: 0 ${RFValue(9)}px; ;
 `;
 
 export const NumberWrapper = styled.View`
     background-color: ${({ theme }) => theme.colors.background_red};
-    width: ${RFValue(25)}px;
     height: ${RFValue(25)}px;
     justify-content: center;
     border-radius: 5px;
@@ -108,14 +108,14 @@ export const PlusWrapper = styled.View`
     width: ${RFValue(15)}px;
     height: 100%;
     justify-content: center;
-    margin-left: 10;
+    margin-left: 10px;
 `;
 
 export const MinusWrapper = styled.View`
     width: ${RFValue(15)}px;
     height: 100%;
     justify-content: center;
-    margin-right: 10;
+    margin-right: 10px;
 `;
 
 export const MinusButton = styled.Text.attrs({})`

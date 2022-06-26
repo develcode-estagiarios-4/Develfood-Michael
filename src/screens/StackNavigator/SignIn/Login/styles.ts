@@ -3,7 +3,7 @@ import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import { Button } from '@components/Button';
 
 export const Container = styled.View`
-    flex:1;
+    flex: 1;
     background-color: ${({ theme }) => theme.colors.background};
     align-items: center;
     justify-content: center;

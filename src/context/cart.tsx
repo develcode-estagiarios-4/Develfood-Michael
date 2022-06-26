@@ -1,5 +1,15 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
-import { Alert } from 'react-native';
+import { Alert, ViewComponent } from 'react-native';
+import {
+    AnimatedStyleProp,
+    AnimateStyle,
+    TransformStyleTypes,
+    useAnimatedStyle,
+    useSharedValue,
+    withSpring,
+} from 'react-native-reanimated';
+import { AnimatedStyle } from 'react-native-reanimated/lib/types/lib/reanimated2/commonTypes';
+import { TransformFunction } from 'yup/lib/types';
 
 interface CartContextData {
     addItem: (item: CartItem) => void;
@@ -7,9 +17,9 @@ interface CartContextData {
     deleteFromCart: (item: CartItem) => void;
     cartCleanup: (item: CartItem) => void;
     setNewPosition: (position: number) => void;
+    cartAnimation: object;
     cartItems: CartItem[];
     totalAmount: { quantity: number; price: number };
-    position: number;
     price: string;
 }
 
@@ -49,7 +59,6 @@ type CartItem = {
 export const CartContext = createContext({} as CartContextData);
 
 function CartProvider({ children }: CartProviderProps) {
-    const [position, setPosition] = useState(10);
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [totalAmount, setTotalAmount] = useState({ quantity: 0, price: 0 });
 
@@ -82,9 +91,15 @@ function CartProvider({ children }: CartProviderProps) {
             });
         } else
             Alert.alert(
-                'Restaurantes diferentes',
-                'Você não pode adicionar itens de restaurantes diferentes. Deseja limpar o carrinho e adicionar este item mesmo assim?',
+                'Você já tem itens adicionados na sua sacola',
+                'Deseja limpar o carrinho e adicionar este item?',
                 [
+                    {
+                        text: 'Cancelar',
+                        onPress: () => {
+                            Alert.prompt;
+                        },
+                    },
                     {
                         text: 'Adicionar',
                         onPress: () => {
@@ -125,12 +140,20 @@ function CartProvider({ children }: CartProviderProps) {
 
     function cartCleanup(item: CartItem) {
         cartItems.splice(0, cartItems.length, item);
-        setTotalAmount({ quantity: 1, price: item.price});
+        setTotalAmount({ quantity: 1, price: item.price });
         console.log(cartItems);
     }
 
+    const offsetY = useSharedValue(0);
+
+    const cartAnimation = useAnimatedStyle(() => {
+        return {
+            transform: [{ translateY: offsetY.value }],
+        };
+    });
+
     function setNewPosition(position: number) {
-        setPosition(position);
+        offsetY.value = withSpring(position);
     }
 
     useEffect(() => {
@@ -151,8 +174,8 @@ function CartProvider({ children }: CartProviderProps) {
                 cartCleanup,
                 cartItems,
                 totalAmount,
-                position,
                 price,
+                cartAnimation,
             }}
         >
             {children}
