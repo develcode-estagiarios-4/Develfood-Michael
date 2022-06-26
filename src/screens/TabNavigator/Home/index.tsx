@@ -220,7 +220,7 @@ export function Home({ navigation }: any) {
     }, [filter]);
 
     useFocusEffect(() => {
-        setNewPosition(RFValue(-40));
+        setNewPosition(RFValue(-50));
     });
 
     return (

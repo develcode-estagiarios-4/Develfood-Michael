@@ -14,7 +14,8 @@ import basket from '../../assets/icons/basket.png';
 import { CartContext } from '@context/cart';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { Dimensions, StyleSheet } from 'react-native';
-import Animated, { FadeIn, FadeInDown, FadeInUp, FadeOutDown } from 'react-native-reanimated';
+import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
+import theme from '@styles/theme';
 
 const window = Dimensions.get('window');
 
@@ -46,9 +47,13 @@ export function FluctuatingCartButton() {
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        width: window.width - RFValue(20),
+        width: window.width,
+        height: RFValue(65),
         zIndex: 1,
-        margin: RFValue(10),
-        bottom: RFValue(8)
+        bottom: 0,
+        backgroundColor: theme.colors.background,
+        justifyContent: 'center',
+        paddingHorizontal: RFValue(10),
+        elevation: 3,
     },
 });
