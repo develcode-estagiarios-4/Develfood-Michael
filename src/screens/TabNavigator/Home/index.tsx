@@ -1,5 +1,4 @@
 import React, {
-    SyntheticEvent,
     useContext,
     useEffect,
     useRef,
@@ -23,7 +22,6 @@ import {
     Dimensions,
     NativeScrollEvent,
     NativeSyntheticEvent,
-    ScrollResponderEvent,
     StatusBar,
 } from 'react-native';
 import { AuthContext } from '../../../context/auth';
@@ -58,8 +56,6 @@ type RestaurantList = {
 
 const CardMargins =
     (Dimensions.get('screen').width - RFValue(280)) / RFValue(3.2);
-
-const dimensions = Dimensions.get('screen');
 
 const headerHeight = RFValue(50);
 

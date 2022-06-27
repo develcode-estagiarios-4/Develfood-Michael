@@ -4,7 +4,6 @@ import {
     StyleSheet,
     View,
     Image,
-    Dimensions,
 } from 'react-native';
 import { Header } from '@components/Header';
 import {
@@ -14,7 +13,6 @@ import {
     TitleWrapper,
     Separator,
     PlatesWrapper,
-    LoadWrapper,
     ImageWrapper,
 } from './styles';
 import { Input } from '@components/Input';
@@ -53,8 +51,6 @@ interface ImageResponse {
     id: number;
 }
 
-const dimension = Dimensions.get('screen');
-
 export function RestaurantPage({ navigation, route }: any) {
     const { id, name, photo_url, food_types } = route.params;
     const { token } = useContext(AuthContext);
@@ -90,7 +86,7 @@ export function RestaurantPage({ navigation, route }: any) {
     const scrollY = useSharedValue(0);
     const opacity = useSharedValue(0);
 
-    const scrollHandler = useAnimatedScrollHandler((event: any) => {
+    const scrollHandler = useAnimatedScrollHandler((event) => {
         scrollY.value = event.contentOffset.y;
         if (scrollY.value >= 45) {
             opacity.value = withTiming(1, { duration: 500 });
@@ -145,7 +141,7 @@ export function RestaurantPage({ navigation, route }: any) {
     const renderItem = ({ item }: { item: Food }) => (
         <FoodCard
             name={item.name}
-            price={item.price}
+            individualPrice={item.price}
             link={item.photo_url}
             description={item.description}
             id={item.id}
@@ -175,9 +171,10 @@ export function RestaurantPage({ navigation, route }: any) {
             <Header
                 source={require('@assets/icons/back.png')}
                 source2={require('@assets/icons/emptyHeart.png')}
-                goBack={() => navigation.pop()}
+                onPress={() => navigation.pop()}
                 title={`${name}`}
                 style={[styles.header, headerTitle]}
+                color={theme.colors.headerSecondary}
             />
             <View style={{ backgroundColor: 'white', flex: 1 }}>
                 <Animated.View

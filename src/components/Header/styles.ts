@@ -4,7 +4,6 @@ import theme from '../../styles/theme';
 import { BorderlessButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
-    background-color: ${(props) => props.theme.colors.headerSecondary};
     flex-direction: row;
     justify-content: space-between;
     height: ${RFValue(50)}px;
@@ -23,8 +22,7 @@ export const MapContainer = styled.View`
 `;
 
 export const Icon = styled.Image.attrs({
-    
-    tintColor: theme.colors.icon_dark,
+    resizeMode: 'contain',
 })`
     width: 100%;
     height: 100%;
@@ -47,6 +45,6 @@ export const Button = styled(BorderlessButton)`
 
 export const Title = styled.Text`
     font-size: ${RFValue(14)}px;
-    color: ${(props) => props.theme.colors.text_dark};
+    color: ${(props) => props.color === "white" ? theme.colors.text_dark : theme.colors.text_white};
     font-family: ${({ theme }) => theme.fonts.secondaryMed};
 `;

@@ -22,27 +22,28 @@ interface Props extends BorderlessButtonProps {
     like?: () => void;
     goBack?: () => void;
     style?: StyleProp<TextStyle>;
+    color: string;
 }
 
 export function Header({
     source,
     source2,
-    goBack,
-    like,
+    onPress,
     title,
     style,
+    color,
     ...rest
 }: Props) {
     const [focused, setFocused] = useState(false);
 
     return (
-        <Container>
+        <Container style={{ backgroundColor: color }}>
             {!source2 && (
                 <>
-                    <Button onPress={goBack}>
-                        <Icon source={source} />
+                    <Button onPress={onPress}>
+                        <Icon source={source} style={color === 'white' ? {tintColor: theme.colors.icon_dark} : {tintColor: theme.colors.icon_white}}/>
                     </Button>
-                    <Title>{title}</Title>
+                    <Title >{title}</Title>
 
                     <UselessView />
                 </>
@@ -50,10 +51,15 @@ export function Header({
 
             {!!source2 && (
                 <>
-                    <Button onPress={goBack}>
+                    <Button onPress={onPress}>
                         <Icon source={source} />
                     </Button>
-                    <Animated.Text style={style}>{title}</Animated.Text>
+                    <Animated.Text
+                        
+                        style={style}
+                    >
+                        {title}
+                    </Animated.Text>
                     <Button onPress={() => setFocused(!focused)}>
                         <Like
                             source={source2}

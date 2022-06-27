@@ -1,17 +1,11 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
-import { Alert, ViewComponent } from 'react-native';
+import { Alert } from 'react-native';
 import {
-    AnimatedStyleProp,
-    AnimateStyle,
-    TransformStyleTypes,
+    Easing,
     useAnimatedStyle,
     useSharedValue,
-    withSpring,
     withTiming,
 } from 'react-native-reanimated';
-import { AnimatedStyle } from 'react-native-reanimated/lib/types/lib/reanimated2/commonTypes';
-import { TransformFunction } from 'yup/lib/types';
-
 interface CartContextData {
     addItem: (item: CartItem) => void;
     removeItem: (item: CartItem) => void;
@@ -50,18 +44,29 @@ interface CartProviderProps {
     children: ReactNode;
 }
 
-type CartItem = {
+export type CartItem = {
     id: number;
-    price: number;
-    restaurant: string;
+    restaurant: number;
     count: number;
+    individualPrice: number;
+    foodTitle: string;
+    foodDescription: string;
+    foodImage: string;
+};
+
+type TotalAmount = {
+    quantity: number;
+    price: number;
 };
 
 export const CartContext = createContext({} as CartContextData);
 
 function CartProvider({ children }: CartProviderProps) {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
-    const [totalAmount, setTotalAmount] = useState({ quantity: 0, price: 0 });
+    const [totalAmount, setTotalAmount] = useState<TotalAmount>({
+        quantity: 0,
+        price: 0,
+    });
 
     const price = totalAmount.price.toLocaleString('pt-BR', {
         minimumFractionDigits: 2,
@@ -79,16 +84,14 @@ function CartProvider({ children }: CartProviderProps) {
             if (!itemFound) {
                 cartItems.push(item);
 
-                console.log(cartItems);
+                //console.log(cartItems);
             } else {
                 itemFound.count += item.count;
-                itemFound.price = item.price * itemFound.count;
-
-                console.log(cartItems);
+                //console.log(cartItems);
             }
             setTotalAmount({
                 quantity: totalAmount.quantity + 1,
-                price: totalAmount.price + item.price,
+                price: totalAmount.price + item.individualPrice,
             });
         } else
             Alert.alert(
@@ -120,9 +123,9 @@ function CartProvider({ children }: CartProviderProps) {
                 : (itemFound.count -= 1);
             setTotalAmount({
                 quantity: totalAmount.quantity - 1,
-                price: totalAmount.price - item.price,
+                price: totalAmount.price - itemFound.individualPrice,
             });
-            console.log(cartItems);
+            //console.log(cartItems);
         }
     }
 
@@ -133,16 +136,16 @@ function CartProvider({ children }: CartProviderProps) {
             cartItems.splice(cartItems.indexOf(itemFound), 1);
             setTotalAmount({
                 quantity: totalAmount.quantity - itemFound.count,
-                price: totalAmount.price - itemFound.price,
+                price: totalAmount.price - itemFound.individualPrice,
             });
-            console.log(cartItems);
+            //console.log(cartItems);
         }
     }
 
     function cartCleanup(item: CartItem) {
         cartItems.splice(0, cartItems.length, item);
-        setTotalAmount({ quantity: 1, price: item.price });
-        console.log(cartItems);
+        setTotalAmount({ quantity: 1, price: item.individualPrice });
+        //console.log(cartItems);
     }
 
     const offsetY = useSharedValue(0);
@@ -154,16 +157,15 @@ function CartProvider({ children }: CartProviderProps) {
     });
 
     function setNewPosition(position: number) {
-        offsetY.value = withTiming(position);
+        offsetY.value = withTiming(position, {
+            duration: 450,
+            easing: Easing.bezierFn(0.3, 0.35, 0.03, 0.75),
+        });
     }
 
     useEffect(() => {
         console.log(totalAmount);
     }, [totalAmount]);
-
-    useEffect(() => {
-        console.log(cartItems.length);
-    }, [cartItems]);
 
     return (
         <CartContext.Provider

@@ -1,13 +1,11 @@
 import React, { useContext } from 'react';
 import {
-    Container,
     Price,
     Rect,
     Title,
     Icon,
     PriceWrapper,
     Badge,
-    BadgeWrapper,
     BadgeNumber,
 } from './styles';
 import basket from '../../assets/icons/basket.png';
@@ -16,12 +14,18 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { Dimensions, StyleSheet } from 'react-native';
 import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import theme from '@styles/theme';
+import { useNavigation } from '@react-navigation/native';
 
 const window = Dimensions.get('window');
 
 export function FluctuatingCartButton() {
 
-    const { price, cartAnimation, totalAmount } = useContext(CartContext);
+    const navigation = useNavigation();
+    const { price, cartAnimation, totalAmount, cartItems } = useContext(CartContext);
+
+    function navigateToCheckout() {
+        navigation.navigate('Checkout');
+    }
 
     return (
         <Animated.View
@@ -29,9 +33,13 @@ export function FluctuatingCartButton() {
             entering={FadeInUp}
             exiting={FadeOutDown}
         >
-            <Rect>
+            <Rect onPress={navigateToCheckout}>
                 <Badge>
-                    <BadgeNumber>{totalAmount.quantity < 10 ? `${totalAmount.quantity}` : '9+'}</BadgeNumber>
+                    <BadgeNumber>
+                        {totalAmount.quantity < 10
+                            ? `${totalAmount.quantity}`
+                            : '9+'}
+                    </BadgeNumber>
                 </Badge>
                 <Icon source={basket} />
 

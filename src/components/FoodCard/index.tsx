@@ -38,7 +38,7 @@ interface Props {
     };
     id: number;
     link: string;
-    price: number;
+    individualPrice: number;
     name: string;
     description: string;
     restaurant: number;
@@ -51,7 +51,7 @@ interface Response {
 
 export function FoodCard({
     name,
-    price,
+    individualPrice,
     link,
     description,
     id,
@@ -64,7 +64,7 @@ export function FoodCard({
     const { fontScale } = useWindowDimensions();
     const endpoint = link.slice(33);
     const itemCount = cartItems.find((item) => item?.id === id)?.count;
-    const priceFormatted = price.toLocaleString('pt-BR', {
+    const priceFormatted = individualPrice.toLocaleString('pt-BR', {
         maximumFractionDigits: 2,
         style: 'currency',
         currency: 'BRL',
@@ -81,11 +81,11 @@ export function FoodCard({
     }
 
     function addToCart() {
-        addItem({ id: id, price: price, restaurant: restaurant, count: 1 });
+        addItem({ id: id, individualPrice: individualPrice, restaurant: restaurant, count: 1, foodTitle: name, foodDescription: description, foodImage: link });
     }
 
     function removeFromCart() {
-        removeItem({ id: id, price: price, restaurant: restaurant, count: 1 });
+        removeItem({ id: id, restaurant: restaurant, count: 1 });
     }
 
     useEffect(() => {
@@ -107,7 +107,6 @@ export function FoodCard({
                         entering={FadeInLeft}
                     />
                 )}
-                <Animated.View style={styles.imageBackView}></Animated.View>
             </ImageWrapper>
 
             <Wrapper>
