@@ -6,7 +6,6 @@ import styled from 'styled-components/native';
 const window = Dimensions.get('window');
 
 export const Container = styled.View`
-    position: absolute;
     width: ${window.width}px;
     height: ${RFValue(44)}px;
     margin: ${RFValue(10)}px;

@@ -7,6 +7,7 @@ import {
     useAnimatedStyle,
     useSharedValue,
     withSpring,
+    withTiming,
 } from 'react-native-reanimated';
 import { AnimatedStyle } from 'react-native-reanimated/lib/types/lib/reanimated2/commonTypes';
 import { TransformFunction } from 'yup/lib/types';
@@ -153,7 +154,7 @@ function CartProvider({ children }: CartProviderProps) {
     });
 
     function setNewPosition(position: number) {
-        offsetY.value = withSpring(position);
+        offsetY.value = withTiming(position);
     }
 
     useEffect(() => {

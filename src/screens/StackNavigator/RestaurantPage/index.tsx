@@ -1,5 +1,11 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, View, Image, Dimensions } from 'react-native';
+import {
+    ActivityIndicator,
+    StyleSheet,
+    View,
+    Image,
+    Dimensions,
+} from 'react-native';
 import { Header } from '@components/Header';
 import {
     SubtitleCategory,
@@ -47,13 +53,13 @@ interface ImageResponse {
     id: number;
 }
 
-const dimension = Dimensions.get('screen')
+const dimension = Dimensions.get('screen');
 
 export function RestaurantPage({ navigation, route }: any) {
     const { id, name, photo_url, food_types } = route.params;
     const { token } = useContext(AuthContext);
     const { setNewPosition } = useContext(CartContext);
-
+    const logoRest = theme.images.default;
     const [foods, setFoods] = useState<Food[]>([]);
     const [filter, setFilter] = useState('');
     const [loading, setLoading] = useState(false);
@@ -71,7 +77,7 @@ export function RestaurantPage({ navigation, route }: any) {
         data: dataImage,
         loading: loadingImage,
         fetchData: fetchImage,
-    } = useFetch<ImageResponse>(`${photo_url}`, {
+    } = useFetch<ImageResponse>(photo_url, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -198,20 +204,17 @@ export function RestaurantPage({ navigation, route }: any) {
                                 </TitleWrapper>
 
                                 <ImageWrapper>
-                                    {!loadingImage &&
-                                        dataImage?.code && (
-                                            <Animated.Image
-                                                style={styles.imageUp}
-                                                entering={FadeInRight}
-                                                source={
-                                                    dataImage?.code
-                                                        ? {
-                                                              uri: `${dataImage?.code}`,
-                                                          }
-                                                        : require('@assets/icons/defaultRestaurant.png')
-                                                }
-                                            />
-                                        )}
+                                    {!loadingImage && (
+                                        <Animated.Image
+                                            style={styles.imageUp}
+                                            entering={FadeInRight}
+                                            source={
+                                                dataImage?.code
+                                                    ? { uri: dataImage?.code }
+                                                    : logoRest
+                                            }
+                                        />
+                                    )}
                                     <Image
                                         style={styles.imageDown}
                                         source={theme.images.default}

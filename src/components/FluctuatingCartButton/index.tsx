@@ -31,7 +31,7 @@ export function FluctuatingCartButton() {
         >
             <Rect>
                 <Badge>
-                    <BadgeNumber>{totalAmount.quantity < 10 ? totalAmount.quantity : '9+'}</BadgeNumber>
+                    <BadgeNumber>{totalAmount.quantity < 10 ? `${totalAmount.quantity}` : '9+'}</BadgeNumber>
                 </Badge>
                 <Icon source={basket} />
 
