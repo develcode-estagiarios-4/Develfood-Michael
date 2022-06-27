@@ -1,29 +1,26 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import {
     ActivityIndicator,
-    FlatList,
     StyleSheet,
-    Text,
     View,
     Image,
+    Dimensions,
 } from 'react-native';
 import { Header } from '@components/Header';
 import {
-    Container,
     SubtitleCategory,
     Title,
     RestaurantWrapper,
     TitleWrapper,
     Separator,
     PlatesWrapper,
-    RestaurantImage,
     LoadWrapper,
     ImageWrapper,
 } from './styles';
 import { Input } from '@components/Input';
 import { FoodCard } from '@components/FoodCard';
 import { FocusAwareStatusBar } from '@components/FocusStatusBar';
-import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+import { RFValue } from 'react-native-responsive-fontsize';
 import { useFetch } from '@services/useFetch';
 import { AuthContext } from '../../../context/auth';
 import theme from '../../../styles/theme';
@@ -36,10 +33,10 @@ import Animated, {
     interpolate,
     Extrapolate,
     withTiming,
-    FadeIn,
-    FadeInLeft,
     FadeInRight,
 } from 'react-native-reanimated';
+import { useFocusEffect } from '@react-navigation/native';
+import { CartContext } from '@context/cart';
 
 interface Food {
     description: string;
@@ -47,7 +44,7 @@ interface Food {
     foodType: string;
     id: number;
     photo_url: string;
-    price: string;
+    price: number;
     restaurantName: string;
 }
 
@@ -56,15 +53,18 @@ interface ImageResponse {
     id: number;
 }
 
+const dimension = Dimensions.get('screen');
+
 export function RestaurantPage({ navigation, route }: any) {
     const { id, name, photo_url, food_types } = route.params;
     const { token } = useContext(AuthContext);
-
+    const { setNewPosition } = useContext(CartContext);
+    const logoRest = theme.images.default;
     const [foods, setFoods] = useState<Food[]>([]);
     const [filter, setFilter] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const { data, error, fetchData } = useFetch<Food[]>(
+    const { fetchData } = useFetch<Food[]>(
         `/plate/search?name=${filter}&restaurantid=${id}`,
         {
             headers: {
@@ -75,10 +75,9 @@ export function RestaurantPage({ navigation, route }: any) {
 
     const {
         data: dataImage,
-        error: errorImage,
         loading: loadingImage,
         fetchData: fetchImage,
-    } = useFetch<ImageResponse>(`${photo_url}`, {
+    } = useFetch<ImageResponse>(photo_url, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -143,12 +142,14 @@ export function RestaurantPage({ navigation, route }: any) {
         setLoading(false);
     }
 
-    const renderItem = ({ item }: {item: Food}) => (
+    const renderItem = ({ item }: { item: Food }) => (
         <FoodCard
             name={item.name}
             price={item.price}
             link={item.photo_url}
             description={item.description}
+            id={item.id}
+            restaurant={id}
         />
     );
 
@@ -156,9 +157,14 @@ export function RestaurantPage({ navigation, route }: any) {
         loadFoods();
     }, [filter]);
 
-    useEffect(() => {
-         loadRestaurantImage();
-     }, []);
+    useLayoutEffect(() => {
+        loadFoods();
+        loadRestaurantImage();
+    }, []);
+
+    useFocusEffect(() => {
+        setNewPosition(RFValue(0));
+    });
 
     return (
         <>
@@ -202,9 +208,11 @@ export function RestaurantPage({ navigation, route }: any) {
                                         <Animated.Image
                                             style={styles.imageUp}
                                             entering={FadeInRight}
-                                            source={{
-                                                uri: `${dataImage?.code}`,
-                                            }}
+                                            source={
+                                                dataImage?.code
+                                                    ? { uri: dataImage?.code }
+                                                    : logoRest
+                                            }
                                         />
                                     )}
                                     <Image
@@ -229,21 +237,18 @@ export function RestaurantPage({ navigation, route }: any) {
                     }
                     renderItem={renderItem}
                     ListFooterComponent={
-                        loading ? (
-                            <LoadWrapper>
-                                <ActivityIndicator
-                                    size={50}
-                                    color={theme.colors.background_red}
-                                />
-                            </LoadWrapper>
-                        ) : (
-                            <View style={{ height: 30 }}></View>
-                        )
+                        <View style={{ height: RFValue(60) }}></View>
                     }
                     ListEmptyComponent={
                         !loading ? (
                             <EmptyFoodCardList title="Nenhum prato encontrado" />
-                        ) : null
+                        ) : (
+                            <ActivityIndicator
+                                style={{ marginTop: RFValue(120) }}
+                                color={theme.colors.primary}
+                                size={'large'}
+                            />
+                        )
                     }
                 />
             </View>

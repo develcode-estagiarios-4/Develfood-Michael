@@ -3,7 +3,7 @@ import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import { Button } from '@components/Button';
 
 export const Container = styled.View`
-    flex:1;
+    flex: 1;
     background-color: ${({ theme }) => theme.colors.background};
     align-items: center;
     justify-content: center;
@@ -55,7 +55,7 @@ export const EsqueceuSenha = styled.TouchableOpacity.attrs({
 
 export const ForgotPasswordText = styled.Text`
     color: ${({ theme }) => theme.colors.text_red};
-    font-size: ${({ theme }) => theme.sizes.verySmall};
+    font-size: ${({ theme }) => theme.sizes.verySmall}px;
 `;
 
 export const LoginButton = styled(Button)`
@@ -64,12 +64,12 @@ export const LoginButton = styled(Button)`
 
 export const SignUpHere = styled.Text`
     color: ${({ theme }) => theme.colors.text_red};
-    font-size: ${({ theme }) => theme.sizes.verySmall};
+    font-size: ${({ theme }) => theme.sizes.verySmall}px;
 `;
 
 export const Text = styled.Text`
     color: ${({ theme }) => theme.colors.text_purple};
-    font-size: ${({ theme }) => theme.sizes.verySmall};
+    font-size: ${({ theme }) => theme.sizes.verySmall}px;
 `;
 
 export const CadastreSe = styled.View`

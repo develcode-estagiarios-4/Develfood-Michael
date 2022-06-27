@@ -1,40 +1,47 @@
 import { useFetch } from '@services/useFetch';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     Dimensions,
     ImageSourcePropType,
     StyleSheet,
+    Text,
+    useWindowDimensions,
     View,
 } from 'react-native';
 import { AuthContext } from '@context/auth';
 import {
-    Container,
-    FoodImage,
+    Counter,
     Title,
     Description,
     AddButton,
     Price,
     Footer,
     Wrapper,
+    CounterWrapper,
+    NumberWrapper,
     ImageWrapper,
+    TrashIcon,
+    MinusWrapper,
+    PlusWrapper,
+    PlusButton,
+    MinusButton,
 } from './styles';
 import { RFValue, RFPercentage } from 'react-native-responsive-fontsize';
 import theme from '@styles/theme';
-import Animated, {
-    FadeInLeft,
-    FadeInRight,
-} from 'react-native-reanimated';
+import Animated, { FadeInLeft, FadeInRight } from 'react-native-reanimated';
+import { CartContext } from '@context/cart';
 
 interface Props {
     foodType?: {
         id: number;
         name: string;
     };
-    id?: number;
+    id: number;
     link: string;
-    price: string;
+    price: number;
     name: string;
     description: string;
+    restaurant: number;
 }
 
 interface Response {
@@ -42,12 +49,28 @@ interface Response {
     code: string;
 }
 
-export function FoodCard({ name, price, link, description }: Props) {
+export function FoodCard({
+    name,
+    price,
+    link,
+    description,
+    id,
+    restaurant,
+}: Props) {
     const { token } = useContext(AuthContext);
+    const { addItem, removeItem, cartItems, totalAmount } =
+        useContext(CartContext);
 
+    const { fontScale } = useWindowDimensions();
     const endpoint = link.slice(33);
+    const itemCount = cartItems.find((item) => item?.id === id)?.count;
+    const priceFormatted = price.toLocaleString('pt-BR', {
+        maximumFractionDigits: 2,
+        style: 'currency',
+        currency: 'BRL',
+    });
 
-    const { data, loading, error, fetchData } = useFetch<Response>(endpoint, {
+    const { data, loading, fetchData } = useFetch<Response>(endpoint, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -57,10 +80,12 @@ export function FoodCard({ name, price, link, description }: Props) {
         await fetchData();
     }
 
-    function priceFormatter() {
-        const priceWZeros = parseFloat(price).toFixed(2);
-        const priceFormatted = priceWZeros.toString().replace('.', ',');
-        return priceFormatted;
+    function addToCart() {
+        addItem({ id: id, price: price, restaurant: restaurant, count: 1 });
+    }
+
+    function removeFromCart() {
+        removeItem({ id: id, price: price, restaurant: restaurant, count: 1 });
     }
 
     useEffect(() => {
@@ -76,9 +101,7 @@ export function FoodCard({ name, price, link, description }: Props) {
                 {!loading && (
                     <Animated.Image
                         source={
-                            !!data
-                                ? { uri: data?.code }
-                                : theme.images.default
+                            data ? { uri: data?.code } : theme.images.default
                         }
                         style={styles.image}
                         entering={FadeInLeft}
@@ -110,23 +133,46 @@ export function FoodCard({ name, price, link, description }: Props) {
                     <Description
                         ellipsizeMode="tail"
                         numberOfLines={3}
+                        style={{ fontSize: 11 / fontScale }}
                     >
                         {description}
                     </Description>
                 </View>
-                <View
-                    style={{
-                        width: '100%',
-                        height: '35%',
-                    }}
-                >
-                    <Footer>
-                        <Price>R$ {priceFormatter()}</Price>
-                        <AddButton>
-                            <Title>Adicionar</Title>
-                        </AddButton>
-                    </Footer>
-                </View>
+
+                <Footer>
+                    <Price>{priceFormatted}</Price>
+
+                    {itemCount ? (
+                        <CounterWrapper>
+                            <AddButton onPress={removeFromCart}>
+                                {itemCount === 1 ? (
+                                    <TrashIcon
+                                        source={require('@assets/icons/trash.png')}
+                                    />
+                                ) : (
+                                    <MinusWrapper>
+                                        <MinusButton>-</MinusButton>
+                                    </MinusWrapper>
+                                )}
+                            </AddButton>
+
+                            <NumberWrapper>
+                                <Counter>{itemCount}</Counter>
+                            </NumberWrapper>
+                            <AddButton onPress={addToCart}>
+                                <PlusWrapper>
+                                    <PlusButton>+</PlusButton>
+                                </PlusWrapper>
+                            </AddButton>
+                        </CounterWrapper>
+                    ) : (
+                        <CounterWrapper>
+                            <AddButton onPress={addToCart}>
+                                <Title>Adicionar</Title>
+                            </AddButton>
+                        </CounterWrapper>
+                    )}
+                </Footer>
             </Wrapper>
         </Animated.View>
     );

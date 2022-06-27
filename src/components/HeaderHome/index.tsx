@@ -1,29 +1,48 @@
 import React from 'react';
-import { ImageProps, ImageSourcePropType, View } from 'react-native';
+import {
+    Animated,
+    ImageSourcePropType,
+    StyleProp,
+    StyleSheet,
+    View,
+    ViewStyle,
+} from 'react-native';
 import {
     BorderlessButton,
     BorderlessButtonProps,
 } from 'react-native-gesture-handler';
-import {
-    ButtonContainer,
-    Container,
-    Icon,
-    Title,
-    UselessView,
-} from './styles';
+import { RFValue } from 'react-native-responsive-fontsize';
+import theme from '@styles/theme';
+import { Container, Icon, Title } from './styles';
+import { AnimatedStyleProp } from 'react-native-reanimated';
 
-interface Props extends BorderlessButtonProps {
+interface Props {
     source: ImageSourcePropType;
     title: string;
+    style: Animated.WithAnimatedObject<ViewStyle>;
 }
 
-export function HeaderHome({ title, source, ...rest }: Props) {
+export function HeaderHome({ title, source, style, ...rest }: Props) {
     return (
-        <Container>
+        <Animated.View style={[style, styles.container]}>
             <BorderlessButton {...rest}>
                 <Icon source={source} />
             </BorderlessButton>
             <Title>{title}</Title>
-        </Container>
+        </Animated.View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        position: 'absolute',
+        backgroundColor: theme.colors.header,
+        flexDirection: 'row',
+        height: RFValue(50),
+        width: '100%',
+        alignItems: 'center',
+        padding: 10,
+        paddingTop: 10,
+        zIndex: 1,
+    },
+});

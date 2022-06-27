@@ -38,13 +38,13 @@ export const Separator = styled.View`
 `;
 
 export const Title = styled.Text`
-    font-size: ${({ theme }) => theme.sizes.very_large};
+    font-size: ${({ theme }) => theme.sizes.very_large}px;
     font-family: ${({ theme }) => theme.fonts.secondaryReg};
     color: ${({ theme }) => theme.colors.text_dark};
 `;
 
 export const SubtitleCategory = styled.Text`
-    font-size: ${({ theme }) => theme.sizes.medium};
+    font-size: ${({ theme }) => theme.sizes.medium}px;
     font-family: ${({ theme }) => theme.fonts.secondaryMed};
     color: ${({ theme }) => theme.colors.text_gray};
 `;
