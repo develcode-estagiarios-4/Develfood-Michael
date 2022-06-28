@@ -1,19 +1,19 @@
-import { Dimensions, useWindowDimensions } from 'react-native';
-import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+import { Dimensions } from 'react-native';
+import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 const window = Dimensions.get('window');
 
-export const Container = styled.View.attrs({
-    elevation: 4,
+export const ContainerBelow = styled.View.attrs({
+    elevation: 6,
 })`
-    width: ${window.width - RFValue(40)}px;
-    height: ${window.height * 0.15}px;
+    width: ${window.width - RFValue(30)};
+    height: ${window.height * 0.15};
     flex-direction: row;
-    background-color: ${({ theme }) => theme.colors.background};
-    border-radius: 15px;
+    background-color: ${({ theme }) => theme.colors.background_red};
+    border-radius: 15;
     align-items: center;
-    margin-bottom: ${RFValue(12)}px;
+    margin-bottom: ${RFValue(12)};
     align-self: center;
 `;
 
@@ -66,7 +66,7 @@ export const Price = styled.Text`
 export const CounterWrapper = styled.View`
     flex-direction: row;
     height: 100%;
-    
+
     justify-content: center;
     align-items: center;
 `;

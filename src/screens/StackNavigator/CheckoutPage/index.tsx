@@ -6,7 +6,9 @@ import { Header } from '@components/Header';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { CartContext } from '@context/cart';
 import theme from '@styles/theme';
-import { RFValue } from 'react-native-responsive-fontsize';
+import Animated, { Layout } from 'react-native-reanimated';
+import { Container } from './styles';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export function CheckoutPage({ route }: any) {
     const { price, totalAmount, cartItems, setNewPosition } =
@@ -25,13 +27,25 @@ export function CheckoutPage({ route }: any) {
         />
     );
 
+    function renderList(cartItems) {
+        cartItems.map(item => {
+             <FoodCard
+                 name={item.foodTitle}
+                 individualPrice={item.individualPrice}
+                 link={item.foodImage}
+                 description={item.foodDescription}
+                 id={item.id}
+                 restaurant={item.restaurant}
+             />;
+        })
+    }
+
     useFocusEffect(() => {
         setNewPosition(0);
-        console.log(cartItems[0].foodImage);
     });
 
     return (
-        <>
+        <Container>
             <Header
                 onPress={() => navigation.goBack()}
                 source={closeScreen}
@@ -39,22 +53,28 @@ export function CheckoutPage({ route }: any) {
                 color={theme.colors.header}
             />
 
-            <FlatList
-                data={cartItems}
-                renderItem={renderItem}
-                ListHeaderComponent={() => (
-                    <>
-                        <Text>PÁGINA DE CHECKOUT</Text>
-                        <Text>
-                            {price} {totalAmount.quantity}
-                        </Text>
-                    </>
-                )}
-                ListFooterComponent={() => (
-                    <View style={{ height: RFValue(100) }} />
-                )}
-            />
-        </>
+            <ScrollView
+                contentContainerStyle={{
+                    height: '100%',
+                    width: '100%',
+                }}
+            >
+                {cartItems?.map((item) => {
+                    return (
+                        <FoodCard
+                            name={item.foodTitle}
+                            individualPrice={item.individualPrice}
+                            link={item.foodImage}
+                            description={item.foodDescription}
+                            id={item.id}
+                            restaurant={item.restaurant}
+                            key={item.id}
+                            swipeable
+                        />
+                    );
+                })}
+            </ScrollView>
+        </Container>
     );
 }
 

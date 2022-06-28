@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
-import { ImageProps, ImageSourcePropType, StyleProp, TextStyle, View } from 'react-native';
+import {
+    ImageProps,
+    ImageSourcePropType,
+    StyleProp,
+    TextStyle,
+    View,
+} from 'react-native';
 import {
     BorderlessButton,
     BorderlessButtonProps,
 } from 'react-native-gesture-handler';
 import theme from '../../styles/theme';
-import {
-    Container,
-    Icon,
-    Like,
-    Button,
-    UselessView,
-    Title,
-} from './styles';
+import { Container, Icon, Like, Button, UselessView, Title } from './styles';
 import Animated from 'react-native-reanimated';
 
 interface Props extends BorderlessButtonProps {
@@ -41,9 +40,16 @@ export function Header({
             {!source2 && (
                 <>
                     <Button onPress={onPress}>
-                        <Icon source={source} style={color === 'white' ? {tintColor: theme.colors.icon_dark} : {tintColor: theme.colors.icon_white}}/>
+                        <Icon
+                            source={source}
+                            style={
+                                color === theme.colors.headerSecondary
+                                    ? { tintColor: theme.colors.icon_dark }
+                                    : { tintColor: theme.colors.icon_white }
+                            }
+                        />
                     </Button>
-                    <Title >{title}</Title>
+                    <Title color={color}>{title}</Title>
 
                     <UselessView />
                 </>
@@ -52,11 +58,22 @@ export function Header({
             {!!source2 && (
                 <>
                     <Button onPress={onPress}>
-                        <Icon source={source} />
+                        <Icon
+                            style={
+                                color === theme.colors.headerSecondary
+                                    ? { tintColor: theme.colors.icon_dark }
+                                    : { tintColor: theme.colors.icon_white }
+                            }
+                            source={source}
+                        />
                     </Button>
                     <Animated.Text
-                        
-                        style={style}
+                        style={[
+                            style,
+                            color === theme.colors.headerSecondary
+                                ? { color: theme.colors.icon_dark }
+                                : { color: theme.colors.icon_white },
+                        ]}
                     >
                         {title}
                     </Animated.Text>

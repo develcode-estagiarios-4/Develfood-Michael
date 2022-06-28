@@ -3,6 +3,10 @@ import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import theme from '../../styles/theme';
 import { BorderlessButton } from 'react-native-gesture-handler';
 
+type Title = {
+    color: string;
+}
+
 export const Container = styled.View`
     flex-direction: row;
     justify-content: space-between;
@@ -40,11 +44,13 @@ export const Button = styled(BorderlessButton)`
     width: ${RFValue(30)}px;
     height: ${RFValue(30)}px;
     justify-content: center;
-    //background-color: red;
 `;
 
-export const Title = styled.Text`
+export const Title = styled.Text<Title>`
     font-size: ${RFValue(14)}px;
-    color: ${(props) => props.color === "white" ? theme.colors.text_dark : theme.colors.text_white};
+    color: ${(props) =>
+        props.color === theme.colors.headerSecondary
+            ? theme.colors.text_dark
+            : theme.colors.text_white};
     font-family: ${({ theme }) => theme.fonts.secondaryMed};
 `;
