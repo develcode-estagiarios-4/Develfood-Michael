@@ -15,11 +15,10 @@ export const ContainerBelow = styled.View.attrs({
 export const SwipeableButton = styled(RectButton).attrs({
     elevation: 6,
 })`
-    width: ${RFValue(150)}px;
+    width: ${RFValue(130)}px;
     height: ${window.height * 0.15}px;
     background-color: ${({ theme }) => theme.colors.background_red};
     border-radius: 15px;
-    margin-left: ${window.width * 0.13}px;
     justify-content: center;
     align-items: center;
 `;

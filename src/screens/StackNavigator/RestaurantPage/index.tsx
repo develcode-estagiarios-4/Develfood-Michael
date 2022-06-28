@@ -1,10 +1,5 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import {
-    ActivityIndicator,
-    StyleSheet,
-    View,
-    Image,
-} from 'react-native';
+import { ActivityIndicator, StyleSheet, View, Image } from 'react-native';
 import { Header } from '@components/Header';
 import {
     SubtitleCategory,
@@ -145,7 +140,10 @@ export function RestaurantPage({ navigation, route }: any) {
             link={item.photo_url}
             description={item.description}
             id={item.id}
-            restaurant={id}
+            restaurantID={id}
+            restaurantName={name}
+            restaurantPhoto={photo_url}
+            restaurantType={food_types}
         />
     );
 

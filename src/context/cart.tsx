@@ -17,7 +17,15 @@ interface CartContextData {
     cartItems: CartItem[];
     totalAmount: { quantity: number; price: number };
     price: string;
+    restaurant: Restaurant;
 }
+
+type Restaurant = {
+    name: string;
+    id: number;
+    image: string;
+    type: string;
+};
 
 interface Order {
     costumer: { id: number };
@@ -47,12 +55,15 @@ interface CartProviderProps {
 
 export type CartItem = {
     id: number;
-    restaurant: number;
+    restaurantID: number;
     count: number;
     individualPrice: number;
     foodTitle: string;
     foodDescription: string;
     foodImage: string;
+    restaurantName: string;
+    restaurantImage: string;
+    restaurantType: string;
 };
 
 type TotalAmount = {
@@ -64,6 +75,12 @@ export const CartContext = createContext({} as CartContextData);
 
 function CartProvider({ children }: CartProviderProps) {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
+    const [restaurant, setRestaurant] = useState({
+        name: '',
+        id: 0,
+        image: '',
+        type: [],
+    });
     const [totalAmount, setTotalAmount] = useState<TotalAmount>({
         quantity: 0,
         price: 0,
@@ -78,12 +95,18 @@ function CartProvider({ children }: CartProviderProps) {
     function addItem(item: CartItem) {
         const itemFound = cartItems.find((cartItem) => cartItem.id === item.id);
         const fromOtherRestaurant = cartItems.find(
-            (cartItem) => cartItem.restaurant !== item.restaurant
+            (cartItem) => cartItem.restaurantID !== item.restaurantID
         );
 
         if (!fromOtherRestaurant) {
             if (!itemFound) {
                 cartItems.push(item);
+                setRestaurant({
+                    name: item.restaurantName,
+                    id: item.restaurantID,
+                    image: item.restaurantImage,
+                    type: item.restaurantType,
+                });
 
                 //console.log(cartItems);
             } else {
@@ -137,7 +160,9 @@ function CartProvider({ children }: CartProviderProps) {
             cartItems.splice(cartItems.indexOf(itemFound), 1);
             setTotalAmount({
                 quantity: totalAmount.quantity - itemFound.count,
-                price: totalAmount.price - (itemFound.individualPrice * itemFound.count),
+                price:
+                    totalAmount.price -
+                    itemFound.individualPrice * itemFound.count,
             });
             //console.log(cartItems);
         }
@@ -188,6 +213,7 @@ function CartProvider({ children }: CartProviderProps) {
                 totalAmount,
                 price,
                 cartAnimation,
+                restaurant,
             }}
         >
             {children}

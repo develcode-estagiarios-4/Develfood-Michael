@@ -1,5 +1,5 @@
 import { useFetch } from '@services/useFetch';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import {
     Dimensions,
     ImageSourcePropType,
@@ -43,6 +43,13 @@ import { CartContext } from '@context/cart';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 
+type RestaurantInfo = {
+    id: number;
+    name: string;
+    photo_url: string;
+    food_types: string[];
+};
+
 interface Props {
     foodType?: {
         id: number;
@@ -53,7 +60,10 @@ interface Props {
     individualPrice: number;
     name: string;
     description: string;
-    restaurant: number;
+    restaurantName?: string;
+    restaurantType?: string[];
+    restaurantPhoto?: string;
+    restaurantID: number;
     swipeable?: boolean;
 }
 
@@ -68,13 +78,15 @@ export function FoodCard({
     link,
     description,
     id,
-    restaurant,
+    restaurantID,
+    restaurantName,
+    restaurantType,
+    restaurantPhoto,
     swipeable,
 }: Props) {
     const { token } = useContext(AuthContext);
     const { addItem, removeItem, cartItems, deleteFromCart } =
         useContext(CartContext);
-
     const { fontScale } = useWindowDimensions();
     const endpoint = link.slice(33);
     const itemCount = cartItems.find((item) => item?.id === id)?.count;
@@ -98,36 +110,38 @@ export function FoodCard({
         addItem({
             id: id,
             individualPrice: individualPrice,
-            restaurant: restaurant,
             count: 1,
             foodTitle: name,
             foodDescription: description,
             foodImage: link,
+            restaurantID: restaurantID,
+            restaurantName: restaurantName,
+            restaurantType: restaurantType,
+            restaurantImage: restaurantPhoto,
         });
     }
 
     function removeFromCart() {
         itemCount > 1
-            ? removeItem({ id: id, restaurant: restaurant, count: 1 })
-            : deleteFromCart({ id: id, restaurant: restaurant, count: 1 });
+            ? removeItem({ id: id, count: 1 })
+            : deleteFromCart({ id: id, count: 1 });
     }
 
     function deleteEverything() {
         deleteFromCart({
             id: id,
-            restaurant: restaurant,
             count: 1,
         });
     }
 
-    const renderLeftPanel = (
-        <SwipeableButton onPress={deleteEverything}>
-            <BiggerTrash
-                source={require('@assets/icons/trash.png')}
-            />
-            <SwipeableText>Remover</SwipeableText>
-        </SwipeableButton>
-    );
+    const renderLeftPanel = () => {
+        return (
+                <SwipeableButton onPress={deleteEverything}>
+                    <BiggerTrash source={require('@assets/icons/trash.png')} />
+                    <SwipeableText>Remover</SwipeableText>
+                </SwipeableButton>
+        );
+    };
 
     useEffect(() => {
         !!endpoint && loadImage();
@@ -140,18 +154,16 @@ export function FoodCard({
             layout={Layout.delay(50)}
         >
             <Swipeable
-                renderLeftActions={() => renderLeftPanel}
+                renderLeftActions={renderLeftPanel}
                 friction={0.6}
                 leftThreshold={70}
-                overshootLeft={false}
                 useNativeAnimations
             >
                 <View
                     style={[
                         styles.container,
                         {
-                            width: window.width * 0.8,
-                            marginLeft: window.width * -0.2,
+                            width: window.width * 0.83,
                         },
                     ]}
                 >
@@ -334,7 +346,6 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         alignItems: 'center',
         marginBottom: RFValue(12),
-        alignSelf: 'center',
         elevation: 6,
     },
     image: {
