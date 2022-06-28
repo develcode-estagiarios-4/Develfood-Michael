@@ -1,4 +1,5 @@
 import { Dimensions } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
@@ -7,14 +8,26 @@ const window = Dimensions.get('window');
 export const ContainerBelow = styled.View.attrs({
     elevation: 6,
 })`
-    width: ${window.width - RFValue(30)}px;
+    align-items: center;
+    justify-content: center;
+`;
+
+export const SwipeableButton = styled(RectButton).attrs({
+    elevation: 6,
+})`
+    width: ${RFValue(150)}px;
     height: ${window.height * 0.15}px;
-    flex-direction: row;
     background-color: ${({ theme }) => theme.colors.background_red};
     border-radius: 15px;
+    margin-left: ${window.width * 0.13}px;
+    justify-content: center;
     align-items: center;
-    margin-bottom: ${RFValue(12)}px;
-    align-self: center;
+`;
+
+export const SwipeableText = styled.Text`
+    font-family: ${({ theme }) => theme.fonts.primaryMed};
+    color: ${({ theme }) => theme.colors.text_white};
+    font-size: ${({ theme }) => theme.sizes.medium}px;
 `;
 
 export const Wrapper = styled.View`
@@ -75,6 +88,12 @@ export const TrashIcon = styled.Image.attrs({ resizeMode: 'contain' })`
     width: ${RFValue(15)}px;
     height: ${RFValue(15)}px;
     margin-right: 10px;
+`;
+
+export const BiggerTrash = styled(TrashIcon).attrs({tintColor: 'white'})`
+    width: ${RFValue(20)}px;
+    height: ${RFValue(20)}px;
+    margin-left: 10px;
 `;
 
 export const Counter = styled.Text`

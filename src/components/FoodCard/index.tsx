@@ -26,13 +26,22 @@ import {
     PlusButton,
     MinusButton,
     ContainerBelow,
+    SwipeableButton,
+    SwipeableText,
+    BiggerTrash,
 } from './styles';
 import { RFValue, RFPercentage } from 'react-native-responsive-fontsize';
 import theme from '@styles/theme';
-import Animated, { FadeInLeft, FadeInRight, FadeOut, Layout, SlideOutRight } from 'react-native-reanimated';
+import Animated, {
+    FadeInLeft,
+    FadeInRight,
+    FadeOut,
+    Layout,
+    SlideOutRight,
+} from 'react-native-reanimated';
 import { CartContext } from '@context/cart';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { RectButton } from 'react-native-gesture-handler';
+import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 
 interface Props {
     foodType?: {
@@ -60,10 +69,10 @@ export function FoodCard({
     description,
     id,
     restaurant,
-    swipeable
+    swipeable,
 }: Props) {
     const { token } = useContext(AuthContext);
-    const { addItem, removeItem, cartItems, totalAmount } =
+    const { addItem, removeItem, cartItems, deleteFromCart } =
         useContext(CartContext);
 
     const { fontScale } = useWindowDimensions();
@@ -86,22 +95,39 @@ export function FoodCard({
     }
 
     function addToCart() {
-        addItem({ id: id, individualPrice: individualPrice, restaurant: restaurant, count: 1, foodTitle: name, foodDescription: description, foodImage: link });
+        addItem({
+            id: id,
+            individualPrice: individualPrice,
+            restaurant: restaurant,
+            count: 1,
+            foodTitle: name,
+            foodDescription: description,
+            foodImage: link,
+        });
     }
 
     function removeFromCart() {
-        removeItem({ id: id, restaurant: restaurant, count: 1 });
+        itemCount > 1
+            ? removeItem({ id: id, restaurant: restaurant, count: 1 })
+            : deleteFromCart({ id: id, restaurant: restaurant, count: 1 });
     }
 
-    function renderLeftSide() {
-        return (
-            <ContainerBelow>
-                <RectButton onPress={removeFromCart}>
-                    <Text>Excluir</Text>
-                </RectButton>
-            </ContainerBelow>
-        );
+    function deleteEverything() {
+        deleteFromCart({
+            id: id,
+            restaurant: restaurant,
+            count: 1,
+        });
     }
+
+    const renderLeftPanel = (
+        <SwipeableButton onPress={deleteEverything}>
+            <BiggerTrash
+                source={require('@assets/icons/trash.png')}
+            />
+            <SwipeableText>Remover</SwipeableText>
+        </SwipeableButton>
+    );
 
     useEffect(() => {
         !!endpoint && loadImage();
@@ -114,10 +140,21 @@ export function FoodCard({
             layout={Layout.delay(50)}
         >
             <Swipeable
-                renderLeftActions={renderLeftSide}
-                friction={0.5}
+                renderLeftActions={() => renderLeftPanel}
+                friction={0.6}
+                leftThreshold={70}
+                overshootLeft={false}
+                useNativeAnimations
             >
-                <View style={styles.container}>
+                <View
+                    style={[
+                        styles.container,
+                        {
+                            width: window.width * 0.8,
+                            marginLeft: window.width * -0.2,
+                        },
+                    ]}
+                >
                     <ImageWrapper>
                         {!loading && (
                             <Animated.Image
@@ -290,7 +327,7 @@ const window = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
-        width: window.width - RFValue(30),
+        width: undefined,
         height: window.height * 0.15,
         flexDirection: 'row',
         backgroundColor: theme.colors.background,
@@ -298,7 +335,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: RFValue(12),
         alignSelf: 'center',
-       elevation: 6,
+        elevation: 6,
     },
     image: {
         width: RFValue(85),

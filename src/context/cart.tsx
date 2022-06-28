@@ -12,6 +12,7 @@ interface CartContextData {
     deleteFromCart: (item: CartItem) => void;
     cartCleanup: (item: CartItem) => void;
     setNewPosition: (position: number) => void;
+    deleteCart: () => void;
     cartAnimation: object;
     cartItems: CartItem[];
     totalAmount: { quantity: number; price: number };
@@ -136,16 +137,23 @@ function CartProvider({ children }: CartProviderProps) {
             cartItems.splice(cartItems.indexOf(itemFound), 1);
             setTotalAmount({
                 quantity: totalAmount.quantity - itemFound.count,
-                price: totalAmount.price - itemFound.individualPrice,
+                price: totalAmount.price - (itemFound.individualPrice * itemFound.count),
             });
             //console.log(cartItems);
         }
     }
 
+    function deleteCart() {
+        cartItems.splice(0, cartItems.length);
+        setTotalAmount({
+            quantity: 0,
+            price: 0,
+        });
+    }
+
     function cartCleanup(item: CartItem) {
         cartItems.splice(0, cartItems.length, item);
         setTotalAmount({ quantity: 1, price: item.individualPrice });
-        //console.log(cartItems);
     }
 
     const offsetY = useSharedValue(0);
@@ -175,6 +183,7 @@ function CartProvider({ children }: CartProviderProps) {
                 deleteFromCart,
                 setNewPosition,
                 cartCleanup,
+                deleteCart,
                 cartItems,
                 totalAmount,
                 price,

@@ -1,51 +1,51 @@
 import { FoodCard } from '@components/FoodCard';
 import React, { useContext, useEffect, useLayoutEffect } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { CartItem } from '@context/cart';
 import { Header } from '@components/Header';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { CartContext } from '@context/cart';
 import theme from '@styles/theme';
-import Animated, { Layout } from 'react-native-reanimated';
-import { Container } from './styles';
-import { ScrollView } from 'react-native-gesture-handler';
+import Animated, { Layout, SlideOutRight } from 'react-native-reanimated';
+import { Container, MapWrapper, OrderList } from './styles';
+import { EmptyFoodCardList } from '@components/EmptyFoodCardList';
 
 export function CheckoutPage({ route }: any) {
-    const { price, totalAmount, cartItems, setNewPosition } =
+    const { price, totalAmount, cartItems, setNewPosition, deleteFromCart } =
         useContext(CartContext);
     const closeScreen = require('@assets/icons/x.png');
     const navigation = useNavigation();
 
-    const renderItem = ({ item }: { item: CartItem }) => (
-        <FoodCard
-            name={item.foodTitle}
-            individualPrice={item.individualPrice}
-            link={item.foodImage}
-            description={item.foodDescription}
-            id={item.id}
-            restaurant={item.restaurant}
-        />
-    );
-
-    function renderList(cartItems) {
-        cartItems.map(item => {
-             <FoodCard
-                 name={item.foodTitle}
-                 individualPrice={item.individualPrice}
-                 link={item.foodImage}
-                 description={item.foodDescription}
-                 id={item.id}
-                 restaurant={item.restaurant}
-             />;
-        })
-    }
+    const renderItem = cartItems.length > 0 ? (
+        <OrderList layout={Layout.delay(100)} exiting={SlideOutRight}>
+            {cartItems?.map((item) => {
+                return (
+                   
+                        <View
+                            key={item.id}
+                            style={{ marginLeft: -20 }}
+                        >
+                            <FoodCard
+                                name={item.foodTitle}
+                                individualPrice={item.individualPrice}
+                                link={item.foodImage}
+                                description={item.foodDescription}
+                                id={item.id}
+                                restaurant={item.restaurant}
+                                swipeable
+                            />
+                        </View> 
+                );
+            })}
+        </OrderList>
+    ) : null;
 
     useFocusEffect(() => {
         setNewPosition(0);
     });
 
     return (
-        <Container>
+        <>
             <Header
                 onPress={() => navigation.goBack()}
                 source={closeScreen}
@@ -55,26 +55,13 @@ export function CheckoutPage({ route }: any) {
 
             <ScrollView
                 contentContainerStyle={{
-                    height: '100%',
-                    width: '100%',
+                    height: 1000,
                 }}
             >
-                {cartItems?.map((item) => {
-                    return (
-                        <FoodCard
-                            name={item.foodTitle}
-                            individualPrice={item.individualPrice}
-                            link={item.foodImage}
-                            description={item.foodDescription}
-                            id={item.id}
-                            restaurant={item.restaurant}
-                            key={item.id}
-                            swipeable
-                        />
-                    );
-                })}
+                <MapWrapper></MapWrapper>
+                {renderItem}
             </ScrollView>
-        </Container>
+        </>
     );
 }
 
