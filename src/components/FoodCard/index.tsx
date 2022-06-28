@@ -29,9 +29,10 @@ import {
 } from './styles';
 import { RFValue, RFPercentage } from 'react-native-responsive-fontsize';
 import theme from '@styles/theme';
-import Animated, { FadeInLeft, FadeInRight, FadeOut, Layout, Transition } from 'react-native-reanimated';
+import Animated, { FadeInLeft, FadeInRight, FadeOut, Layout, SlideOutRight } from 'react-native-reanimated';
 import { CartContext } from '@context/cart';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { RectButton } from 'react-native-gesture-handler';
 
 interface Props {
     foodType?: {
@@ -94,8 +95,12 @@ export function FoodCard({
 
     function renderLeftSide() {
         return (
-            <ContainerBelow></ContainerBelow>
-        )
+            <ContainerBelow>
+                <RectButton onPress={removeFromCart}>
+                    <Text>Excluir</Text>
+                </RectButton>
+            </ContainerBelow>
+        );
     }
 
     useEffect(() => {
@@ -103,97 +108,97 @@ export function FoodCard({
     }, [endpoint]);
 
     return swipeable ? (
-        <Swipeable
-            renderLeftActions={renderLeftSide}
-            friction={0.5}
-            
+        <Animated.View
+            entering={FadeInRight}
+            exiting={SlideOutRight}
+            layout={Layout.delay(50)}
         >
-            <Animated.View
-                style={styles.container}
-                entering={FadeInRight}
-                exiting={FadeOut}
-                layout={Layout.delay(50)}
+            <Swipeable
+                renderLeftActions={renderLeftSide}
+                friction={0.5}
             >
-                <ImageWrapper>
-                    {!loading && (
-                        <Animated.Image
-                            source={
-                                data
-                                    ? { uri: data?.code }
-                                    : theme.images.default
-                            }
-                            style={styles.image}
-                            entering={FadeInLeft}
-                        />
-                    )}
-                </ImageWrapper>
-
-                <Wrapper>
-                    <View
-                        style={{
-                            width: '100%',
-                            height: '25%',
-                        }}
-                    >
-                        <Title
-                            ellipsizeMode="tail"
-                            numberOfLines={1}
-                        >
-                            {name}
-                        </Title>
-                    </View>
-                    <View
-                        style={{
-                            width: '100%',
-                            height: '53%',
-                        }}
-                    >
-                        <Description
-                            ellipsizeMode="tail"
-                            numberOfLines={3}
-                            style={{ fontSize: 11 / fontScale }}
-                        >
-                            {description}
-                        </Description>
-                    </View>
-
-                    <Footer>
-                        <Price>{priceFormatted}</Price>
-
-                        {itemCount ? (
-                            <CounterWrapper>
-                                <AddButton onPress={removeFromCart}>
-                                    {itemCount === 1 ? (
-                                        <TrashIcon
-                                            source={require('@assets/icons/trash.png')}
-                                        />
-                                    ) : (
-                                        <MinusWrapper>
-                                            <MinusButton>-</MinusButton>
-                                        </MinusWrapper>
-                                    )}
-                                </AddButton>
-
-                                <NumberWrapper>
-                                    <Counter>{itemCount}</Counter>
-                                </NumberWrapper>
-                                <AddButton onPress={addToCart}>
-                                    <PlusWrapper>
-                                        <PlusButton>+</PlusButton>
-                                    </PlusWrapper>
-                                </AddButton>
-                            </CounterWrapper>
-                        ) : (
-                            <CounterWrapper>
-                                <AddButton onPress={addToCart}>
-                                    <Title>Adicionar</Title>
-                                </AddButton>
-                            </CounterWrapper>
+                <View style={styles.container}>
+                    <ImageWrapper>
+                        {!loading && (
+                            <Animated.Image
+                                source={
+                                    data
+                                        ? { uri: data?.code }
+                                        : theme.images.default
+                                }
+                                style={styles.image}
+                                entering={FadeInLeft}
+                            />
                         )}
-                    </Footer>
-                </Wrapper>
-            </Animated.View>
-        </Swipeable>
+                    </ImageWrapper>
+
+                    <Wrapper>
+                        <View
+                            style={{
+                                width: '100%',
+                                height: '25%',
+                            }}
+                        >
+                            <Title
+                                ellipsizeMode="tail"
+                                numberOfLines={1}
+                            >
+                                {name}
+                            </Title>
+                        </View>
+                        <View
+                            style={{
+                                width: '100%',
+                                height: '53%',
+                            }}
+                        >
+                            <Description
+                                ellipsizeMode="tail"
+                                numberOfLines={3}
+                                style={{ fontSize: 11 / fontScale }}
+                            >
+                                {description}
+                            </Description>
+                        </View>
+
+                        <Footer>
+                            <Price>{priceFormatted}</Price>
+
+                            {itemCount ? (
+                                <CounterWrapper>
+                                    <AddButton onPress={removeFromCart}>
+                                        {itemCount === 1 ? (
+                                            <TrashIcon
+                                                source={require('@assets/icons/trash.png')}
+                                            />
+                                        ) : (
+                                            <MinusWrapper>
+                                                <MinusButton>-</MinusButton>
+                                            </MinusWrapper>
+                                        )}
+                                    </AddButton>
+
+                                    <NumberWrapper>
+                                        <Counter>{itemCount}</Counter>
+                                    </NumberWrapper>
+                                    <AddButton onPress={addToCart}>
+                                        <PlusWrapper>
+                                            <PlusButton>+</PlusButton>
+                                        </PlusWrapper>
+                                    </AddButton>
+                                </CounterWrapper>
+                            ) : (
+                                <CounterWrapper>
+                                    <AddButton onPress={addToCart}>
+                                        <Title>Adicionar</Title>
+                                    </AddButton>
+                                </CounterWrapper>
+                            )}
+                        </Footer>
+                    </Wrapper>
+                </View>
+            </Swipeable>
+        </Animated.View>
     ) : (
         <Animated.View
             style={styles.container}
@@ -293,7 +298,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: RFValue(12),
         alignSelf: 'center',
-        elevation: 6,
+       elevation: 6,
     },
     image: {
         width: RFValue(85),
