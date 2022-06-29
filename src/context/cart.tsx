@@ -94,7 +94,7 @@ interface CartProviderProps {
     children: ReactNode;
 }
 
-export type CartItem = {
+type CartItem = {
     id: number;
     restaurantID: number;
     count: number;
@@ -170,10 +170,10 @@ function CartProvider({ children }: CartProviderProps) {
     );
 
     function addItem(item: CartItem) {
-        const itemFound = cartItems?.find(
+        const itemFound = cartItems.find(
             (cartItem) => cartItem.id === item.id
         );
-        const fromOtherRestaurant = cartItems?.find(
+        const fromOtherRestaurant = cartItems.find(
             (cartItem) => cartItem.restaurantID !== item.restaurantID
         );
 
@@ -216,7 +216,7 @@ function CartProvider({ children }: CartProviderProps) {
     }
 
     function removeItem(item: CartItem) {
-        const itemFound = cartItems?.find(
+        const itemFound = cartItems.find(
             (cartItem) => cartItem.id === item.id
         );
 
@@ -232,7 +232,7 @@ function CartProvider({ children }: CartProviderProps) {
     }
 
     function deleteFromCart(item: CartItem) {
-        const itemFound = cartItems?.find(
+        const itemFound = cartItems.find(
             (cartItem) => cartItem.id === item.id
         );
 

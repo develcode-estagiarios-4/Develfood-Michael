@@ -17,7 +17,9 @@ export function useFetch<TResponse = unknown>(
             response.data && onSuccess && onSuccess(response.data);
             setData(response.data);
         } catch (e) {
-            setError(e);
+            if (axios.isCancel(e)) {
+                return false;
+            } else setError(e);
         } finally {
             setLoading(false);
         }

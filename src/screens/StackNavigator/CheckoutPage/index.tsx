@@ -1,7 +1,6 @@
 import { FoodCard } from '@components/FoodCard';
 import React, { useContext, useEffect } from 'react';
 import { Image, ScrollView, View } from 'react-native';
-import { CartItem } from '@context/cart';
 import { Header } from '@components/Header';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { CartContext } from '@context/cart';
@@ -32,6 +31,19 @@ interface ImageResponse {
     id: number;
 }
 
+type CartItem = {
+    id: number;
+    restaurantID: number;
+    count: number;
+    individualPrice: number;
+    foodTitle: string;
+    foodDescription: string;
+    foodImage: string;
+    restaurantName: string;
+    restaurantImage: string;
+    restaurantType: string;
+};
+
 export function CheckoutPage() {
     const { totalAmount, cartItems, setNewPosition, restaurant } =
         useContext(CartContext);
@@ -52,7 +64,7 @@ export function CheckoutPage() {
 
     const renderItem =
         cartItems.length > 0
-            ? cartItems.map(({ item }: { item: CartItem }) => {
+            ? cartItems.map((item: CartItem) => {
                   return (
                       <FoodCard
                           name={item.foodTitle}
@@ -152,7 +164,7 @@ export function CheckoutPage() {
                     </ScrollView>
                 </OrderList>
             </Container>
-            {totalAmount.quantity > 0 && <FluctuatingCartButton checkout />}
+            {totalAmount.quantity !== 0 && <FluctuatingCartButton checkout />}
         </>
     );
 }

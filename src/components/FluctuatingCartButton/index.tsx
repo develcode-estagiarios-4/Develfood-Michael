@@ -13,7 +13,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { Dimensions, StyleSheet } from 'react-native';
 import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import theme from '@styles/theme';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const window = Dimensions.get('window');
 
