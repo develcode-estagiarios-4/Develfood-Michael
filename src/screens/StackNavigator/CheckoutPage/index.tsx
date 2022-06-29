@@ -25,6 +25,7 @@ import { useFetch } from '@services/useFetch';
 import { AuthContext } from '@context/auth';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { FluctuatingCartButton } from '@components/FluctuatingCartButton';
+import Animated, { Layout } from 'react-native-reanimated';
 
 interface ImageResponse {
     code: string;
@@ -154,14 +155,17 @@ export function CheckoutPage() {
                     <MyItemsWrapper>
                         <Title>Meus Itens</Title>
                     </MyItemsWrapper>
-                    <ScrollView
+                    <Animated.ScrollView      
+                        layout={Layout.delay(100)}
                         fadingEdgeLength={150}
                         contentContainerStyle={{
                             marginLeft: RFValue(16),
+                            flexGrow: 1,               
                         }}
+                        centerContent
                     >
                         {renderItem}
-                    </ScrollView>
+                    </Animated.ScrollView>
                 </OrderList>
             </Container>
             {totalAmount.quantity !== 0 && <FluctuatingCartButton checkout />}

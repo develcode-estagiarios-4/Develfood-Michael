@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useState } from 'react';
 import { MessageOptions, showMessage } from 'react-native-flash-message';
@@ -16,21 +17,24 @@ export function usePost<T = unknown, TResponse = unknown>(
         type: MessageOptions['type'],
         description: MessageOptions['description'],
         onSuccess?: (response: TResponse) => void
-        
     ) {
         try {
             setLoading(true);
             const response = await api.post(endpoint, body, options);
             setData(response.data);
-            console.log(response.data)
+            console.log(response.data);
             response.data && onSuccess && onSuccess(response.data);
         } catch (error: AxiosError<any, any> | any) {
-            console.log(error.response.data);
-            showMessage({
-                message,
-                description,
-                type,
-            });
+            if (axios.isCancel(error)) {
+                return false;
+            } else {
+                error && console.log(error.response.data);
+                showMessage({
+                    message,
+                    description,
+                    type,
+                });
+            }
         } finally {
             setLoading(false);
         }

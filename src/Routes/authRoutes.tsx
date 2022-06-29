@@ -3,6 +3,7 @@ import { AuthContext } from '../context/auth';
 import RNBootSplash from 'react-native-bootsplash';
 import { SignInRoutes } from '.';
 import { StackScreenRoutes } from './homeRoutes';
+import { CartProvider } from '@context/cart';
 
 export function AuthRoutes() {
     useEffect(() => {
@@ -11,5 +12,15 @@ export function AuthRoutes() {
 
     const { token } = useContext(AuthContext);
 
-    return <>{token ? <StackScreenRoutes /> : <SignInRoutes />}</>;
+    return (
+        <>
+            {token ? (
+                <CartProvider>
+                    <StackScreenRoutes />
+                </CartProvider>
+            ) : (
+                <SignInRoutes />
+            )}
+        </>
+    );
 }

@@ -1,4 +1,5 @@
 import { Dimensions } from 'react-native';
+import Animated from 'react-native-reanimated';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
@@ -87,7 +88,7 @@ export const LittleSubtitle = styled.Text`
     font-size: ${({ theme }) => theme.sizes.small}px;
 `;
 
-export const OrderList = styled.View`
+export const OrderList = styled(Animated.View)`
     flex: 1;
     background-color: ${({ theme }) => theme.colors.backgroundLight};
     margin-left: ${RFValue(15)}px;

@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { api } from './api';
 
 export function useFetch<TResponse = unknown>(

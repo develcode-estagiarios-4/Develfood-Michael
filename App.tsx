@@ -23,10 +23,9 @@ export default function App() {
             <ThemeProvider theme={theme}>
                 <NavigationContainer>
                     <AuthProvider>
-                        <CartProvider>
+                       
                             <AuthRoutes />
                             <FlashMessage position="top" />
-                        </CartProvider>
                     </AuthProvider>
                 </NavigationContainer>
             </ThemeProvider>
