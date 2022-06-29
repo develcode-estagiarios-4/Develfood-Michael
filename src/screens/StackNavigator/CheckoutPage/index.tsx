@@ -26,6 +26,7 @@ import { AuthContext } from '@context/auth';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { FluctuatingCartButton } from '@components/FluctuatingCartButton';
 import Animated, { Layout } from 'react-native-reanimated';
+import { EmptyFoodCardList } from '@components/EmptyFoodCardList';
 
 interface ImageResponse {
     code: string;
@@ -102,71 +103,81 @@ export function CheckoutPage() {
                 color={theme.colors.header}
             />
             <Container>
-                <MapWrapper>
-                    <View
-                        style={{
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <MapImage
-                            source={require('@assets/icons/googlemaps.png')}
-                        />
-                        <Image
-                            source={require('@assets/icons/pin.png')}
-                            style={{
-                                position: 'absolute',
-                                width: 25,
-                                height: 40,
-                                resizeMode: 'contain',
-                            }}
-                        />
-                    </View>
+                {cartItems.length > 0 ? (
+                    <>
+                        <MapWrapper>
+                            <View
+                                style={{
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <MapImage
+                                    source={require('@assets/icons/googlemaps.png')}
+                                />
+                                <Image
+                                    source={require('@assets/icons/pin.png')}
+                                    style={{
+                                        position: 'absolute',
+                                        width: 25,
+                                        height: 40,
+                                        resizeMode: 'contain',
+                                    }}
+                                />
+                            </View>
 
-                    <MapInfoWrapper>
-                        <LittleSubtitle>Entregar em:</LittleSubtitle>
-                        <LittleTitle>Rua Arcy da Nobrega, 667</LittleTitle>
-                        <EvenLittleTitle>Panazollo - Apto: 107</EvenLittleTitle>
-                    </MapInfoWrapper>
-                    <Image
-                        source={require('@assets/icons/rightIndicator.png')}
-                        style={{
-                            width: 26,
-                            height: 25,
-                            resizeMode: 'contain',
-                        }}
-                    />
-                </MapWrapper>
-                <Separator />
-                <RestaurantWrapper>
-                    <View style={{ flex: 1 }}>
-                        <Title>{restaurant.name}</Title>
-                        <SubtitleCategory>{category}</SubtitleCategory>
-                    </View>
-                    <ImageRest
-                        source={
-                            dataImage?.code
-                                ? { uri: dataImage?.code }
-                                : require('@assets/icons/defaultRestaurant.png')
-                        }
-                    />
-                </RestaurantWrapper>
-                <OrderList>
-                    <MyItemsWrapper>
-                        <Title>Meus Itens</Title>
-                    </MyItemsWrapper>
-                    <Animated.ScrollView      
-                        layout={Layout.delay(100)}
-                        fadingEdgeLength={150}
-                        contentContainerStyle={{
-                            marginLeft: RFValue(16),
-                            flexGrow: 1,               
-                        }}
-                        centerContent
-                    >
-                        {renderItem}
-                    </Animated.ScrollView>
-                </OrderList>
+                            <MapInfoWrapper>
+                                <LittleSubtitle>Entregar em:</LittleSubtitle>
+                                <LittleTitle>
+                                    Rua Arcy da Nobrega, 667
+                                </LittleTitle>
+                                <EvenLittleTitle>
+                                    Panazollo - Apto: 107
+                                </EvenLittleTitle>
+                            </MapInfoWrapper>
+                            <Image
+                                source={require('@assets/icons/rightIndicator.png')}
+                                style={{
+                                    width: 26,
+                                    height: 25,
+                                    resizeMode: 'contain',
+                                }}
+                            />
+                        </MapWrapper>
+                        <Separator />
+                        <RestaurantWrapper>
+                            <View style={{ flex: 1 }}>
+                                <Title>{restaurant.name}</Title>
+                                <SubtitleCategory>{category}</SubtitleCategory>
+                            </View>
+                            <ImageRest
+                                source={
+                                    dataImage?.code
+                                        ? { uri: dataImage?.code }
+                                        : require('@assets/icons/defaultRestaurant.png')
+                                }
+                            />
+                        </RestaurantWrapper>
+                        <OrderList>
+                            <MyItemsWrapper>
+                                <Title>Meus Itens</Title>
+                            </MyItemsWrapper>
+                            <Animated.ScrollView
+                                layout={Layout.delay(100)}
+                                fadingEdgeLength={150}
+                                contentContainerStyle={{
+                                    marginLeft: RFValue(16),
+                                    flexGrow: 1,
+                                }}
+                                centerContent
+                            >
+                                {renderItem}
+                            </Animated.ScrollView>
+                        </OrderList>
+                    </>
+                ) : (
+                    <EmptyFoodCardList checkout />
+                )}
             </Container>
             {totalAmount.quantity !== 0 && <FluctuatingCartButton checkout />}
         </>

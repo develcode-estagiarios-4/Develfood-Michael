@@ -112,7 +112,6 @@ export function RestaurantPage({ navigation, route }: any) {
     }
 
     async function loadFoods() {
-        setLoading(true);
         await fetchData(onSuccess);
         setLoading(false);
     }
@@ -130,7 +129,6 @@ export function RestaurantPage({ navigation, route }: any) {
             setFoods([]);
             setFilter('');
         }
-        setLoading(false);
     }
 
     const renderItem = ({ item }: { item: Food }) => (
@@ -148,13 +146,13 @@ export function RestaurantPage({ navigation, route }: any) {
     );
 
     useEffect(() => {
-        loadFoods();
-    }, [filter]);
-
-    useLayoutEffect(() => {
-        loadFoods();
         loadRestaurantImage();
     }, []);
+
+    useLayoutEffect(() => {
+        setLoading(true);
+        loadFoods();
+    }, [filter]);
 
     useFocusEffect(() => {
         setNewPosition(RFValue(0));

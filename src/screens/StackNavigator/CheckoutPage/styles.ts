@@ -1,9 +1,6 @@
-import { Dimensions } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
-
-const dimensions = Dimensions.get('window');
 
 export const Container = styled.View`
     flex: 1;

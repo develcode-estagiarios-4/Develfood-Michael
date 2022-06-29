@@ -35,6 +35,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { EmptyFoodCardList } from '@components/EmptyFoodCardList';
 import { useFocusEffect, useScrollToTop } from '@react-navigation/native';
 import { CartContext } from '@context/cart';
+import { useLayoutEffect } from 'react';
 
 interface FoodTypes {
     id: number;
@@ -211,7 +212,7 @@ export function Home({ navigation }: any) {
         }
     };
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         loadRestaurants();
     }, [filter]);
 
