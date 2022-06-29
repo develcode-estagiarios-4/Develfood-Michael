@@ -9,8 +9,7 @@ import { CheckoutPage } from '@screens/StackNavigator/CheckoutPage';
 export function StackScreenRoutes() {
     const { Navigator, Screen } = createNativeStackNavigator();
 
-     const { totalAmount } =
-         useContext(CartContext);
+    const { totalAmount } = useContext(CartContext);
 
     return (
         <>
@@ -28,7 +27,7 @@ export function StackScreenRoutes() {
                     name="Restaurant"
                     component={RestaurantPage}
                 />
-                <Screen 
+                <Screen
                     name="Checkout"
                     component={CheckoutPage}
                 />

@@ -177,10 +177,6 @@ function AuthProvider({ children }: AuthProviderProps) {
         !!userInfo?.id && setId(userInfo.id);
     }, [userInfo]);
 
-    // useEffect(() => {
-    //     id > 0 && console.log(id);
-    // }, [id]);
-
     return (
         <AuthContext.Provider
             value={{

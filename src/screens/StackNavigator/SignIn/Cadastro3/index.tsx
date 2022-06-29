@@ -21,6 +21,7 @@ import { MaskedInput } from '@components/MaskedInput';
 import { useCep } from '@services/ViaCep/cepApi';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '@context/auth';
+import theme from '@styles/theme';
 
 interface RequestProps {
     endpoint: string;
@@ -114,9 +115,10 @@ export function Cadastro3({ route }: any) {
         >
             <Header
                 source={require('@assets/icons/back.png')}
-                goBack={() => {
+                onPress={() => {
                     navigation.goBack();
                 }}
+                color={theme.colors.headerSecondary}
                 title={'Cadastro'}
             />
             <Container>

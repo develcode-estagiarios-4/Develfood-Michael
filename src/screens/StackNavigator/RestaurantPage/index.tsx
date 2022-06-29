@@ -236,7 +236,7 @@ export function RestaurantPage({ navigation, route }: any) {
                     }
                     ListEmptyComponent={
                         !loading ? (
-                            <EmptyFoodCardList title="Nenhum prato encontrado" />
+                            <EmptyFoodCardList restaurantPage />
                         ) : (
                             <ActivityIndicator
                                 style={{ marginTop: RFValue(120) }}

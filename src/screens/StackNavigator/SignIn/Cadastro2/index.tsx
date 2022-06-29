@@ -11,6 +11,7 @@ import { Keyboard } from 'react-native';
 import { cpf as cpfvalidator } from 'cpf-cnpj-validator';
 import { MaskedInput } from '@components/MaskedInput';
 import { useNavigation } from '@react-navigation/native';
+import theme from '@styles/theme';
 
 export function Cadastro2({ route }: any) {
     const [hidePassword, setHidePassword] = useState(false);
@@ -80,8 +81,9 @@ export function Cadastro2({ route }: any) {
         >
             <Container>
                 <Header
+                color={theme.colors.headerSecondary}
                     source={require('@assets/icons/back.png')}
-                    goBack={() => {
+                    onPress={() => {
                         navigation.goBack();
                     }}
                     title={'Cadastro'}

@@ -152,6 +152,7 @@ export function FoodCard({
             entering={FadeInRight}
             exiting={SlideOutRight}
             layout={Layout.delay(50)}
+            
         >
             <Swipeable
                 renderLeftActions={renderLeftPanel}
@@ -163,7 +164,7 @@ export function FoodCard({
                     style={[
                         styles.container,
                         {
-                            width: window.width * 0.83,
+                            width: window.width * 0.86,
                         },
                     ]}
                 >

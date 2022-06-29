@@ -1,4 +1,11 @@
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import { usePost } from '@services/usePost';
+import React, {
+    createContext,
+    ReactNode,
+    useContext,
+    useEffect,
+    useState,
+} from 'react';
 import { Alert } from 'react-native';
 import {
     Easing,
@@ -6,6 +13,7 @@ import {
     useSharedValue,
     withTiming,
 } from 'react-native-reanimated';
+import { AuthContext } from './auth';
 interface CartContextData {
     addItem: (item: CartItem) => void;
     removeItem: (item: CartItem) => void;
@@ -13,6 +21,7 @@ interface CartContextData {
     cartCleanup: (item: CartItem) => void;
     setNewPosition: (position: number) => void;
     deleteCart: () => void;
+    postOrder: () => void;
     cartAnimation: object;
     cartItems: CartItem[];
     totalAmount: { quantity: number; price: number };
@@ -27,26 +36,58 @@ type Restaurant = {
     type: string;
 };
 
+interface RequestItems {
+    plate: {
+        id: number;
+        price: number;
+    };
+    quantity: number;
+    price: number;
+    observation: string;
+}
+
 interface Order {
     costumer: { id: number };
     restaurant: { id: number };
-    date: Date;
-    dateLastUpdated: Date;
+    date: () => string;
+    dateLastUpdated: () => string;
     totalValue: number;
     paymentType: string;
     status: string;
-    requestItems: [
-        {
-            plate: {
-                id: number;
-                price: number;
-            };
-            quantity: number;
-            price: number;
-            observation: string;
-        }
-    ];
-    restaurantPromotion: null;
+    requestItems: RequestItems[];
+    restaurantPromotion: { id: number } | null;
+}
+
+interface AddressRequest {
+    street: string;
+    number: string;
+    neighborhood: string;
+    city: string;
+    zipCode: string;
+    state: string;
+    nickname: string;
+}
+
+interface CostumerRequest {
+    id: number;
+    firstName: string;
+    lastName: string;
+    address: AddressRequest;
+    photo_url: string;
+}
+interface OrderResponse {
+    id: number;
+    costumer: CostumerRequest;
+    restaurant: { food_types: string[] };
+    date: Date;
+    dateLastUpdate: Date;
+    totalValue: number;
+    paymentType: string;
+    status: string;
+    requestItems: RequestItems[];
+    quantity: number;
+    price: number;
+    observation: string;
 }
 
 interface CartProviderProps {
@@ -79,7 +120,7 @@ function CartProvider({ children }: CartProviderProps) {
         name: '',
         id: 0,
         image: '',
-        type: [],
+        type: '',
     });
     const [totalAmount, setTotalAmount] = useState<TotalAmount>({
         quantity: 0,
@@ -92,9 +133,47 @@ function CartProvider({ children }: CartProviderProps) {
         currency: 'BRL',
     });
 
+    const { token, userId } = useContext(AuthContext);
+
+    const requestItems = cartItems?.map((item) => {
+        return {
+            plate: {
+                id: item.id,
+                price: item.individualPrice,
+            },
+            quantity: item.count,
+            price: item.individualPrice * item.count,
+            observation: '',
+        };
+    });
+
+    const date = new Date().toISOString;
+
+    const { handlePost } = usePost<Order, OrderResponse>(
+        '/request',
+        {
+            costumer: { id: userId },
+            restaurant: { id: restaurant.id },
+            date: date,
+            dateLastUpdated: date,
+            totalValue: totalAmount.price,
+            paymentType: 'card',
+            status: 'PEDIDO_REALIZADO',
+            requestItems: requestItems,
+            restaurantPromotion: null,
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
     function addItem(item: CartItem) {
-        const itemFound = cartItems.find((cartItem) => cartItem.id === item.id);
-        const fromOtherRestaurant = cartItems.find(
+        const itemFound = cartItems?.find(
+            (cartItem) => cartItem.id === item.id
+        );
+        const fromOtherRestaurant = cartItems?.find(
             (cartItem) => cartItem.restaurantID !== item.restaurantID
         );
 
@@ -108,10 +187,8 @@ function CartProvider({ children }: CartProviderProps) {
                     type: item.restaurantType,
                 });
 
-                //console.log(cartItems);
             } else {
                 itemFound.count += item.count;
-                //console.log(cartItems);
             }
             setTotalAmount({
                 quantity: totalAmount.quantity + 1,
@@ -139,7 +216,9 @@ function CartProvider({ children }: CartProviderProps) {
     }
 
     function removeItem(item: CartItem) {
-        const itemFound = cartItems.find((cartItem) => cartItem.id === item.id);
+        const itemFound = cartItems?.find(
+            (cartItem) => cartItem.id === item.id
+        );
 
         if (itemFound) {
             itemFound.count < 2
@@ -149,12 +228,13 @@ function CartProvider({ children }: CartProviderProps) {
                 quantity: totalAmount.quantity - 1,
                 price: totalAmount.price - itemFound.individualPrice,
             });
-            //console.log(cartItems);
         }
     }
 
     function deleteFromCart(item: CartItem) {
-        const itemFound = cartItems.find((cartItem) => cartItem.id === item.id);
+        const itemFound = cartItems?.find(
+            (cartItem) => cartItem.id === item.id
+        );
 
         if (itemFound) {
             cartItems.splice(cartItems.indexOf(itemFound), 1);
@@ -164,7 +244,6 @@ function CartProvider({ children }: CartProviderProps) {
                     totalAmount.price -
                     itemFound.individualPrice * itemFound.count,
             });
-            //console.log(cartItems);
         }
     }
 
@@ -174,11 +253,13 @@ function CartProvider({ children }: CartProviderProps) {
             quantity: 0,
             price: 0,
         });
+        setRestaurant({ name: '', id: 0, image: '', type: '' });
     }
 
     function cartCleanup(item: CartItem) {
         cartItems.splice(0, cartItems.length, item);
         setTotalAmount({ quantity: 1, price: item.individualPrice });
+        setRestaurant({ name: '', id: 0, image: '', type: '' });
     }
 
     const offsetY = useSharedValue(0);
@@ -196,9 +277,14 @@ function CartProvider({ children }: CartProviderProps) {
         });
     }
 
+    async function postOrder() {
+        await handlePost('Erro', 'danger', 'Erro ao realizar pedido');
+        deleteCart();
+    }
+
     useEffect(() => {
-        console.log(totalAmount);
-    }, [totalAmount]);
+        console.log(requestItems);
+    }, [requestItems]);
 
     return (
         <CartContext.Provider
@@ -209,6 +295,7 @@ function CartProvider({ children }: CartProviderProps) {
                 setNewPosition,
                 cartCleanup,
                 deleteCart,
+                postOrder,
                 cartItems,
                 totalAmount,
                 price,

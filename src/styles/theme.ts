@@ -8,6 +8,7 @@ export default {
         white: '#FFFFFF',
 
         background: '#FFFFFF',
+        backgroundLight: '#DDDDDD',
         background_red: '#C20C18',
 
         header: '#C20C18',

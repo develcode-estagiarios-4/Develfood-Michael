@@ -147,7 +147,7 @@ export function Home({ navigation }: any) {
 
     const listEmptyComponent = () => {
         if (!loading) {
-            return <EmptyFoodCardList title="Nenhum restaurante encontrado" />;
+            return <EmptyFoodCardList homePage />;
         } else return null;
     };
 

@@ -42,7 +42,7 @@ export function Login({ navigation }: any) {
     const {
         control,
         handleSubmit,
-        getValues, // pega os valores do input
+        getValues, 
         setValue,
         formState: { errors },
         reset,
@@ -55,7 +55,7 @@ export function Login({ navigation }: any) {
     }
 
     useEffect(() => {
-        setValue('email', 'exemplo@email.com')
+        setValue('email', 'michael@gmail.com')
         setValue('password', '123456');
     }, [])
 

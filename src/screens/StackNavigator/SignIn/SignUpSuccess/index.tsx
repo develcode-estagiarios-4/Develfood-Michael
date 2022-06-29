@@ -12,13 +12,10 @@ import {
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import theme from '@styles/theme';
 
 export function SignUpSuccess() {
     const navigation = useNavigation();
-
-    function handleConclude() {
-        navigation.navigate('Login' as never);
-    }
 
     return (
         <TouchableWithoutFeedback
@@ -27,8 +24,11 @@ export function SignUpSuccess() {
             onPress={Keyboard.dismiss}
         >
             <Header
+                color={theme.colors.headerSecondary}
                 source={require('@assets/icons/x.png')}
-                onPress={handleConclude}
+                onPress={() =>
+                    navigation.reset({ index: 0, routes: [{ name: 'Login' }] })
+                }
                 title={'Cadastro'}
             />
             <Container>
@@ -49,7 +49,12 @@ export function SignUpSuccess() {
                 </Wrapper>
                 <OkButton
                     title="Concluir"
-                    onPress={handleConclude}
+                    onPress={() =>
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Login' }],
+                        })
+                    }
                 />
             </Container>
         </TouchableWithoutFeedback>
