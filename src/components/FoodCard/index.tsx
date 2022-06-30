@@ -41,8 +41,6 @@ import Animated, {
 } from 'react-native-reanimated';
 import { CartContext } from '@context/cart';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
-
 interface Props {
     foodType?: {
         id: number;

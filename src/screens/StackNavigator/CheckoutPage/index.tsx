@@ -74,7 +74,6 @@ export function CheckoutPage() {
     const rerenderHeight = () => {
        setTimeout(() => {
          setListHeight(itemHeight * cartItems.length + bottomListHeight);
-         console.log('rerender');
        }, 1000);
     };
 
