@@ -169,7 +169,6 @@ export function CheckoutPage() {
                                     marginLeft: RFValue(16),
                                     flexGrow: 1,
                                 }}
-                                centerContent
                             >
                                 {renderItem}
                             </Animated.ScrollView>

@@ -19,7 +19,6 @@ interface Props extends BorderlessButtonProps {
     source2?: ImageSourcePropType;
     title?: string;
     like?: () => void;
-    goBack?: () => void;
     style?: StyleProp<TextStyle>;
     color: string;
 }

@@ -81,7 +81,7 @@ export function TabScreenRoutes({ navigation }: any) {
                     }}
                 />
                 <Screen
-                    name="Historico"
+                    name="Orders"
                     component={Historic}
                     options={{
                         tabBarIcon: ({ focused }) => (

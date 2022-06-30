@@ -66,5 +66,6 @@ export default {
         orders: require('@assets/icons/historic.png'),
         profile: require('@assets/icons/profile.png'),
         favorites: require('@assets/icons/heart.png'),
+        x: require('@assets/icons/x.png'),
     },
 };
