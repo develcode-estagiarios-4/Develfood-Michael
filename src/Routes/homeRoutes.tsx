@@ -4,12 +4,12 @@ import { RestaurantPage } from '@screens/StackNavigator/RestaurantPage';
 import { TabScreenRoutes } from './routes';
 import { FluctuatingCartButton } from '@components/FluctuatingCartButton';
 import { CartContext } from '@context/cart';
+import { CheckoutPage } from '@screens/StackNavigator/CheckoutPage';
 
-export function StackScreenRoutes({ navigation }: any) {
+export function StackScreenRoutes() {
     const { Navigator, Screen } = createNativeStackNavigator();
 
-     const { totalAmount } =
-         useContext(CartContext);
+    const { totalAmount } = useContext(CartContext);
 
     return (
         <>
@@ -27,8 +27,12 @@ export function StackScreenRoutes({ navigation }: any) {
                     name="Restaurant"
                     component={RestaurantPage}
                 />
+                <Screen
+                    name="Checkout"
+                    component={CheckoutPage}
+                />
             </Navigator>
-            {totalAmount.price !== 0 && <FluctuatingCartButton />}
+            {totalAmount.quantity !== 0 && <FluctuatingCartButton />}
         </>
     );
 }

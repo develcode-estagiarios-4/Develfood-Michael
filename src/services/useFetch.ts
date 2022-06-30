@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { api } from './api';
 
 export function useFetch<TResponse = unknown>(
@@ -17,7 +17,9 @@ export function useFetch<TResponse = unknown>(
             response.data && onSuccess && onSuccess(response.data);
             setData(response.data);
         } catch (e) {
-            setError(e);
+            if (axios.isCancel(e)) {
+                return false;
+            } else setError(e);
         } finally {
             setLoading(false);
         }

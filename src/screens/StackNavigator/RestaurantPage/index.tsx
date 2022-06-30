@@ -1,11 +1,5 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import {
-    ActivityIndicator,
-    StyleSheet,
-    View,
-    Image,
-    Dimensions,
-} from 'react-native';
+import { ActivityIndicator, StyleSheet, View, Image } from 'react-native';
 import { Header } from '@components/Header';
 import {
     SubtitleCategory,
@@ -14,7 +8,6 @@ import {
     TitleWrapper,
     Separator,
     PlatesWrapper,
-    LoadWrapper,
     ImageWrapper,
 } from './styles';
 import { Input } from '@components/Input';
@@ -53,8 +46,6 @@ interface ImageResponse {
     id: number;
 }
 
-const dimension = Dimensions.get('screen');
-
 export function RestaurantPage({ navigation, route }: any) {
     const { id, name, photo_url, food_types } = route.params;
     const { token } = useContext(AuthContext);
@@ -90,7 +81,7 @@ export function RestaurantPage({ navigation, route }: any) {
     const scrollY = useSharedValue(0);
     const opacity = useSharedValue(0);
 
-    const scrollHandler = useAnimatedScrollHandler((event: any) => {
+    const scrollHandler = useAnimatedScrollHandler((event) => {
         scrollY.value = event.contentOffset.y;
         if (scrollY.value >= 45) {
             opacity.value = withTiming(1, { duration: 500 });
@@ -121,7 +112,6 @@ export function RestaurantPage({ navigation, route }: any) {
     }
 
     async function loadFoods() {
-        setLoading(true);
         await fetchData(onSuccess);
         setLoading(false);
     }
@@ -139,28 +129,30 @@ export function RestaurantPage({ navigation, route }: any) {
             setFoods([]);
             setFilter('');
         }
-        setLoading(false);
     }
 
     const renderItem = ({ item }: { item: Food }) => (
         <FoodCard
             name={item.name}
-            price={item.price}
+            individualPrice={item.price}
             link={item.photo_url}
             description={item.description}
             id={item.id}
-            restaurant={id}
+            restaurantID={id}
+            restaurantName={name}
+            restaurantPhoto={photo_url}
+            restaurantType={food_types}
         />
     );
 
     useEffect(() => {
-        loadFoods();
-    }, [filter]);
-
-    useLayoutEffect(() => {
-        loadFoods();
         loadRestaurantImage();
     }, []);
+
+    useLayoutEffect(() => {
+        setLoading(true);
+        loadFoods();
+    }, [filter]);
 
     useFocusEffect(() => {
         setNewPosition(RFValue(0));
@@ -175,9 +167,10 @@ export function RestaurantPage({ navigation, route }: any) {
             <Header
                 source={require('@assets/icons/back.png')}
                 source2={require('@assets/icons/emptyHeart.png')}
-                goBack={() => navigation.pop()}
+                onPress={() => navigation.pop()}
                 title={`${name}`}
                 style={[styles.header, headerTitle]}
+                color={theme.colors.headerSecondary}
             />
             <View style={{ backgroundColor: 'white', flex: 1 }}>
                 <Animated.View
@@ -241,7 +234,7 @@ export function RestaurantPage({ navigation, route }: any) {
                     }
                     ListEmptyComponent={
                         !loading ? (
-                            <EmptyFoodCardList title="Nenhum prato encontrado" />
+                            <EmptyFoodCardList restaurantPage />
                         ) : (
                             <ActivityIndicator
                                 style={{ marginTop: RFValue(120) }}

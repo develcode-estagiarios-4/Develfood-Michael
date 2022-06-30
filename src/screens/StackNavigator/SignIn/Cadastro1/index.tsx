@@ -9,6 +9,7 @@ import { Button } from '@components/Button';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import theme from '@styles/theme';
 
 export function Cadastro1({ route }: any) {
     const [hidePassword, setHidePassword] = useState(false);
@@ -61,8 +62,9 @@ export function Cadastro1({ route }: any) {
         >
             <Container>
                 <Header
+                    color={theme.colors.headerSecondary}
                     source={require('@assets/icons/back.png')}
-                    goBack={() => {
+                    onPress={() => {
                         navigation.goBack();
                     }}
                     title={'Cadastro'}
