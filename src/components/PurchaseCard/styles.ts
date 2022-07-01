@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 
 export const Container = styled.View.attrs({
-    elevation: 5
+    elevation: 7
 })`
     width: 100%;
     height: 120px;

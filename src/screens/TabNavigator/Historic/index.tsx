@@ -5,12 +5,18 @@ import React, {
     useLayoutEffect,
     useState,
 } from 'react';
-import { SectionList, Text } from 'react-native';
+import { SectionList, StyleSheet, Text } from 'react-native';
 import { AuthContext } from '@context/auth';
-import { Container } from './styles';
+import {
+    Container,
+    ItemSeparator,
+    SectionHeader,
+    SectionHeaderText,
+} from './styles';
 import { useFetch } from '@services/useFetch';
 import { PurchaseCard } from '@components/PurchaseCard';
 import { useFocusEffect } from '@react-navigation/native';
+import theme from '@styles/theme';
 
 interface FoodType {
     id: number;
@@ -24,18 +30,26 @@ interface Restaurant {
     food_types: FoodType[];
 }
 
+interface PlateDTO {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    foodType: FoodType;
+    restaurantName: string;
+    photo_url: string;
+}
+
 interface RequestItems {
-    plate: {
-        id: number;
-        price: number;
-    };
+    id: number;
+    plateDTO: PlateDTO;
     quantity: number;
     price: number;
     observation: string;
 }
 
 interface Order {
-    id: string;
+    id: number;
     costumer: any;
     restaurant: Restaurant;
     date: string;
@@ -48,6 +62,7 @@ interface Order {
 
 interface Historic {
     content: Order[];
+    totalPages: number;
 }
 
 interface SectionListData {
@@ -57,12 +72,9 @@ interface SectionListData {
 
 export function Historic({ navigation }: any) {
     const { userId, token } = useContext(AuthContext);
-    const [historic, setHistoric] = useState<Order[]>([]);
     const [historicSections, setHistoricSections] = useState<SectionListData[]>(
         []
     );
-
-    let historicFormatted: SectionListData[] = [];
 
     const { data, fetchData } = useFetch<Historic>(
         `/request/costumer?id=${userId}&page=0&quantity=10`,
@@ -79,22 +91,42 @@ export function Historic({ navigation }: any) {
     }
 
     function renderItem({ item }: { item: Order }) {
+        const orderedItems = item.requestItems.map(
+            (requestItem: RequestItems) => {
+                const lastItem = item.requestItems.length - 1;
+                return item.requestItems.indexOf(requestItem) === lastItem
+                    ? `${requestItem.quantity} ${requestItem.plateDTO.name}`
+                    : `${requestItem.quantity} ${requestItem.plateDTO.name} + `;
+            }
+        );
+
         return item ? (
             <PurchaseCard
                 restaurantName={item.restaurant.name}
                 orderStatus={item.status}
-                orderedItems={'item.requestItems[0].plate.price'}
+                orderId={item.id}
+                orderedItems={orderedItems}
             />
         ) : null;
     }
 
+    function renderSectionHeader({ title }: { title: string }) {
+        return (
+            <SectionHeader>
+                <SectionHeaderText>{title}</SectionHeaderText>
+            </SectionHeader>
+        );
+    }
+
     function sectionDataFormatter(data: Order[]) {
         const historicFormatted: SectionListData[] = [];
+
         data.forEach((order: Order) => {
             const sectionFound = historicFormatted.find(
                 (historicSection: SectionListData) =>
                     historicSection.title === order.date
             );
+
             if (sectionFound) {
                 sectionFound.data.push(order);
                 console.log('sectionFound');
@@ -127,11 +159,19 @@ export function Historic({ navigation }: any) {
                 sections={historicSections}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => renderItem({ item })}
-                renderSectionHeader={({ section: { title } }) => (
-                    <Text style={{ color: 'black' }}>{title}</Text>
-                )}
-                contentContainerStyle={{ backgroundColor: 'magenta' }}
+                renderSectionHeader={({ section: { title } }) =>
+                    renderSectionHeader({ title })
+                }
+                contentContainerStyle={styles.contentContainer}
+                ItemSeparatorComponent={() => <ItemSeparator />}
             />
         </Container>
     );
 }
+
+const styles = StyleSheet.create({
+    contentContainer: {
+        backgroundColor: theme.colors.background_red,
+        paddingHorizontal: 20,
+    },
+});
