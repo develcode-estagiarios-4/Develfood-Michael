@@ -8,8 +8,10 @@ export const Container = styled.View`
 `;
 
 export const Title = styled.Text`
-    font-size: 24px;
-    align-self: center;
+    font-size: ${({theme}) => theme.sizes.large}px;
+    color: ${({theme}) => theme.colors.text_dark};
+    font-family: ${({theme}) => theme.fonts.primaryMed};
+    align-self: flex-start;
 `;
 
 export const SectionHeader = styled.View`

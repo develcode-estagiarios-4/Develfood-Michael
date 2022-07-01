@@ -18,7 +18,7 @@ export default {
         input: '#BFBABA',
 
         text_white: '#FFFFFF',
-        text_gray: '#BFBABA',
+        text_gray: '#AAAAAA',
         text_dark: '#2B2B2E',
         text_purple: '#68484A',
         text_red: '#C20C18',
@@ -35,9 +35,10 @@ export default {
         primaryReg: 'Inter-Regular',
         primaryMed: 'Inter-Medium',
 
-        secondaryReg: 'Archivo-Regular',
-        secondaryMed: 'Archivo-Medium',
-        secondaryBold: 'Archivo-Bold',
+        secondaryReg: 'NotoSans-Light',
+        secondaryMed: 'NotoSans-Medium',
+        secondaryBold: 'NotoSans-Bold',
+        secondaryBolder: 'NotoSans-Black',
     },
 
     sizes: {

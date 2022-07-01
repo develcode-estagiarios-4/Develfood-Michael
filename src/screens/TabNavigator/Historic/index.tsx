@@ -5,13 +5,14 @@ import React, {
     useLayoutEffect,
     useState,
 } from 'react';
-import { SectionList, StyleSheet, Text } from 'react-native';
+import { SectionList, StyleSheet, Text, View } from 'react-native';
 import { AuthContext } from '@context/auth';
 import {
     Container,
     ItemSeparator,
     SectionHeader,
     SectionHeaderText,
+    Title,
 } from './styles';
 import { useFetch } from '@services/useFetch';
 import { PurchaseCard } from '@components/PurchaseCard';
@@ -75,9 +76,11 @@ export function Historic({ navigation }: any) {
     const [historicSections, setHistoricSections] = useState<SectionListData[]>(
         []
     );
+    const [page, setPage] = useState(0);
+    const [order, setOrder] = useState<Order[]>([]);
 
     const { data, fetchData } = useFetch<Historic>(
-        `/request/costumer?id=${userId}&page=0&quantity=10`,
+        `/request/costumer?id=${userId}&${page}=0&quantity=10`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -85,8 +88,12 @@ export function Historic({ navigation }: any) {
         }
     );
 
+    function onSuccess(data: Historic) {
+        setOrder([...order, ...data.content]);
+    }
+
     async function loadOrders() {
-        await fetchData();
+        await fetchData(onSuccess);
         data && console.log('useeffect fetch data');
     }
 
@@ -95,8 +102,12 @@ export function Historic({ navigation }: any) {
             (requestItem: RequestItems) => {
                 const lastItem = item.requestItems.length - 1;
                 return item.requestItems.indexOf(requestItem) === lastItem
-                    ? `${requestItem.quantity} ${requestItem.plateDTO.name}`
-                    : `${requestItem.quantity} ${requestItem.plateDTO.name} + `;
+                    ? `${requestItem.quantity > 1 ? requestItem.quantity : ''}${
+                          requestItem.quantity > 1 ? ' ' : ''
+                      }${requestItem.plateDTO.name}`
+                    : `${requestItem.quantity > 1 ? requestItem.quantity : ''}${
+                          requestItem.quantity > 1 ? ' ' : ''
+                      }${requestItem.plateDTO.name} + `;
             }
         );
 
@@ -106,9 +117,16 @@ export function Historic({ navigation }: any) {
                 orderStatus={item.status}
                 orderId={item.id}
                 orderedItems={orderedItems}
+                restaurantImage={item.restaurant.photo_url}
             />
         ) : null;
     }
+
+    const listheadeComponent = (
+        <View style={{ marginBottom: -12, marginTop: 16 }}>
+            <Title>Histórico</Title>
+        </View>
+    );
 
     function renderSectionHeader({ title }: { title: string }) {
         return (
@@ -141,27 +159,33 @@ export function Historic({ navigation }: any) {
         setHistoricSections(historicFormatted);
     }
 
+    function handleLoadOnEnd() {
+        if (data?.totalPages !== page) {
+            setPage(page + 1);
+        }
+    }
+
     useFocusEffect(
         useCallback(() => {
             loadOrders();
-        }, [])
+        }, [page])
     );
 
     useEffect(() => {
-        data?.content && sectionDataFormatter(data.content);
+        data?.content && sectionDataFormatter([...order, ...data.content]);
     }, [data]);
 
     return (
         <Container>
-            <Text style={{ fontSize: 36 }}>Histórico</Text>
-
             <SectionList
                 sections={historicSections}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => String(item.id)}
+                ListHeaderComponent={() => listheadeComponent}
                 renderItem={({ item }) => renderItem({ item })}
                 renderSectionHeader={({ section: { title } }) =>
                     renderSectionHeader({ title })
                 }
+                onEndReached={handleLoadOnEnd}
                 contentContainerStyle={styles.contentContainer}
                 ItemSeparatorComponent={() => <ItemSeparator />}
             />
@@ -171,7 +195,7 @@ export function Historic({ navigation }: any) {
 
 const styles = StyleSheet.create({
     contentContainer: {
-        backgroundColor: theme.colors.background_red,
+        backgroundColor: theme.colors.background,
         paddingHorizontal: 20,
     },
 });

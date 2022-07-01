@@ -65,6 +65,11 @@
 		<string>Inter-Medium.ttf</string>
 		<string>Inter-Regular.ttf</string>
 		<string>Inter-Thin.ttf</string>
+		<string>NotoSans-Black.ttf</string>
+		<string>NotoSans-Bold.ttf</string>
+		<string>NotoSans-ExtraLight.ttf</string>
+		<string>NotoSans-Light.ttf</string>
+		<string>NotoSans-Medium.ttf</string>
 	</array>
 </dict>
 </plist>
