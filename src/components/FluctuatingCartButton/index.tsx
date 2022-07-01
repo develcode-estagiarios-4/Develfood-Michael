@@ -37,7 +37,6 @@ export function FluctuatingCartButton({ checkout }: Props) {
     async function post() {
         setEnabled(!enabled);
         await postOrder();
-        setEnabled(!enabled);
     }
 
     return (

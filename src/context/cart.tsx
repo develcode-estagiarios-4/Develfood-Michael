@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { usePost } from '@services/usePost';
 import React, {
     createContext,
@@ -149,7 +150,7 @@ function CartProvider({ children }: CartProviderProps) {
 
     const date = new Date().toISOString;
 
-    const { handlePost } = usePost<Order, OrderResponse>(
+    const { data, handlePost } = usePost<Order, OrderResponse>(
         '/request',
         {
             costumer: { id: userId },
@@ -277,9 +278,12 @@ function CartProvider({ children }: CartProviderProps) {
         });
     }
 
+    const navigation = useNavigation();
+
     async function postOrder() {
         await handlePost('Erro', 'danger', 'Erro ao realizar pedido');
         deleteCart();
+        data && navigation.navigate('CheckoutSuccess')
     }
 
     useEffect(() => {
