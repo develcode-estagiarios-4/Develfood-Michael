@@ -1,9 +1,16 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useLayoutEffect,
+    useState,
+} from 'react';
 import { SectionList, Text } from 'react-native';
 import { AuthContext } from '@context/auth';
 import { Container } from './styles';
 import { useFetch } from '@services/useFetch';
 import { PurchaseCard } from '@components/PurchaseCard';
+import { useFocusEffect } from '@react-navigation/native';
 
 interface FoodType {
     id: number;
@@ -51,6 +58,9 @@ interface SectionListData {
 export function Historic({ navigation }: any) {
     const { userId, token } = useContext(AuthContext);
     const [historic, setHistoric] = useState<Order[]>([]);
+    const [historicSections, setHistoricSections] = useState<SectionListData[]>(
+        []
+    );
 
     let historicFormatted: SectionListData[] = [];
 
@@ -65,61 +75,60 @@ export function Historic({ navigation }: any) {
 
     async function loadOrders() {
         await fetchData();
+        data && console.log('useeffect fetch data');
     }
 
-    function renderItem({ item }: any) {
-        return (
+    function renderItem({ item }: { item: Order }) {
+        return item ? (
             <PurchaseCard
                 restaurantName={item.restaurant.name}
                 orderStatus={item.status}
-                orderedItems={item.requestItems[0].plate.price}
+                orderedItems={'item.requestItems[0].plate.price'}
             />
-        );
+        ) : null;
     }
 
-    useEffect(() => {
-        loadOrders();
-    }, []);
-
-    useEffect(() => {
-        if (data) {
-            setHistoric(data.content);
-        }
-    }, [data]);
-
-    useEffect(() => {
-        historic.map((item) => {
-            const itemFound = historicFormatted.find((section) =>  section.title === item.date);
-
-            if (!itemFound) {
-                historicFormatted.push({
-                    title: item.date,
-                    data: [item],
-                });
+    function sectionDataFormatter(data: Order[]) {
+        const historicFormatted: SectionListData[] = [];
+        data.forEach((order: Order) => {
+            const sectionFound = historicFormatted.find(
+                (historicSection: SectionListData) =>
+                    historicSection.title === order.date
+            );
+            if (sectionFound) {
+                sectionFound.data.push(order);
+                console.log('sectionFound');
             } else {
-                itemFound.data.push(item);
+                historicFormatted.push({
+                    title: order.date,
+                    data: [order],
+                });
+                console.log('sectionNotFound');
             }
         });
-    }, [historic]);
+        setHistoricSections(historicFormatted);
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            loadOrders();
+        }, [])
+    );
 
     useEffect(() => {
-        console.log(historicFormatted);
-    }, [historicFormatted]);
+        data?.content && sectionDataFormatter(data.content);
+    }, [data]);
 
     return (
         <Container>
             <Text style={{ fontSize: 36 }}>Histórico</Text>
-            <PurchaseCard
-                restaurantName={'item.restaurant.name'}
-                orderStatus={'item.status'}
-                orderedItems={'item.requestItems[0].plate.price'}
-            />
+
             <SectionList
-                sections={historicFormatted}
+                sections={historicSections}
                 keyExtractor={(item) => item.id}
-                renderItem={({ item }) => renderItem(item)}
-                renderSectionHeader={({ section: {title} }) => (
-                    <Text style={{color: 'black'}}>{title}</Text>
+                renderItem={({ item }) => renderItem({ item })}
+                renderSectionHeader={({ section: { title } }) => (
+                    <Text style={{ color: 'black' }}>{title}</Text>
                 )}
                 contentContainerStyle={{ backgroundColor: 'magenta' }}
             />
