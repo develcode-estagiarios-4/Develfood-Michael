@@ -139,10 +139,10 @@ export function Historic({ navigation }: any) {
     }
 
     function sectionDataFormatter(data: Order[]) {
-        const historicFormatted: SectionListData[] = [];
+
 
         data.forEach((order: Order) => {
-            const sectionFound = historicFormatted.find(
+            const sectionFound = historicSections.find(
                 (historicSection: SectionListData) =>
                     historicSection.title === order.date
             );
@@ -152,8 +152,9 @@ export function Historic({ navigation }: any) {
                     (item) => item.id === order.id
                 );
                 !orderFound && sectionFound.data.push(order); //IMPORTANTE, so vai colocar o pedido dentro do sectiondata se nao ja conter o mesmo pedido
+                !orderFound && console.log("order not found, pushing it into this section's data")
             } else {
-                historicFormatted.push({
+                historicSections.push({
                     title: order.date,
                     data: [order],
                 });
@@ -162,7 +163,7 @@ export function Historic({ navigation }: any) {
                 );
             }
         });
-        setHistoricSections(historicFormatted);
+    
     }
 
     function clearAll() {
