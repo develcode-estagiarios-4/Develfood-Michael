@@ -6,7 +6,7 @@ export const Container = styled.View.attrs({
 })`
     width: 100%;
     height: ${RFValue(105)}px;
-    background-color: ${(props) => props.theme.colors.backgroundLight};
+    background-color: ${(props) => props.theme.colors.card};
     border-radius: 15px;
     flex-direction: row;
     align-items: center;
@@ -20,8 +20,8 @@ export const ImageWrapper = styled.View`
 
 export const InfoWrapper = styled.View`
     width: 75%;
-    height: 75%;
-    justify-content: space-around;
+    height: 80%;
+    justify-content: space-evenly;
 `;
 
 export const RestaurantImage = styled.Image`
@@ -43,7 +43,6 @@ export const CheckMark = styled.Image`
 `;
 
 export const SubtitleWrapper = styled.View`
-    width: 70%;
     flex-direction: row;
     justify-content: space-between;
     align-self: flex-start;

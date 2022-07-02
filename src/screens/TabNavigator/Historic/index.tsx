@@ -5,7 +5,7 @@ import React, {
     useLayoutEffect,
     useState,
 } from 'react';
-import { SectionList, StyleSheet, Text, View } from 'react-native';
+import { Alert, SectionList, StyleSheet, Text, View } from 'react-native';
 import { AuthContext } from '@context/auth';
 import {
     Container,
@@ -16,7 +16,7 @@ import {
 } from './styles';
 import { useFetch } from '@services/useFetch';
 import { PurchaseCard } from '@components/PurchaseCard';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useScrollToTop } from '@react-navigation/native';
 import theme from '@styles/theme';
 
 interface FoodType {
@@ -78,9 +78,10 @@ export function Historic({ navigation }: any) {
     );
     const [page, setPage] = useState(0);
     const [order, setOrder] = useState<Order[]>([]);
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
     const { data, fetchData } = useFetch<Historic>(
-        `/request/costumer?id=${userId}&${page}=0&quantity=10`,
+        `/request/costumer?id=${userId}&page=${page}&quantity=10`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -90,11 +91,12 @@ export function Historic({ navigation }: any) {
 
     function onSuccess(data: Historic) {
         setOrder([...order, ...data.content]);
+        setIsRefreshing(false);
     }
 
     async function loadOrders() {
+        console.log('FETCHING DATA...', page);
         await fetchData(onSuccess);
-        data && console.log('useeffect fetch data');
     }
 
     function renderItem({ item }: { item: Order }) {
@@ -146,33 +148,67 @@ export function Historic({ navigation }: any) {
             );
 
             if (sectionFound) {
-                sectionFound.data.push(order);
-                console.log('sectionFound');
+                const orderFound = sectionFound.data.find(
+                    (item) => item.id === order.id
+                );
+                !orderFound && sectionFound.data.push(order); //IMPORTANTE, so vai colocar o pedido dentro do sectiondata se nao ja conter o mesmo pedido
             } else {
                 historicFormatted.push({
                     title: order.date,
                     data: [order],
                 });
-                console.log('sectionNotFound');
+                console.log(
+                    'sectionNotFound, pushing new section into sectionlist'
+                );
             }
         });
         setHistoricSections(historicFormatted);
     }
 
+    function clearAll() {
+        if (page !== 0) {
+            setOrder([]);
+            setHistoricSections([]);
+            setPage(0);
+        } else {
+            setTimeout(() => {
+                setIsRefreshing(false);
+            }, 500);
+        }
+    }
+
     function handleLoadOnEnd() {
-        if (data?.totalPages !== page) {
+        if (data?.totalPages !== page + 1) {
             setPage(page + 1);
         }
     }
 
+    const onRefresh = () => {
+        clearAll();
+        setIsRefreshing(true);
+    };
+
+    const ref = React.useRef(null);
+    useScrollToTop(ref);
+
+    useEffect(() => {
+        loadOrders();
+    }, [page]);
+
     useFocusEffect(
         useCallback(() => {
-            loadOrders();
-        }, [page])
+            setOrder([]);
+            setHistoricSections([]);
+            setTimeout(() => {
+                setPage(0);
+                loadOrders();
+            }, 1000);
+        }, [])
     );
 
     useEffect(() => {
-        data?.content && sectionDataFormatter([...order, ...data.content]);
+        data?.content && sectionDataFormatter(order);
+        data?.content && console.log('DATA FETCHED', page);
     }, [data]);
 
     return (
@@ -188,6 +224,9 @@ export function Historic({ navigation }: any) {
                 onEndReached={handleLoadOnEnd}
                 contentContainerStyle={styles.contentContainer}
                 ItemSeparatorComponent={() => <ItemSeparator />}
+                refreshing={isRefreshing}
+                onRefresh={() => onRefresh()}
+                ref={ref}
             />
         </Container>
     );

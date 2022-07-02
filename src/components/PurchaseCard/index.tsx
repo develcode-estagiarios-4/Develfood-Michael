@@ -60,13 +60,13 @@ export function PurchaseCard({
                     <CheckMark
                         source={require('@assets/icons/greenCheck.png')}
                     />
-                    <Subtitle>
+                    <Subtitle style={{ marginLeft: 7 }}>
                         {orderStatus === 'PEDIDO_REALIZADO'
                             ? 'Pedido finalizado'
                             : orderStatus}
                     </Subtitle>
-                    <View style={{flexDirection: 'row'}}>
-                            <Subtitle>N </Subtitle>
+                    <View style={{ flexDirection: 'row', marginLeft: 7 }}>
+                        <Subtitle>N° </Subtitle>
                         <OrderNumber>{orderId}</OrderNumber>
                     </View>
                 </SubtitleWrapper>
