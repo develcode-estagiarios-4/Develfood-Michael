@@ -5,7 +5,15 @@ import React, {
     useLayoutEffect,
     useState,
 } from 'react';
-import { Alert, SectionList, StyleSheet, Text, View } from 'react-native';
+import {
+    ActivityIndicator,
+    Alert,
+    Animated,
+    SectionList,
+    StyleSheet,
+    Text,
+    View,
+} from 'react-native';
 import { AuthContext } from '@context/auth';
 import {
     Container,
@@ -16,8 +24,19 @@ import {
 } from './styles';
 import { useFetch } from '@services/useFetch';
 import { PurchaseCard } from '@components/PurchaseCard';
-import { useFocusEffect, useScrollToTop } from '@react-navigation/native';
+import {
+    useFocusEffect,
+    useIsFocused,
+    useScrollToTop,
+} from '@react-navigation/native';
 import theme from '@styles/theme';
+import { Header } from '@components/Header';
+import {
+    useAnimatedScrollHandler,
+    useSharedValue,
+} from 'react-native-reanimated';
+import { EmptyFoodCardList } from '@components/EmptyFoodCardList';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 interface FoodType {
     id: number;
@@ -79,9 +98,10 @@ export function Historic({ navigation }: any) {
     const [page, setPage] = useState(0);
     const [order, setOrder] = useState<Order[]>([]);
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const { data, fetchData } = useFetch<Historic>(
-        `/request/costumer?id=${userId}&page=${page}&quantity=10`,
+        `/request/costumer?id=${userId}&page=${page}&quantity=20`,
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -99,6 +119,7 @@ export function Historic({ navigation }: any) {
     }
 
     async function loadOrders() {
+        setLoading(true);
         console.log('FETCHING DATA...', page);
         await fetchData(onSuccess);
     }
@@ -129,16 +150,18 @@ export function Historic({ navigation }: any) {
     }
 
     const listheadeComponent = (
-        <View style={{ marginBottom: -12, marginTop: 16 }}>
+        <View style={{ marginTop: 20 }}>
             <Title>Histórico</Title>
         </View>
     );
 
     function renderSectionHeader({ title }: { title: string }) {
         return (
-            <SectionHeader>
-                <SectionHeaderText>{title}</SectionHeaderText>
-            </SectionHeader>
+            <>
+                <SectionHeader>
+                    <SectionHeaderText>{title}</SectionHeaderText>
+                </SectionHeader>
+            </>
         );
     }
 
@@ -168,6 +191,7 @@ export function Historic({ navigation }: any) {
             (section) => section.data.sort((a, b) => b.id - a.id) //IMPORTANTE, exibe o ultimo pedido primeiro na lista
         );
         setHistoricSections(historicFormatted);
+        setLoading(false);
     }
 
     function clearAll() {
@@ -194,20 +218,22 @@ export function Historic({ navigation }: any) {
     };
 
     const ref = React.useRef(null);
+
     useScrollToTop(ref);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         loadOrders();
     }, [page]);
 
     useFocusEffect(
         useCallback(() => {
-            setOrder([]);
-            setHistoricSections([]);
-            setTimeout(() => {
+            loadOrders();
+            return () => {
+                setLoading(true);
+                setOrder([]);
+                setHistoricSections([]);
                 setPage(0);
-                loadOrders();
-            }, 1000);
+            };
         }, [])
     );
 
@@ -217,23 +243,37 @@ export function Historic({ navigation }: any) {
     }, [data]);
 
     return (
-        <Container>
-            <SectionList
-                sections={historicSections}
-                keyExtractor={(item) => String(item.id)}
-                ListHeaderComponent={() => listheadeComponent}
-                renderItem={({ item }) => renderItem({ item })}
-                renderSectionHeader={({ section: { title } }) =>
-                    renderSectionHeader({ title })
-                }
-                onEndReached={handleLoadOnEnd}
-                contentContainerStyle={styles.contentContainer}
-                ItemSeparatorComponent={() => <ItemSeparator />}
-                refreshing={isRefreshing}
-                onRefresh={() => onRefresh()}
-                ref={ref}
+        <>
+            <Header
+                title="Meus pedidos"
+                color={theme.colors.header}
+                style={{ zIndex: 1 }}
             />
-        </Container>
+            <Container>
+                <SectionList
+                    sections={historicSections}
+                    keyExtractor={(item) => String(item.id)}
+                    ListHeaderComponent={() => listheadeComponent}
+                    renderItem={({ item }) => renderItem({ item })}
+                    renderSectionHeader={({ section: { title } }) =>
+                        renderSectionHeader({ title })
+                    }
+                    onEndReached={handleLoadOnEnd}
+                    contentContainerStyle={styles.contentContainer}
+                    ItemSeparatorComponent={() => <ItemSeparator />}
+                    ListEmptyComponent={() => !loading ? <EmptyFoodCardList checkout /> : null}
+                    refreshing={isRefreshing}
+                    onRefresh={() => onRefresh()}
+                    ref={ref}
+                    SectionSeparatorComponent={() => (
+                        <ItemSeparator style={{ height: RFValue(15) }} />
+                    )}
+                    ListFooterComponent={() => 
+                        <View style={{ height: RFValue(50) }}>{loading && <ActivityIndicator color={theme.colors.primary}/>}</View>
+                    }
+                />
+            </Container>
+        </>
     );
 }
 

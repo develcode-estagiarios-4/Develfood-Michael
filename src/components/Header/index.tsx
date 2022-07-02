@@ -15,7 +15,7 @@ import { Container, Icon, Like, Button, UselessView, Title } from './styles';
 import Animated from 'react-native-reanimated';
 
 interface Props extends BorderlessButtonProps {
-    source: ImageSourcePropType;
+    source?: ImageSourcePropType;
     source2?: ImageSourcePropType;
     title?: string;
     like?: () => void;
@@ -36,7 +36,12 @@ export function Header({
 
     return (
         <Container style={{ backgroundColor: color }}>
-            {!source2 && (
+            {!source2 && !source && (
+                <View style={{flex: 1, alignItems: 'center'}}>
+                    <Title color={color}>{title}</Title>
+                </View>
+            )}
+            {!source2 && source && (
                 <>
                     <Button onPress={onPress}>
                         <Icon
@@ -54,7 +59,7 @@ export function Header({
                 </>
             )}
 
-            {!!source2 && (
+            {!!source2 && source && (
                 <>
                     <Button onPress={onPress}>
                         <Icon

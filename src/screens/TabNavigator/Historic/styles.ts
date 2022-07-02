@@ -15,7 +15,7 @@ export const Title = styled.Text`
 `;
 
 export const SectionHeader = styled.View`
-    padding: ${RFValue(15)}px 0;
+  
 `;
 
 export const SectionHeaderText = styled.Text`
