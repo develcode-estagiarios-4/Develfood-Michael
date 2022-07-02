@@ -90,6 +90,10 @@ export function Historic({ navigation }: any) {
     );
 
     function onSuccess(data: Historic) {
+        data.content.forEach((item) => {
+            const index = data.content.indexOf(item);
+            console.log(item.id, index);
+        });
         setOrder([...order, ...data.content]);
         setIsRefreshing(false);
     }
@@ -139,10 +143,10 @@ export function Historic({ navigation }: any) {
     }
 
     function sectionDataFormatter(data: Order[]) {
-
+        const historicFormatted: SectionListData[] = [];
 
         data.forEach((order: Order) => {
-            const sectionFound = historicSections.find(
+            const sectionFound = historicFormatted.find(
                 (historicSection: SectionListData) =>
                     historicSection.title === order.date
             );
@@ -152,24 +156,24 @@ export function Historic({ navigation }: any) {
                     (item) => item.id === order.id
                 );
                 !orderFound && sectionFound.data.push(order); //IMPORTANTE, so vai colocar o pedido dentro do sectiondata se nao ja conter o mesmo pedido
-                !orderFound && console.log("order not found, pushing it into this section's data")
             } else {
-                historicSections.push({
+                historicFormatted.push({
                     title: order.date,
                     data: [order],
                 });
-                console.log(
-                    'sectionNotFound, pushing new section into sectionlist'
-                );
             }
         });
-    
+
+        historicFormatted.forEach(
+            (section) => section.data.sort((a, b) => b.id - a.id) //IMPORTANTE, exibe o ultimo pedido primeiro na lista
+        );
+        setHistoricSections(historicFormatted);
     }
 
     function clearAll() {
         if (page !== 0) {
             setOrder([]);
-            setHistoricSections([]);
+            setHistoricSections([historicSections[0]]);
             setPage(0);
         } else {
             setTimeout(() => {
