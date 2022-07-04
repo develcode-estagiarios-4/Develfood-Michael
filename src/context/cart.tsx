@@ -283,7 +283,7 @@ function CartProvider({ children }: CartProviderProps) {
     async function postOrder() {
         await handlePost('Erro', 'danger', 'Erro ao realizar pedido');
         deleteCart();
-        data && navigation.navigate('CheckoutSuccess')
+        data && navigation.navigate('CheckoutSuccess');
     }
 
     useEffect(() => {
