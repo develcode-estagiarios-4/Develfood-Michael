@@ -197,7 +197,7 @@ export function Historic({ navigation }: any) {
     function clearAll() {
         if (page !== 0) {
             setOrder([]);
-            setHistoricSections([historicSections[0]]);
+            setHistoricSections([]);
             setPage(0);
         } else {
             setTimeout(() => {
