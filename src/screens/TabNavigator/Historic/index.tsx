@@ -31,12 +31,10 @@ import {
 } from '@react-navigation/native';
 import theme from '@styles/theme';
 import { Header } from '@components/Header';
-import {
-    useAnimatedScrollHandler,
-    useSharedValue,
-} from 'react-native-reanimated';
 import { EmptyFoodCardList } from '@components/EmptyFoodCardList';
 import { RFValue } from 'react-native-responsive-fontsize';
+import moment from 'moment';
+import 'moment/locale/pt-br';
 
 interface FoodType {
     id: number;
@@ -110,17 +108,12 @@ export function Historic({ navigation }: any) {
     );
 
     function onSuccess(data: Historic) {
-        data.content.forEach((item) => {
-            const index = data.content.indexOf(item);
-            console.log(item.id, index);
-        });
         setOrder([...order, ...data.content]);
         setIsRefreshing(false);
     }
 
     async function loadOrders() {
         setLoading(true);
-        console.log('FETCHING DATA...', page);
         await fetchData(onSuccess);
     }
 
@@ -159,7 +152,9 @@ export function Historic({ navigation }: any) {
         return (
             <>
                 <SectionHeader>
-                    <SectionHeaderText>{title}</SectionHeaderText>
+                    <SectionHeaderText>
+                        {moment(title).format('llll').slice(0, -29).toUpperCase() + moment(title).format('llll').slice(0, -9).slice(1)}
+                    </SectionHeaderText>
                 </SectionHeader>
             </>
         );
@@ -178,7 +173,7 @@ export function Historic({ navigation }: any) {
                 const orderFound = sectionFound.data.find(
                     (item) => item.id === order.id
                 );
-                !orderFound && sectionFound.data.push(order); //IMPORTANTE, so vai colocar o pedido dentro do sectiondata se nao ja conter o mesmo pedido
+                !orderFound && sectionFound.data.push(order); 
             } else {
                 historicFormatted.push({
                     title: order.date,
@@ -188,7 +183,7 @@ export function Historic({ navigation }: any) {
         });
 
         historicFormatted.forEach(
-            (section) => section.data.sort((a, b) => b.id - a.id) //IMPORTANTE, exibe o ultimo pedido primeiro na lista
+            (section) => section.data.sort((a, b) => b.id - a.id) 
         );
         setHistoricSections(historicFormatted);
         setLoading(false);
@@ -239,7 +234,6 @@ export function Historic({ navigation }: any) {
 
     useEffect(() => {
         data?.content && sectionDataFormatter(order);
-        data?.content && console.log('DATA FETCHED', page);
     }, [data]);
 
     return (
@@ -261,16 +255,25 @@ export function Historic({ navigation }: any) {
                     onEndReached={handleLoadOnEnd}
                     contentContainerStyle={styles.contentContainer}
                     ItemSeparatorComponent={() => <ItemSeparator />}
-                    ListEmptyComponent={() => !loading ? <EmptyFoodCardList checkout /> : null}
+                    ListEmptyComponent={() =>
+                        !loading ? <EmptyFoodCardList checkout /> : null
+                    }
                     refreshing={isRefreshing}
                     onRefresh={() => onRefresh()}
                     ref={ref}
                     SectionSeparatorComponent={() => (
                         <ItemSeparator style={{ height: RFValue(15) }} />
                     )}
-                    ListFooterComponent={() => 
-                        <View style={{ height: RFValue(50) }}>{loading && <ActivityIndicator color={theme.colors.primary}/>}</View>
-                    }
+                    ListFooterComponent={() => (
+                        <View style={{ height: RFValue(50) }}>
+                            {loading && (
+                                <ActivityIndicator
+                                style={{alignSelf: 'center'}}
+                                    color={theme.colors.primary}
+                                />
+                            )}
+                        </View>
+                    )}
                 />
             </Container>
         </>

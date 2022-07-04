@@ -115,9 +115,7 @@ export function FoodCard({
     }
 
     function removeFromCart() {
-        itemCount > 1
-            ? removeItem({ id: id, count: 1 })
-            : deleteFromCart({ id: id, count: 1 });
+        removeItem({ id: id, count: 1 });
     }
 
     function deleteEverything() {

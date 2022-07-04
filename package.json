@@ -19,6 +19,7 @@
         "axios": "^0.27.2",
         "cpf-cnpj-validator": "^1.0.3",
         "lottie-react-native": "^5.0.1",
+        "moment": "^2.29.3",
         "react": "17.0.2",
         "react-hook-form": "^7.31.1",
         "react-native": "0.68.2",
