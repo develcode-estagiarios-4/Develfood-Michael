@@ -153,7 +153,7 @@ export function Historic({ navigation }: any) {
             <>
                 <SectionHeader>
                     <SectionHeaderText>
-                        {moment(title).format('llll').slice(0, -29).toUpperCase() + moment(title).format('llll').slice(0, -9).slice(1)}
+                        {moment(title).format('llll').slice(0, -9)}
                     </SectionHeaderText>
                 </SectionHeader>
             </>
@@ -173,7 +173,7 @@ export function Historic({ navigation }: any) {
                 const orderFound = sectionFound.data.find(
                     (item) => item.id === order.id
                 );
-                !orderFound && sectionFound.data.push(order); 
+                !orderFound && sectionFound.data.push(order);
             } else {
                 historicFormatted.push({
                     title: order.date,
@@ -182,23 +182,17 @@ export function Historic({ navigation }: any) {
             }
         });
 
-        historicFormatted.forEach(
-            (section) => section.data.sort((a, b) => b.id - a.id) 
+        historicFormatted.forEach((section) =>
+            section.data.sort((a, b) => b.id - a.id)
         );
         setHistoricSections(historicFormatted);
         setLoading(false);
     }
 
-    function clearAll() {
-        if (page !== 0) {
-            setOrder([]);
-            setHistoricSections([]);
-            setPage(0);
-        } else {
-            setTimeout(() => {
-                setIsRefreshing(false);
-            }, 500);
-        }
+    function refresh() {
+        setOrder([]);
+        setPage(0);
+        loadOrders();
     }
 
     function handleLoadOnEnd() {
@@ -208,8 +202,8 @@ export function Historic({ navigation }: any) {
     }
 
     const onRefresh = () => {
-        clearAll();
         setIsRefreshing(true);
+        refresh();
     };
 
     const ref = React.useRef(null);
@@ -268,7 +262,7 @@ export function Historic({ navigation }: any) {
                         <View style={{ height: RFValue(50) }}>
                             {loading && (
                                 <ActivityIndicator
-                                style={{alignSelf: 'center'}}
+                                    style={{ alignSelf: 'center' }}
                                     color={theme.colors.primary}
                                 />
                             )}
