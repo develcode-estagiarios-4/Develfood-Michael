@@ -35,6 +35,7 @@ import { EmptyFoodCardList } from '@components/EmptyFoodCardList';
 import { RFValue } from 'react-native-responsive-fontsize';
 import moment from 'moment';
 import 'moment/locale/pt-br';
+import { CartContext } from '@context/cart';
 
 interface FoodType {
     id: number;
@@ -90,6 +91,7 @@ interface SectionListData {
 
 export function Historic() {
     const { userId, token } = useContext(AuthContext);
+    const { setNewPosition } = useContext(CartContext);
     const [historicSections, setHistoricSections] = useState<SectionListData[]>(
         []
     );
@@ -222,6 +224,7 @@ export function Historic() {
     useFocusEffect(
         useCallback(() => {
             loadOrders();
+            setNewPosition(RFValue(-50));
             return () => {
                 setLoading(true);
                 setOrder([]);
