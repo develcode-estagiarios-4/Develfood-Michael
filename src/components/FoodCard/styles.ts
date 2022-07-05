@@ -15,11 +15,17 @@ export const ContainerBelow = styled.View.attrs({
 export const SwipeableButton = styled(RectButton).attrs({
     elevation: 6,
 })`
-    width: ${RFValue(130)}px;
+    width: ${window.width * 0.86}px;
     height: ${window.height * 0.15}px;
     background-color: ${({ theme }) => theme.colors.background_red};
     border-radius: 15px;
     justify-content: center;
+    align-items: flex-start;
+    margin-right: ${window.width * 0.55 * -1}px;
+`;
+
+export const SwipeWrapper = styled.View`
+   width: ${window.width * 0.31}px;
     align-items: center;
 `;
 
@@ -89,7 +95,7 @@ export const TrashIcon = styled.Image.attrs({ resizeMode: 'contain' })`
     margin-right: 10px;
 `;
 
-export const BiggerTrash = styled(TrashIcon).attrs({tintColor: 'white'})`
+export const BiggerTrash = styled(TrashIcon).attrs({ tintColor: 'white' })`
     width: ${RFValue(20)}px;
     height: ${RFValue(20)}px;
     margin-left: 10px;

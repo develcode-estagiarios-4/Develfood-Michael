@@ -29,6 +29,7 @@ import {
     SwipeableButton,
     SwipeableText,
     BiggerTrash,
+    SwipeWrapper,
 } from './styles';
 import { RFValue, RFPercentage } from 'react-native-responsive-fontsize';
 import theme from '@styles/theme';
@@ -128,8 +129,10 @@ export function FoodCard({
     const renderLeftPanel = () => {
         return (
             <SwipeableButton onPress={deleteEverything}>
-                <BiggerTrash source={require('@assets/icons/trash.png')} />
-                <SwipeableText>Remover</SwipeableText>
+                <SwipeWrapper>
+                    <BiggerTrash source={require('@assets/icons/trash.png')} />
+                    <SwipeableText>Remover</SwipeableText>
+                </SwipeWrapper>
             </SwipeableButton>
         );
     };

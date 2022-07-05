@@ -203,7 +203,7 @@ export function Historic() {
     }
 
     function handleLoadOnEnd() {
-        if (data?.totalPages !== page + 1) {
+        if (data?.totalPages !== page + 1 && !loading) {
             setPage(page + 1);
         }
     }
@@ -268,7 +268,7 @@ export function Historic() {
                     )}
                     ListFooterComponent={() => (
                         <View style={{ height: RFValue(50) }}>
-                            {loading && (
+                            {loading && !isRefreshing && (
                                 <ActivityIndicator
                                     style={{ alignSelf: 'center' }}
                                     color={theme.colors.primary}
