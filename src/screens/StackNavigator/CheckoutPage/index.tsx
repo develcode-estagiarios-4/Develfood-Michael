@@ -167,6 +167,7 @@ export function CheckoutPage() {
                                 fadingEdgeLength={150}
                                 contentContainerStyle={{
                                     flexGrow: 1,
+                                    paddingLeft: 20,
                                 }}
                             >
                                 {renderItem}

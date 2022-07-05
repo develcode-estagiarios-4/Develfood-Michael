@@ -21,6 +21,7 @@ export const SwipeableButton = styled(RectButton).attrs({
     border-radius: 15px;
     justify-content: center;
     align-items: center;
+    margin-right: -20px;
 `;
 
 export const SwipeableText = styled.Text`

@@ -164,7 +164,6 @@ export function FoodCard({
                         styles.container,
                         {
                             width: window.width * 0.86,
-                            alignSelf: 'center',
                         },
                     ]}
                 >
