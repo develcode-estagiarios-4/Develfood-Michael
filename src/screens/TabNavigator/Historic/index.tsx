@@ -88,7 +88,7 @@ interface SectionListData {
     data: Order[];
 }
 
-export function Historic({ navigation }: any) {
+export function Historic() {
     const { userId, token } = useContext(AuthContext);
     const [historicSections, setHistoricSections] = useState<SectionListData[]>(
         []
@@ -173,7 +173,12 @@ export function Historic({ navigation }: any) {
                 const orderFound = sectionFound.data.find(
                     (item) => item.id === order.id
                 );
-                !orderFound && sectionFound.data.push(order);
+           
+                if (orderFound) {
+                    const statusDiff = orderFound.status !== order.status;
+                    const index = sectionFound.data.indexOf(orderFound);
+                    statusDiff && sectionFound.data.splice(index, 1, order);
+                } else sectionFound.data.push(order);
             } else {
                 historicFormatted.push({
                     title: order.date,
