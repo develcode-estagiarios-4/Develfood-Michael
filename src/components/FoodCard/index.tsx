@@ -136,10 +136,10 @@ export function FoodCard({
 
     const renderLeftPanel = () => {
         return (
-                <SwipeableButton onPress={deleteEverything}>
-                    <BiggerTrash source={require('@assets/icons/trash.png')} />
-                    <SwipeableText>Remover</SwipeableText>
-                </SwipeableButton>
+            <SwipeableButton onPress={deleteEverything}>
+                <BiggerTrash source={require('@assets/icons/trash.png')} />
+                <SwipeableText>Remover</SwipeableText>
+            </SwipeableButton>
         );
     };
 
@@ -152,7 +152,6 @@ export function FoodCard({
             entering={FadeInRight}
             exiting={SlideOutRight}
             layout={Layout.delay(50)}
-            
         >
             <Swipeable
                 renderLeftActions={renderLeftPanel}
@@ -217,15 +216,9 @@ export function FoodCard({
                             {itemCount ? (
                                 <CounterWrapper>
                                     <AddButton onPress={removeFromCart}>
-                                        {itemCount === 1 ? (
-                                            <TrashIcon
-                                                source={require('@assets/icons/trash.png')}
-                                            />
-                                        ) : (
-                                            <MinusWrapper>
-                                                <MinusButton>-</MinusButton>
-                                            </MinusWrapper>
-                                        )}
+                                        <MinusWrapper>
+                                            <MinusButton>-</MinusButton>
+                                        </MinusWrapper>
                                     </AddButton>
 
                                     <NumberWrapper>
