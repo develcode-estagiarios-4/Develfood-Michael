@@ -10,7 +10,7 @@ export function CheckoutSuccess() {
     
     return (
         <>
-        <Header color={theme.colors.header} source={theme.images.x} title='Checkout'/>
+        <Header onPress={() => navigation.navigate('Home')} color={theme.colors.header} source={theme.images.x} title='Checkout'/>
             <Container>
                 <Title>Pedido realizado!</Title>
                 <Image source={require('@assets/icons/checkoutSuccess.png')} />

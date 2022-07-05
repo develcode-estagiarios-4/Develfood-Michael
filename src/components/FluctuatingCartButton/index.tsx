@@ -10,8 +10,8 @@ import {
 } from './styles';
 import { CartContext } from '@context/cart';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { Dimensions, StyleSheet } from 'react-native';
-import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
+import { ActivityIndicator, Dimensions, StyleSheet } from 'react-native';
+import Animated, { FadeInDown, FadeInUp, FadeOutDown, SlideInDown, SlideOutDown } from 'react-native-reanimated';
 import theme from '@styles/theme';
 import { useNavigation } from '@react-navigation/native';
 
@@ -46,8 +46,8 @@ export function FluctuatingCartButton({ checkout }: Props) {
                 styles.container,
                 { position: !checkout ? 'absolute' : 'relative' },
             ]}
-            entering={FadeInUp}
-            exiting={FadeOutDown}
+            entering={SlideInDown}
+            exiting={SlideOutDown}
         >
             <Rect
                 enabled={enabled}
@@ -64,7 +64,7 @@ export function FluctuatingCartButton({ checkout }: Props) {
                 )}
                 <Icon source={source} />
 
-                <Title>{checkout ? 'Finalizar pedido' : 'Ver carrinho'}</Title>
+                <Title>{checkout ? !enabled ? <ActivityIndicator color={theme.colors.white}/> : 'Finalizar pedido' : 'Ver carrinho'}</Title>
                 <PriceWrapper>
                     <Price>{price}</Price>
                 </PriceWrapper>

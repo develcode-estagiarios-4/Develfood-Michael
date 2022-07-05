@@ -210,15 +210,9 @@ export function FoodCard({
                             {itemCount ? (
                                 <CounterWrapper>
                                     <AddButton onPress={removeFromCart}>
-                                        {itemCount === 1 ? (
-                                            <TrashIcon
-                                                source={require('@assets/icons/trash.png')}
-                                            />
-                                        ) : (
-                                            <MinusWrapper>
-                                                <MinusButton>-</MinusButton>
-                                            </MinusWrapper>
-                                        )}
+                                        <MinusWrapper>
+                                            <MinusButton>-</MinusButton>
+                                        </MinusWrapper>
                                     </AddButton>
 
                                     <NumberWrapper>
