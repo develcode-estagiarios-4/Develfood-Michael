@@ -166,7 +166,6 @@ export function CheckoutPage() {
                                 layout={Layout.delay(100)}
                                 fadingEdgeLength={150}
                                 contentContainerStyle={{
-                                    marginLeft: RFValue(16),
                                     flexGrow: 1,
                                 }}
                             >
