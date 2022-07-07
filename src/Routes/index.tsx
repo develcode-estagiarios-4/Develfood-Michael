@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import { Cadastro1 } from '@screens/StackNavigator/SignIn/Cadastro1';
 import { Cadastro2 } from '@screens/StackNavigator/SignIn/Cadastro2';
 import { Cadastro3 } from '@screens/StackNavigator/SignIn/Cadastro3';
@@ -8,7 +8,7 @@ import { SignUpSuccess } from '@screens/StackNavigator/SignIn/SignUpSuccess';
 import { StatusBar } from 'react-native';
 
 export function SignInRoutes() {
-    const { Navigator, Screen } = createNativeStackNavigator();
+    const { Navigator, Screen } = createStackNavigator();
 
     useEffect(() => { 
         StatusBar.setBackgroundColor('white');

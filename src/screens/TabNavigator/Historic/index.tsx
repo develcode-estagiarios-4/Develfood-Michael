@@ -36,6 +36,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import moment from 'moment';
 import 'moment/locale/pt-br';
 import { CartContext } from '@context/cart';
+import { showMessage } from 'react-native-flash-message';
 
 interface FoodType {
     id: number;

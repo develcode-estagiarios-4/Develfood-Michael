@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import { RestaurantPage } from '@screens/StackNavigator/RestaurantPage';
 import { TabScreenRoutes } from './routes';
 import { FluctuatingCartButton } from '@components/FluctuatingCartButton';
@@ -8,7 +8,7 @@ import { CheckoutPage } from '@screens/StackNavigator/CheckoutPage';
 import { CheckoutSuccess } from '@screens/StackNavigator/CheckoutSuccess';
 
 export function StackScreenRoutes() {
-    const { Navigator, Screen } = createNativeStackNavigator();
+    const { Navigator, Screen } = createStackNavigator();
 
     const { totalAmount } = useContext(CartContext);
 
