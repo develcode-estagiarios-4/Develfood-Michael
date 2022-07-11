@@ -57,7 +57,7 @@ interface Props {
     restaurantPhoto?: string;
     restaurantID: number;
     swipeable?: boolean;
-    setListHeight?: () => void;
+   
 }
 
 interface Response {
@@ -76,7 +76,6 @@ export function FoodCard({
     restaurantType,
     restaurantPhoto,
     swipeable,
-    setListHeight,
 }: Props) {
     const { token } = useContext(AuthContext);
     const { addItem, removeItem, cartItems, deleteFromCart } =

@@ -71,12 +71,6 @@ export function CheckoutPage() {
         }
     );
 
-    const rerenderHeight = () => {
-       setTimeout(() => {
-         setListHeight(itemHeight * cartItems.length + bottomListHeight);
-       }, 1000);
-    };
-
     const renderItem =
         cartItems.length > 0
             ? cartItems.map((item: CartItem) => {
@@ -90,7 +84,7 @@ export function CheckoutPage() {
                           restaurantID={item.restaurantID}
                           swipeable
                           key={item.id}
-                          setListHeight={rerenderHeight}
+                        
                       />
                   );
               })

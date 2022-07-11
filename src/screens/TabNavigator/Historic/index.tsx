@@ -220,20 +220,21 @@ export function Historic() {
 
     useLayoutEffect(() => {
         loadOrders();
+        setNewPosition(RFValue(-50));
     }, [page]);
 
-    useFocusEffect(
-        useCallback(() => {
-            loadOrders();
-            setNewPosition(RFValue(-50));
-            return () => {
-                setLoading(true);
-                setOrder([]);
-                setHistoricSections([]);
-                setPage(0);
-            };
-        }, [])
-    );
+    // useFocusEffect(
+    //     useCallback(() => {
+    //         loadOrders();
+    //         setNewPosition(RFValue(-50));
+    //         return () => {
+    //             setLoading(true);
+    //             setOrder([]);
+    //             setHistoricSections([]);
+    //             setPage(0);
+    //         };
+    //     }, [])
+    // );
 
     useEffect(() => {
         data?.content && sectionDataFormatter(order);
