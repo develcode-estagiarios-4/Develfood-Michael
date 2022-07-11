@@ -145,7 +145,7 @@ export function FoodCard({
         <Animated.View
             entering={FadeInRight}
             exiting={SlideOutRight}
-            layout={Layout.delay(50).withCallback(setListHeight()!)}
+            layout={Layout.delay(50)}
         >
             <Swipeable
                 renderLeftActions={renderLeftPanel}

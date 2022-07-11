@@ -56,7 +56,7 @@ export function Login({ navigation }: any) {
 
     useEffect(() => {
         setValue('email', 'michael@gmail.com')
-        setValue('password', '123456');
+        setValue('password', 'senha1');
     }, [])
 
     function handleLogin() {
