@@ -29,6 +29,7 @@ import {
     SwipeableButton,
     SwipeableText,
     BiggerTrash,
+    SwipeWrapper,
 } from './styles';
 import { RFValue, RFPercentage } from 'react-native-responsive-fontsize';
 import theme from '@styles/theme';
@@ -41,15 +42,6 @@ import Animated, {
 } from 'react-native-reanimated';
 import { CartContext } from '@context/cart';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
-
-type RestaurantInfo = {
-    id: number;
-    name: string;
-    photo_url: string;
-    food_types: string[];
-};
-
 interface Props {
     foodType?: {
         id: number;
@@ -65,6 +57,7 @@ interface Props {
     restaurantPhoto?: string;
     restaurantID: number;
     swipeable?: boolean;
+   
 }
 
 interface Response {
@@ -122,9 +115,7 @@ export function FoodCard({
     }
 
     function removeFromCart() {
-        itemCount > 1
-            ? removeItem({ id: id, count: 1 })
-            : deleteFromCart({ id: id, count: 1 });
+        removeItem({ id: id, count: 1 });
     }
 
     function deleteEverything() {
@@ -137,8 +128,10 @@ export function FoodCard({
     const renderLeftPanel = () => {
         return (
             <SwipeableButton onPress={deleteEverything}>
-                <BiggerTrash source={require('@assets/icons/trash.png')} />
-                <SwipeableText>Remover</SwipeableText>
+                <SwipeWrapper>
+                    <BiggerTrash source={require('@assets/icons/trash.png')} />
+                    <SwipeableText>Remover</SwipeableText>
+                </SwipeWrapper>
             </SwipeableButton>
         );
     };

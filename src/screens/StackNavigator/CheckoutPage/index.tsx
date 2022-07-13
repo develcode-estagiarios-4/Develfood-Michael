@@ -1,6 +1,6 @@
 import { FoodCard } from '@components/FoodCard';
-import React, { useContext, useEffect } from 'react';
-import { Image, ScrollView, View } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Dimensions, Image, ScrollView, View } from 'react-native';
 import { Header } from '@components/Header';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { CartContext } from '@context/cart';
@@ -46,12 +46,19 @@ type CartItem = {
     restaurantType: string;
 };
 
+const window = Dimensions.get('window');
+const itemHeight = window.height * 0.15;
+const bottomListHeight = itemHeight / 2;
+
 export function CheckoutPage() {
     const { totalAmount, cartItems, setNewPosition, restaurant } =
         useContext(CartContext);
     const { token } = useContext(AuthContext);
     const closeScreen = require('@assets/icons/x.png');
     const navigation = useNavigation();
+    const [listHeight, setListHeight] = useState(
+        itemHeight * cartItems.length + bottomListHeight
+    );
     const category =
         restaurant.type.charAt(0) + restaurant.type.slice(1).toLowerCase();
 
@@ -77,6 +84,7 @@ export function CheckoutPage() {
                           restaurantID={item.restaurantID}
                           swipeable
                           key={item.id}
+                        
                       />
                   );
               })
@@ -167,7 +175,7 @@ export function CheckoutPage() {
                                 fadingEdgeLength={150}
                                 contentContainerStyle={{
                                     marginLeft: RFValue(16),
-                                    flexGrow: 1,
+                                    height: listHeight,
                                 }}
                             >
                                 {renderItem}

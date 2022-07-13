@@ -84,6 +84,7 @@ export function TabScreenRoutes({ navigation }: any) {
                     name="Orders"
                     component={Historic}
                     options={{
+                        unmountOnBlur: true,
                         tabBarIcon: ({ focused }) => (
                             <Image
                                 source={theme.images.orders}
