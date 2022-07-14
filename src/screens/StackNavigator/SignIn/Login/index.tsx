@@ -55,8 +55,8 @@ export function Login({ navigation }: any) {
     }
 
     useEffect(() => {
-        setValue('email', 'michael@gmail.com')
-        setValue('password', 'senha1');
+        setValue('email', 'kevin6@email.com')
+        setValue('password', '123456');
     }, [])
 
     function handleLogin() {
@@ -128,6 +128,7 @@ export function Login({ navigation }: any) {
                                     editable={!loading} // !loading
                                     onChangeText={onChange}
                                     value={value}
+                                    autoCapitalize="none"
                                 />
                             )}
                             name={'password'}

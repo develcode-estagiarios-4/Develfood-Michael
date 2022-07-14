@@ -36,7 +36,6 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import moment from 'moment';
 import 'moment/locale/pt-br';
 import { CartContext } from '@context/cart';
-import { showMessage } from 'react-native-flash-message';
 
 interface FoodType {
     id: number;
@@ -176,7 +175,7 @@ export function Historic() {
                 const orderFound = sectionFound.data.find(
                     (item) => item.id === order.id
                 );
-           
+
                 if (orderFound) {
                     const statusDiff = orderFound.status !== order.status;
                     const index = sectionFound.data.indexOf(orderFound);
@@ -220,8 +219,13 @@ export function Historic() {
 
     useLayoutEffect(() => {
         loadOrders();
-        setNewPosition(RFValue(-50));
     }, [page]);
+
+    useFocusEffect(
+        useCallback(() => {
+            setNewPosition(RFValue(-50));
+        }, [])
+    );
 
     // useFocusEffect(
     //     useCallback(() => {
