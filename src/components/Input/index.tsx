@@ -18,7 +18,7 @@ interface Props extends TextInputProps {
     onPress?: () => void;
     control?: Control;
     name?: string;
-    error?: string;
+    error?: string | undefined;
     editable?: boolean;
 }
 
@@ -26,8 +26,6 @@ export function Input({
     source,
     source2,
     onPress,
-    control,
-    name,
     error,
     editable,
     ...rest
